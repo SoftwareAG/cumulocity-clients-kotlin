@@ -1,0 +1,28 @@
+// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+
+package com.cumulocity.client.model
+
+import com.google.gson.Gson
+
+class ManagedObjectUser {
+
+	/**
+	 * Specifies if the device's owner is enabled or not.
+	 */
+	var enabled: Boolean? = null
+
+	/**
+	 * A URL linking to this resource.
+	 */
+	var self: String? = null
+
+	/**
+	 * The username of the device's owner.
+	 */
+	var userName: String? = null
+
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
+}
