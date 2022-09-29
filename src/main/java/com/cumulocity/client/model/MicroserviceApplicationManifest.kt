@@ -87,7 +87,7 @@ class MicroserviceApplicationManifest {
 	/**
 	 * A list of settings objects for this microservice application.
 	 */
-	var settings: Array<Settings>? = null
+	var settings: Array<ApplicationSettings>? = null
 
 	/**
 	 * Allows to specify a custom category for microservice settings.
@@ -227,53 +227,6 @@ class MicroserviceApplicationManifest {
 		}
 	}
 
-
-	class Settings {
-	
-		/**
-		 * The name of the setting.
-		 */
-		var key: String? = null
-	
-		/**
-		 * The value schema determines the values that the microservice can process.
-		 */
-		var valueSchema: ValueSchema? = null
-	
-		/**
-		 * The default value.
-		 */
-		var defaultValue: String? = null
-	
-		/**
-		 * Indicates if the value is editable.
-		 */
-		var editable: Boolean? = null
-	
-		/**
-		 * Indicated wether this setting is inherited.
-		 */
-		var inheritFromOwner: Boolean? = null
-	
-		/**
-		 * The value schema determines the values that the microservice can process.
-		 */
-		class ValueSchema {
-		
-			/**
-			 * The value schema type.
-			 */
-			var type: String? = null
-		
-			override fun toString(): String {
-				return Gson().toJson(this).toString()
-			}
-		}
-	
-		override fun toString(): String {
-			return Gson().toJson(this).toString()
-		}
-	}
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()
