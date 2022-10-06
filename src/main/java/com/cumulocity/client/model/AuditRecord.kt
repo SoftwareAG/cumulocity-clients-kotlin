@@ -172,7 +172,18 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 		}
 	}
 
+	@JsonAdapter(Changes.JsonAdapter::class)
 	class Changes {
+		
+		companion object Serialization {
+		
+			@Transient
+			var additionalPropertyClasses: MutableMap<String, Class<*>> = HashMap()
+		
+			fun registerAdditionalProperty(typeName: String, type: Class<*>) {
+				additionalPropertyClasses[typeName] = type
+			}
+		}
 	
 		/**
 		 * The attribute that was changed.
@@ -211,6 +222,42 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 			REPLACED("REPLACED")
 		}
 	
+	
+		class JsonAdapter: JsonDeserializer<Changes>, JsonSerializer<Changes> {
+		
+			override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): Changes {
+				val changes = Changes()
+				json?.let {
+					json.asJsonObject.entrySet().forEach { (key, value) ->
+						try {
+							val field = changes.javaClass.getDeclaredField(key)
+							field.isAccessible = true
+							val item = context?.deserialize<Any>(value, field.type)
+							field.set(changes, item)
+						} catch (e: NoSuchFieldException) {
+							additionalPropertyClasses[key]?.let {
+								val item = context?.deserialize<Any>(value, it)
+								if (changes.newValue == null) {
+									changes.newValue = HashMap()
+								}
+								item?.let { changes.newValue?.put(key, item) }
+							}
+						}
+					}
+				}
+				return changes
+			}
+			
+			override fun serialize(src: Changes?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
+				val jsonTree = JsonObject()
+				src?.attribute?.let { it -> jsonTree.add("attribute", context?.serialize(it)) }
+				src?.changeType?.let { it -> jsonTree.add("changeType", context?.serialize(it)) }
+				src?.newValue?.let { it -> jsonTree.add("newValue", context?.serialize(it)) }
+				src?.previousValue?.let { it -> jsonTree.add("previousValue", context?.serialize(it)) }
+				src?.type?.let { it -> jsonTree.add("type", context?.serialize(it)) }
+				return jsonTree
+			}
+		}
 	
 		override fun toString(): String {
 			return Gson().toJson(this).toString()
