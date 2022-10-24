@@ -66,7 +66,7 @@ interface EventsApi {
 	 * @param lastUpdatedFrom Start date or date and time of the last update made.
 	 * @param lastUpdatedTo End date or date and time of the last update made.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param revert If you are using a range query (that is, at least one of the `dateFrom` or `dateTo` parameters is included in the request), then setting `revert=true` will sort the results by the oldest events first. By default, the results are sorted by the latest events first. 
+	 * @param revert If you are using a range query (that is, at least one of the `dateFrom` or `dateTo` parameters is included in the request), then setting `revert=true` will sort the results by the oldest events first. By default, the results are sorted by the newest events first. 
 	 * @param source The managed object ID to which the event is associated.
 	 * @param type The type of event to search for.
 	 * @param withSourceAssets When set to `true` also events for related source assets will be included in the request. When this parameter is provided a `source` must be specified.
