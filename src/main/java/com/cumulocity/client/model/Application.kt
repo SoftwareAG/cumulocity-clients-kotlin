@@ -2,29 +2,10 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonSerializer
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 
-@JsonAdapter(Application.JsonAdapter::class)
 class Application {
-	
-	companion object Serialization {
-	
-		@Transient
-		var additionalPropertyClasses: MutableMap<String, Class<*>> = HashMap()
-	
-		fun registerAdditionalProperty(typeName: String, type: Class<*>) {
-			additionalPropertyClasses[typeName] = type
-		}
-	}
 
 	/**
 	 * Application access level for other tenants.
@@ -143,7 +124,6 @@ class Application {
 	@Deprecated(message = "This property might be removed in future releases.")
 	var resourcesUrl: String? = null
 
-	
 	/**
 	 * Application access level for other tenants.
 	 * [MARKET, PRIVATE]
@@ -155,7 +135,6 @@ class Application {
 		PRIVATE("PRIVATE")
 	}
 
-	
 	/**
 	 * The type of the application.
 	 * [EXTERNAL, HOSTED, MICROSERVICE]
@@ -170,58 +149,6 @@ class Application {
 	}
 
 
-
-	class JsonAdapter: JsonDeserializer<Application>, JsonSerializer<Application> {
-	
-		override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): Application {
-			val application = Application()
-			json?.let {
-				json.asJsonObject.entrySet().forEach { (key, value) ->
-					try {
-						val field = application.javaClass.getDeclaredField(key)
-						field.isAccessible = true
-						val item = context?.deserialize<Any>(value, field.type)
-						field.set(application, item)
-					} catch (e: NoSuchFieldException) {
-						additionalPropertyClasses[key]?.let {
-							val item = context?.deserialize<Any>(value, it)
-							if (application.manifest == null) {
-								application.manifest = HashMap()
-							}
-							item?.let { application.manifest?.put(key, item) }
-						}
-					}
-				}
-			}
-			return application
-		}
-		
-		override fun serialize(src: Application?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
-			val jsonTree = JsonObject()
-			src?.availability?.let { it -> jsonTree.add("availability", context?.serialize(it)) }
-			src?.contextPath?.let { it -> jsonTree.add("contextPath", context?.serialize(it)) }
-			src?.description?.let { it -> jsonTree.add("description", context?.serialize(it)) }
-			src?.id?.let { it -> jsonTree.add("id", context?.serialize(it)) }
-			src?.key?.let { it -> jsonTree.add("key", context?.serialize(it)) }
-			src?.name?.let { it -> jsonTree.add("name", context?.serialize(it)) }
-			src?.owner?.let { it -> jsonTree.add("owner", context?.serialize(it)) }
-			src?.self?.let { it -> jsonTree.add("self", context?.serialize(it)) }
-			src?.type?.let { it -> jsonTree.add("type", context?.serialize(it)) }
-			src?.manifest?.let { it -> jsonTree.add("manifest", context?.serialize(it)) }
-			src?.roles?.let { it -> jsonTree.add("roles", context?.serialize(it)) }
-			src?.requiredRoles?.let { it -> jsonTree.add("requiredRoles", context?.serialize(it)) }
-			src?.breadcrumbs?.let { it -> jsonTree.add("breadcrumbs", context?.serialize(it)) }
-			src?.contentSecurityPolicy?.let { it -> jsonTree.add("contentSecurityPolicy", context?.serialize(it)) }
-			src?.dynamicOptionsUrl?.let { it -> jsonTree.add("dynamicOptionsUrl", context?.serialize(it)) }
-			src?.globalTitle?.let { it -> jsonTree.add("globalTitle", context?.serialize(it)) }
-			src?.legacy?.let { it -> jsonTree.add("legacy", context?.serialize(it)) }
-			src?.rightDrawer?.let { it -> jsonTree.add("rightDrawer", context?.serialize(it)) }
-			src?.upgrade?.let { it -> jsonTree.add("upgrade", context?.serialize(it)) }
-			src?.activeVersionId?.let { it -> jsonTree.add("activeVersionId", context?.serialize(it)) }
-			src?.resourcesUrl?.let { it -> jsonTree.add("resourcesUrl", context?.serialize(it)) }
-			return jsonTree
-		}
-	}
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

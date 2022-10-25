@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -48,7 +47,6 @@ class RetentionRule {
 	 */
 	var type: String? = null
 
-	
 	/**
 	 * The data type(s) to which the rule is applied.
 	 * [ALARM, AUDIT, BULK_OPERATION, EVENT, MEASUREMENT, OPERATION, *]

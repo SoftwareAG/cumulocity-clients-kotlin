@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 
 /**
@@ -10,7 +9,10 @@ import com.google.gson.Gson
  */
 class C8yThreePhaseEnergyMeasurement {
 
-	var additionalProperties: MutableMap<String, C8yMeasurementValue>? = null
+	var additionalProperties: MutableMap<String, C8yMeasurementValue> = hashMapOf()
+	
+	operator fun get(key: String): C8yMeasurementValue? = additionalProperties[key]
+	operator fun set(key: String, value: C8yMeasurementValue): C8yMeasurementValue? = additionalProperties.put(key, value)
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

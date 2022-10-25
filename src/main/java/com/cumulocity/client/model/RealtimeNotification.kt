@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -70,7 +69,6 @@ data class RealtimeNotification(var channel: Channel?) {
 	 */
 	var version: String? = null
 
-	
 	/**
 	 * The channel name as a URI.
 	 * [/meta/handshake, /meta/subscribe, /meta/unsubscribe, /meta/connect, /meta/disconnect]
@@ -132,7 +130,6 @@ data class RealtimeNotification(var channel: Channel?) {
 		 */
 		var systemOfUnits: SystemOfUnits? = null
 	
-		
 		/**
 		 * The system of units to use.
 		 * [imperial, metric]

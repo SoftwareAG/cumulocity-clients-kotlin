@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -87,7 +86,6 @@ class LoginOption {
 	@Deprecated(message = "This property might be removed in future releases.")
 	var pType: String? = null
 
-	
 	/**
 	 * The grant type of the OAuth configuration.
 	 * [PASSWORD, AUTHORIZATION_CODE]

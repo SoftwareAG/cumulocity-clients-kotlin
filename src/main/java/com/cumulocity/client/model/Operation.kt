@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -15,7 +14,7 @@ import com.google.gson.annotations.SerializedName
 
 @JsonAdapter(Operation.JsonAdapter::class)
 class Operation {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -75,9 +74,11 @@ class Operation {
 	 * Review the [Naming conventions of fragments](https://cumulocity.com/guides/concepts/domain-model/#naming-conventions-of-fragments) as there are characters that can not be used when naming custom fragments.
 	 * 
 	 */
-	var customFragments: MutableMap<String, Any>? = null
-
+	var customFragments: MutableMap<String, Any> = hashMapOf()
 	
+	operator fun get(key: String): Any? = customFragments[key]
+	operator fun set(key: String, value: Any): Any? = customFragments.put(key, value)
+
 	/**
 	 * The status of the operation.
 	 * [SUCCESSFUL, FAILED, EXECUTING, PENDING]
@@ -104,6 +105,10 @@ class Operation {
 		}
 	}
 
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
+
 	class JsonAdapter: JsonDeserializer<Operation>, JsonSerializer<Operation> {
 	
 		override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): Operation {
@@ -118,17 +123,14 @@ class Operation {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (operation.customFragments == null) {
-								operation.customFragments = HashMap()
-							}
-							item?.let { operation.customFragments?.put(key, item) }
+							item?.let { operation.customFragments.put(key, item) }
 						}
 					}
 				}
 			}
 			return operation
 		}
-		
+
 		override fun serialize(src: Operation?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.bulkOperationId?.let { it -> jsonTree.add("bulkOperationId", context?.serialize(it)) }
@@ -145,9 +147,5 @@ class Operation {
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

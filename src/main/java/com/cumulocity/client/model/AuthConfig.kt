@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -105,7 +104,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 	 */
 	var visibleOnLoginPage: Boolean? = null
 
-	
 	/**
 	 * The authentication configuration grant type identifier.
 	 * [AUTHORIZATION_CODE, PASSWORD]
@@ -117,7 +115,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 		PASSWORD("PASSWORD")
 	}
 
-	
 	/**
 	 * The authentication configuration type. Note that the value is case insensitive.
 	 * [BASIC, OAUTH2, OAUTH2_INTERNAL]
@@ -131,7 +128,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 		OAUTH2INTERNAL("OAUTH2_INTERNAL")
 	}
 
-	
 	/**
 	 * Indicates whether user data are managed internally by the Cumulocity IoT platform or by an external server. Note that the value is case insensitive.
 	 * [INTERNAL, REMOTE]
@@ -365,7 +361,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 				 */
 				var validTill: String? = null
 			
-				
 				/**
 				 * The signing algorithm of the JWT access token.
 				 * [RSA, PCKS]

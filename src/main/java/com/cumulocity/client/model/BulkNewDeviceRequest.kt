@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -50,7 +49,6 @@ class BulkNewDeviceRequest {
 		 */
 		var deviceId: String? = null
 	
-		
 		/**
 		 * The device credentials creation status.
 		 * [CREATED, FAILED, CREDENTIAL_UPDATED]
@@ -92,7 +90,6 @@ class BulkNewDeviceRequest {
 		 */
 		var line: String? = null
 	
-		
 		/**
 		 * The device credentials creation status.
 		 * [CREATED, FAILED, CREDENTIAL_UPDATED]

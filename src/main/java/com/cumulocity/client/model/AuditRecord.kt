@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -15,7 +14,7 @@ import com.google.gson.annotations.SerializedName
 
 @JsonAdapter(AuditRecord.JsonAdapter::class)
 data class AuditRecord(var activity: String?, var source: Source?, var text: String?, var time: String?, var type: Type?) {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -72,9 +71,11 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 	 * It is possible to add an arbitrary number of additional properties as a list of key-value pairs, for example, `"property1": {}`, `"property2": "value"`. These properties can be of any type, for example, object or string.
 	 * 
 	 */
-	var customProperties: MutableMap<String, Any>? = null
-
+	var customProperties: MutableMap<String, Any> = hashMapOf()
 	
+	operator fun get(key: String): Any? = customProperties[key]
+	operator fun set(key: String, value: Any): Any? = customProperties.put(key, value)
+
 	/**
 	 * The severity of the audit action.
 	 * [CRITICAL, MAJOR, MINOR, WARNING, INFORMATION]
@@ -92,7 +93,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 		INFORMATION("INFORMATION")
 	}
 
-	
 	/**
 	 * Identifies the platform component of the audit.
 	 * [Alarm, Application, BulkOperation, CepModule, Connector, Event, Group, Inventory, InventoryRole, Operation, Option, Report, SingleSignOn, SmartRule, SYSTEM, Tenant, TenantAuthConfig, TrustedCertificates, User, UserAuthentication]
@@ -150,7 +150,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 		 */
 		var action: Action? = null
 	
-		
 		/**
 		 * The action that was carried out.
 		 * [SUBSCRIBE, DEPLOY, SCALE, DELETE]
@@ -172,18 +171,7 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 		}
 	}
 
-	@JsonAdapter(Changes.JsonAdapter::class)
 	class Changes {
-		
-		companion object Serialization {
-		
-			@Transient
-			var additionalPropertyClasses: MutableMap<String, Class<*>> = HashMap()
-		
-			fun registerAdditionalProperty(typeName: String, type: Class<*>) {
-				additionalPropertyClasses[typeName] = type
-			}
-		}
 	
 		/**
 		 * The attribute that was changed.
@@ -210,7 +198,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 		 */
 		var type: String? = null
 	
-		
 		/**
 		 * The type of change that was carried out.
 		 * [ADDED, REPLACED]
@@ -222,42 +209,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 			REPLACED("REPLACED")
 		}
 	
-	
-		class JsonAdapter: JsonDeserializer<Changes>, JsonSerializer<Changes> {
-		
-			override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): Changes {
-				val changes = Changes()
-				json?.let {
-					json.asJsonObject.entrySet().forEach { (key, value) ->
-						try {
-							val field = changes.javaClass.getDeclaredField(key)
-							field.isAccessible = true
-							val item = context?.deserialize<Any>(value, field.type)
-							field.set(changes, item)
-						} catch (e: NoSuchFieldException) {
-							additionalPropertyClasses[key]?.let {
-								val item = context?.deserialize<Any>(value, it)
-								if (changes.newValue == null) {
-									changes.newValue = HashMap()
-								}
-								item?.let { changes.newValue?.put(key, item) }
-							}
-						}
-					}
-				}
-				return changes
-			}
-			
-			override fun serialize(src: Changes?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
-				val jsonTree = JsonObject()
-				src?.attribute?.let { it -> jsonTree.add("attribute", context?.serialize(it)) }
-				src?.changeType?.let { it -> jsonTree.add("changeType", context?.serialize(it)) }
-				src?.newValue?.let { it -> jsonTree.add("newValue", context?.serialize(it)) }
-				src?.previousValue?.let { it -> jsonTree.add("previousValue", context?.serialize(it)) }
-				src?.type?.let { it -> jsonTree.add("type", context?.serialize(it)) }
-				return jsonTree
-			}
-		}
 	
 		override fun toString(): String {
 			return Gson().toJson(this).toString()
@@ -282,6 +233,10 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 	}
 
 
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
+
 	class JsonAdapter: JsonDeserializer<AuditRecord>, JsonSerializer<AuditRecord> {
 	
 		override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): AuditRecord {
@@ -296,17 +251,14 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (auditRecord.customProperties == null) {
-								auditRecord.customProperties = HashMap()
-							}
-							item?.let { auditRecord.customProperties?.put(key, item) }
+							item?.let { auditRecord.customProperties.put(key, item) }
 						}
 					}
 				}
 			}
 			return auditRecord
 		}
-		
+
 		override fun serialize(src: AuditRecord?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.activity?.let { it -> jsonTree.add("activity", context?.serialize(it)) }
@@ -327,9 +279,5 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

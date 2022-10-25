@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -31,7 +30,6 @@ class JSONPredicateRepresentation {
 	 */
 	var value: String? = null
 
-	
 	/**
 	 * Operator executed on the parameter from the JWT access token claim pointed by `parameterPath` and the provided parameter `value`.
 	 * [EQ, NEQ, GT, LT, GTE, LTE, IN, AND, OR]

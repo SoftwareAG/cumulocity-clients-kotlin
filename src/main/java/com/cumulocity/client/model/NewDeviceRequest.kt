@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -23,7 +22,6 @@ class NewDeviceRequest {
 	 */
 	var status: Status? = null
 
-	
 	/**
 	 * Status of this new device request.
 	 * [WAITING_FOR_CONNECTION, PENDING_ACCEPTANCE, ACCEPTED]
