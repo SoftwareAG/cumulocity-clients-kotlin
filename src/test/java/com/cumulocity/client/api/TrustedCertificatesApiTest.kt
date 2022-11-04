@@ -16,6 +16,7 @@ import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
 import com.cumulocity.client.model.TrustedCertificate
 import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
 
 // TODO parameterise servers
 class TrustedCertificatesApiTest {

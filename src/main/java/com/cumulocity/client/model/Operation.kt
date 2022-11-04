@@ -63,12 +63,6 @@ class Operation {
 	var status: Status? = null
 
 	/**
-	 * Custom operation of a webcam. Note that this is an example for a custom object of the webcam operation. For other operations you can use other objects.
-	 */
-	@SerializedName(value = "com_cumulocity_model_WebCamDevice")
-	var comCumulocityModelWebCamDevice: C8yWebCamDevice? = null
-
-	/**
 	 * It is possible to add an arbitrary number of additional properties as a list of key-value pairs, for example, `"property1": {}`, `"property2": "value"`. These properties are known as custom fragments and can be of any type, for example, object or string. Each custom fragment is identified by a unique name.
 	 * 
 	 * Review the [Naming conventions of fragments](https://cumulocity.com/guides/concepts/domain-model/#naming-conventions-of-fragments) as there are characters that can not be used when naming custom fragments.
@@ -94,16 +88,6 @@ class Operation {
 		PENDING("PENDING")
 	}
 
-
-	/**
-	 * Custom operation of a webcam. Note that this is an example for a custom object of the webcam operation. For other operations you can use other objects.
-	 */
-	class C8yWebCamDevice {
-	
-		override fun toString(): String {
-			return Gson().toJson(this).toString()
-		}
-	}
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()
@@ -141,7 +125,6 @@ class Operation {
 			src?.id?.let { it -> jsonTree.add("id", context?.serialize(it)) }
 			src?.self?.let { it -> jsonTree.add("self", context?.serialize(it)) }
 			src?.status?.let { it -> jsonTree.add("status", context?.serialize(it)) }
-			src?.comCumulocityModelWebCamDevice?.let { it -> jsonTree.add("com_cumulocity_model_WebCamDevice", context?.serialize(it)) }
 			src?.customFragments?.let { it ->
 				it.forEach { (s, any) -> jsonTree.add(s, context?.serialize(any))}
 			}

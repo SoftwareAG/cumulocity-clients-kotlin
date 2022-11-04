@@ -77,6 +77,7 @@ interface NewDeviceRequestsApi {
 	 * <ul>
 	 * <li>200 A new device request was created.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
 	 * </ul>
 	 *
 	 * @param body 

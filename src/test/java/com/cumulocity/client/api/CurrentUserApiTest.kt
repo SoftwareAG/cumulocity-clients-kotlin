@@ -13,7 +13,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
+import okhttp3.ResponseBody
 import com.cumulocity.client.model.CurrentUser
+import com.cumulocity.client.model.PasswordChange
+import com.cumulocity.client.model.CurrentUserTotpSecretActivity
+import com.cumulocity.client.model.CurrentUserTotpCode
+import com.cumulocity.client.model.CurrentUserTotpSecret
 
 // TODO parameterise servers
 class CurrentUserApiTest {
@@ -50,6 +55,26 @@ class CurrentUserApiTest {
     		}
     
     		override fun onFailure(call: Call<CurrentUser>?, t: Throwable?) {
+    			println(t)
+    			latch.countDown()
+    		}
+    	})
+    	latch.await()
+    }
+    
+    @Test
+    fun testGetTfaState() {
+    	val latch = CountDownLatch(1)
+        val api = CurrentUserApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+    	api.getTfaState().enqueue(object : Callback<CurrentUserTotpSecretActivity> {
+    
+    		override fun onResponse(call: Call<CurrentUserTotpSecretActivity>?, response: Response<CurrentUserTotpSecretActivity>?) {
+    			println(response?.message())
+    			println(response?.body())
+    			latch.countDown()
+    		}
+    
+    		override fun onFailure(call: Call<CurrentUserTotpSecretActivity>?, t: Throwable?) {
     			println(t)
     			latch.countDown()
     		}

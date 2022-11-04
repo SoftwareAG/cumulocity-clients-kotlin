@@ -60,6 +60,11 @@ class CurrentUser {
 	var shouldResetPassword: Boolean? = null
 
 	/**
+	 * Indicates if the user has to use two-factor authentication to log in.
+	 */
+	var twoFactorAuthenticationEnabled: Boolean? = null
+
+	/**
 	 * The user's username. It can have a maximum of 1000 characters.
 	 */
 	var userName: String? = null

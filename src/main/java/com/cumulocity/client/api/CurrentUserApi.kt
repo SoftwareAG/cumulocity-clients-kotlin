@@ -8,11 +8,17 @@ import retrofit2.Retrofit
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.PUT
+import retrofit2.http.POST
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
+import okhttp3.ResponseBody
 import com.cumulocity.client.model.CurrentUser
+import com.cumulocity.client.model.PasswordChange
+import com.cumulocity.client.model.CurrentUserTotpSecretActivity
+import com.cumulocity.client.model.CurrentUserTotpCode
+import com.cumulocity.client.model.CurrentUserTotpSecret
 
 /**
  * The current user is the user that is currently authenticated with Cumulocity IoT for the API calls.
@@ -70,8 +76,101 @@ interface CurrentUserApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.currentuser+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.currentuser+json"]) 
 	@PUT("/user/currentUser")
-	@ReadOnlyProperties("self", "effectiveRoles", "shouldResetPassword", "id", "lastPasswordChange", "devicePermissions")
+	@ReadOnlyProperties("self", "effectiveRoles", "shouldResetPassword", "id", "lastPasswordChange", "twoFactorAuthenticationEnabled", "devicePermissions")
 	fun updateCurrentUser(
 		@Body body: CurrentUser
 	): Call<CurrentUser>
+	
+	/**
+	 * Update the current user's password </br>
+	 * Update the current user's  password.  > **⚠️ Important:** If the tenant uses OAI-Secure authentication, the current user will not be logged out. Instead, a new cookie will be set with a new token, and the previous token will expire within a minute.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_OWN_ADMIN </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The current user password was updated.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 * </ul>
+	 *
+	 * @param body 
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
+	@PUT("/user/currentUser/password")
+	fun updateCurrentUserPassword(
+		@Body body: PasswordChange
+	): Call<ResponseBody>
+	
+	/**
+	 * Generate secret to set up TFA </br>
+	 * Generate a secret code to create a QR code to set up the two-factor authentication functionality using a TFA app/service.  For more information about the feature, see [User Guide > Administration > Two-factor authentication](https://cumulocity.com/guides/users-guide/administration/#tfa) in the *Cumulocity IoT documentation*.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The request has succeeded and the secret is sent in the response.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * </ul>
+	 *
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@POST("/user/currentUser/totpSecret")
+	fun generateTfaSecret(
+	): Call<CurrentUserTotpSecret>
+	
+	/**
+	 * Returns the activation state of the two-factor authentication feature. </br>
+	 * Returns the activation state of the two-factor authentication feature for the current user.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 Returns the activation state.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>404 User not found.</li>
+	 * </ul>
+	 *
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@GET("/user/currentUser/totpSecret/activity")
+	fun getTfaState(
+	): Call<CurrentUserTotpSecretActivity>
+	
+	/**
+	 * Activates or deactivates the two-factor authentication feature </br>
+	 * Activates or deactivates the two-factor authentication feature for the current user.  For more information about the feature, see [User Guide > Administration > Two-factor authentication](https://cumulocity.com/guides/users-guide/administration/#tfa) in the *Cumulocity IoT documentation*.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>204 The two-factor authentication was activated or deactivated.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>403 Cannot deactivate TOTP setup.</li>
+	 * <li>404 User not found.</li>
+	 * </ul>
+	 *
+	 * @param body 
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
+	@POST("/user/currentUser/totpSecret/activity")
+	fun setTfaState(
+		@Body body: CurrentUserTotpSecretActivity
+	): Call<ResponseBody>
+	
+	/**
+	 * Verify TFA code </br>
+	 * Verifies the authentication code that the current user received from a TFA app/service and uploaded to the platform to gain access or enable the two-factor authentication feature.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>204 The sent code was correct and the access can be granted.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>403 Invalid verification code.</li>
+	 * <li>404 Cannot validate TFA TOTP code - user's TFA TOTP secret does not exist.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 * </ul>
+	 *
+	 * @param body 
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
+	@POST("/user/currentUser/totpSecret/verify")
+	fun verifyTfaCode(
+		@Body body: CurrentUserTotpCode
+	): Call<ResponseBody>
 }
