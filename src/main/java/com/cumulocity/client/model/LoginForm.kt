@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -25,7 +24,7 @@ class LoginForm {
 	var password: String? = null
 
 	/**
-	 * Used if TFA code is required.
+	 * Current TFA code, sent by the user, if a TFA code is required to log in.
 	 */
 	@SerializedName(value = "tfa_code")
 	var tfaCode: String? = null
@@ -35,7 +34,6 @@ class LoginForm {
 	 */
 	var username: String? = null
 
-	
 	/**
 	 * Dependent on the authentication type. PASSWORD is used for OAI-Secure.
 	 * [PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN]

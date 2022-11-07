@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -15,7 +14,7 @@ import com.google.gson.annotations.SerializedName
 
 @JsonAdapter(Operation.JsonAdapter::class)
 class Operation {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -64,20 +63,16 @@ class Operation {
 	var status: Status? = null
 
 	/**
-	 * Custom operation of a webcam. Note that this is an example for a custom object of the webcam operation. For other operations you can use other objects.
-	 */
-	@SerializedName(value = "com_cumulocity_model_WebCamDevice")
-	var comCumulocityModelWebCamDevice: C8yWebCamDevice? = null
-
-	/**
 	 * It is possible to add an arbitrary number of additional properties as a list of key-value pairs, for example, `"property1": {}`, `"property2": "value"`. These properties are known as custom fragments and can be of any type, for example, object or string. Each custom fragment is identified by a unique name.
 	 * 
 	 * Review the [Naming conventions of fragments](https://cumulocity.com/guides/concepts/domain-model/#naming-conventions-of-fragments) as there are characters that can not be used when naming custom fragments.
 	 * 
 	 */
-	var customFragments: MutableMap<String, Any>? = null
-
+	var customFragments: MutableMap<String, Any> = hashMapOf()
 	
+	operator fun get(key: String): Any? = customFragments[key]
+	operator fun set(key: String, value: Any): Any? = customFragments.put(key, value)
+
 	/**
 	 * The status of the operation.
 	 * [SUCCESSFUL, FAILED, EXECUTING, PENDING]
@@ -94,14 +89,8 @@ class Operation {
 	}
 
 
-	/**
-	 * Custom operation of a webcam. Note that this is an example for a custom object of the webcam operation. For other operations you can use other objects.
-	 */
-	class C8yWebCamDevice {
-	
-		override fun toString(): String {
-			return Gson().toJson(this).toString()
-		}
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
 	}
 
 	class JsonAdapter: JsonDeserializer<Operation>, JsonSerializer<Operation> {
@@ -118,17 +107,14 @@ class Operation {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (operation.customFragments == null) {
-								operation.customFragments = HashMap()
-							}
-							item?.let { operation.customFragments?.put(key, item) }
+							item?.let { operation.customFragments.put(key, item) }
 						}
 					}
 				}
 			}
 			return operation
 		}
-		
+
 		override fun serialize(src: Operation?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.bulkOperationId?.let { it -> jsonTree.add("bulkOperationId", context?.serialize(it)) }
@@ -139,15 +125,10 @@ class Operation {
 			src?.id?.let { it -> jsonTree.add("id", context?.serialize(it)) }
 			src?.self?.let { it -> jsonTree.add("self", context?.serialize(it)) }
 			src?.status?.let { it -> jsonTree.add("status", context?.serialize(it)) }
-			src?.comCumulocityModelWebCamDevice?.let { it -> jsonTree.add("com_cumulocity_model_WebCamDevice", context?.serialize(it)) }
 			src?.customFragments?.let { it ->
 				it.forEach { (s, any) -> jsonTree.add(s, context?.serialize(any))}
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

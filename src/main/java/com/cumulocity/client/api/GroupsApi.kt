@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -68,7 +67,7 @@ interface GroupsApi {
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.groupcollection+json")
 	@GET("/user/{tenantId}/groups")
-	fun getUserGroups(
+	fun getTenantUserGroups(
 		@Path("tenantId") tenantId: String, 
 		@Query("currentPage") currentPage: Int? = null, 
 		@Query("pageSize") pageSize: Int? = null, 

@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -34,7 +33,6 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 	 */
 	var subscriptionFilter: SubscriptionFilter? = null
 
-	
 	/**
 	 * The context within which the subscription is to be processed.
 	 * > **&#9432; Info:** If the value is `mo`, then `source` must also be provided in the request body.

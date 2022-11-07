@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,6 +16,7 @@ import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
 import com.cumulocity.client.model.TrustedCertificate
 import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
 
 // TODO parameterise servers
 class TrustedCertificatesApiTest {

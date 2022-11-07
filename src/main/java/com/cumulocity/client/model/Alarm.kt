@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -15,7 +14,7 @@ import com.google.gson.annotations.SerializedName
 
 @JsonAdapter(Alarm.JsonAdapter::class)
 class Alarm {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -92,9 +91,11 @@ class Alarm {
 	 * Review the [Naming conventions of fragments](https://cumulocity.com/guides/concepts/domain-model/#naming-conventions-of-fragments) as there are characters that can not be used when naming custom fragments.
 	 * 
 	 */
-	var customFragments: MutableMap<String, Any>? = null
-
+	var customFragments: MutableMap<String, Any> = hashMapOf()
 	
+	operator fun get(key: String): Any? = customFragments[key]
+	operator fun set(key: String, value: Any): Any? = customFragments.put(key, value)
+
 	/**
 	 * The severity of the alarm.
 	 * [CRITICAL, MAJOR, MINOR, WARNING]
@@ -110,7 +111,6 @@ class Alarm {
 		WARNING("WARNING")
 	}
 
-	
 	/**
 	 * The status of the alarm. If not specified, a new alarm will be created as ACTIVE.
 	 * [ACTIVE, ACKNOWLEDGED, CLEARED]
@@ -151,6 +151,10 @@ class Alarm {
 	}
 
 
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
+
 	class JsonAdapter: JsonDeserializer<Alarm>, JsonSerializer<Alarm> {
 	
 		override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): Alarm {
@@ -165,17 +169,14 @@ class Alarm {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (alarm.customFragments == null) {
-								alarm.customFragments = HashMap()
-							}
-							item?.let { alarm.customFragments?.put(key, item) }
+							item?.let { alarm.customFragments.put(key, item) }
 						}
 					}
 				}
 			}
 			return alarm
 		}
-		
+
 		override fun serialize(src: Alarm?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.count?.let { it -> jsonTree.add("count", context?.serialize(it)) }
@@ -195,9 +196,5 @@ class Alarm {
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

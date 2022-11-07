@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -20,8 +19,10 @@ import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
 import com.cumulocity.client.model.User
+import com.cumulocity.client.model.PasswordChange
 import com.cumulocity.client.model.SubscribedUser
 import com.cumulocity.client.model.UserCollection
+import com.cumulocity.client.model.UserTfaData
 import com.cumulocity.client.model.UserReferenceCollection
 import com.cumulocity.client.model.UserReference
 
@@ -105,7 +106,7 @@ interface UsersApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.user+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.user+json"]) 
 	@POST("/user/{tenantId}/users")
-	@ReadOnlyProperties("passwordStrength", "roles", "groups", "self", "shouldResetPassword", "id", "lastPasswordChange", "devicePermissions", "applications")
+	@ReadOnlyProperties("passwordStrength", "roles", "groups", "self", "shouldResetPassword", "id", "lastPasswordChange", "twoFactorAuthenticationEnabled", "devicePermissions", "applications")
 	fun createUser(
 		@Body body: User, 
 		@Path("tenantId") tenantId: String
@@ -152,7 +153,7 @@ interface UsersApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.user+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.user+json"]) 
 	@PUT("/user/{tenantId}/users/{userId}")
-	@ReadOnlyProperties("passwordStrength", "roles", "groups", "self", "shouldResetPassword", "id", "lastPasswordChange", "userName", "devicePermissions", "applications")
+	@ReadOnlyProperties("passwordStrength", "roles", "groups", "self", "shouldResetPassword", "id", "lastPasswordChange", "userName", "twoFactorAuthenticationEnabled", "devicePermissions", "applications")
 	fun updateUser(
 		@Body body: User, 
 		@Path("tenantId") tenantId: String, 
@@ -180,6 +181,52 @@ interface UsersApi {
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String
 	): Call<ResponseBody>
+	
+	/**
+	 * Update a specific user's password of a specific tenant </br>
+	 * Update a specific user's password (by a given user ID) of a specific tenant (by a given tenant ID).  Changing the user's password creates a corresponding audit record of type "User" and activity "User updated", and specifying that the password has been changed.  > **⚠️ Important:** If the tenant uses OAI-Secure authentication, the target user will be logged out.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> has access to device permissions and applications </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 A user was updated.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>403 Not enough permissions/roles to perform this operation.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 * </ul>
+	 *
+	 * @param body 
+	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId Unique identifier of the a user.
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
+	@PUT("/user/{tenantId}/users/{userId}/password")
+	fun updateUserPassword(
+		@Body body: PasswordChange, 
+		@Path("tenantId") tenantId: String, 
+		@Path("userId") userId: String
+	): Call<ResponseBody>
+	
+	/**
+	 * Retrieve the TFA settings of a specific user </br>
+	 * Retrieve the two-factor authentication settings for the specified user.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> (ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user) <b>OR</b> is the current user </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The request has succeeded and the TFA settings are sent in the response.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>403 Not enough permissions/roles to perform this operation.</li>
+	 * <li>404 User not found.</li>
+	 * </ul>
+	 *
+	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId Unique identifier of the a user.
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@GET("/user/{tenantId}/users/{userId}/tfa")
+	fun getUserTfaSettings(
+		@Path("tenantId") tenantId: String, 
+		@Path("userId") userId: String
+	): Call<UserTfaData>
 	
 	/**
 	 * Retrieve a user by username in a specific tenant </br>

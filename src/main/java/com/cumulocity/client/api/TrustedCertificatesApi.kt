@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -20,6 +19,7 @@ import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
 import com.cumulocity.client.model.TrustedCertificate
 import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
 
 /**
  * API methods for managing trusted certificates used to establish device connections via MQTT.
@@ -189,4 +189,72 @@ interface TrustedCertificatesApi {
 		@Path("tenantId") tenantId: String, 
 		@Path("fingerprint") fingerprint: String
 	): Call<ResponseBody>
+	
+	/**
+	 * Provide the proof of possession for an already uploaded certificate </br>
+	 * Provide the proof of possession for a specific uploaded certificate (by a given fingerprint) for a specific tenant (by a given ID).  <div class="reqRoles"><div><h5></h5></div><div> (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> is the current tenant </div></div> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The provided signed verification code check was successful.</li>
+	 * <li>400 The provided signed verification code is not correct.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>404 Trusted certificate not found.</li>
+	 * <li>422 Proof of possession for the certificate was not confirmed.</li>
+	 * </ul>
+	 *
+	 * @param body 
+	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint Unique identifier of a trusted certificate.
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
+	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/pop")
+	fun proveCertificatePossession(
+		@Body body: UploadedTrustedCertSignedVerificationCode, 
+		@Path("tenantId") tenantId: String, 
+		@Path("fingerprint") fingerprint: String
+	): Call<TrustedCertificate>
+	
+	/**
+	 * Confirm an already uploaded certificate </br>
+	 * Confirm an already uploaded certificate (by a given fingerprint) for a specific tenant (by a given ID).  <div class="reqRoles"><div><h5></h5></div><div> (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> is the management tenant </div></div> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The certificate is confirmed.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>404 Trusted certificate not found.</li>
+	 * <li>422 The verification was not successful. Certificate not confirmed.</li>
+	 * </ul>
+	 *
+	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint Unique identifier of a trusted certificate.
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/confirmed")
+	fun confirmCertificate(
+		@Path("tenantId") tenantId: String, 
+		@Path("fingerprint") fingerprint: String
+	): Call<TrustedCertificate>
+	
+	/**
+	 * Generate a verification code for the proof of possession operation for the given certificate </br>
+	 * Generate a verification code for the proof of possession operation for the certificate (by a given fingerprint).  <div class="reqRoles"><div><h5></h5></div><div> (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> is the current tenant </div></div> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The verification code was generated.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>404 Trusted certificate not found.</li>
+	 * </ul>
+	 *
+	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint Unique identifier of a trusted certificate.
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/verification-code")
+	fun generateVerificationCode(
+		@Path("tenantId") tenantId: String, 
+		@Path("fingerprint") fingerprint: String
+	): Call<TrustedCertificate>
 }

@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -15,7 +14,7 @@ import com.google.gson.annotations.SerializedName
 
 @JsonAdapter(ManagedObject.JsonAdapter::class)
 class ManagedObject {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -115,7 +114,10 @@ class ManagedObject {
 	 * Review the [Naming conventions of fragments](https://cumulocity.com/guides/concepts/domain-model/#naming-conventions-of-fragments) as there are characters that can not be used when naming custom fragments.
 	 * 
 	 */
-	var customFragments: MutableMap<String, Any>? = null
+	var customFragments: MutableMap<String, Any> = hashMapOf()
+	
+	operator fun get(key: String): Any? = customFragments[key]
+	operator fun set(key: String, value: Any): Any? = customFragments.put(key, value)
 
 	/**
 	 * A fragment which identifies this managed object as a device.
@@ -125,6 +127,10 @@ class ManagedObject {
 		override fun toString(): String {
 			return Gson().toJson(this).toString()
 		}
+	}
+
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
 	}
 
 	class JsonAdapter: JsonDeserializer<ManagedObject>, JsonSerializer<ManagedObject> {
@@ -141,17 +147,14 @@ class ManagedObject {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (managedObject.customFragments == null) {
-								managedObject.customFragments = HashMap()
-							}
-							item?.let { managedObject.customFragments?.put(key, item) }
+							item?.let { managedObject.customFragments.put(key, item) }
 						}
 					}
 				}
 			}
 			return managedObject
 		}
-		
+
 		override fun serialize(src: ManagedObject?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.creationTime?.let { it -> jsonTree.add("creationTime", context?.serialize(it)) }
@@ -175,9 +178,5 @@ class ManagedObject {
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

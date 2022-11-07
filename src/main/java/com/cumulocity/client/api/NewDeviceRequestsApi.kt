@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -78,6 +77,7 @@ interface NewDeviceRequestsApi {
 	 * <ul>
 	 * <li>200 A new device request was created.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
 	 * </ul>
 	 *
 	 * @param body 

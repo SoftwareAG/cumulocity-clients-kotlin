@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -105,6 +104,11 @@ class User {
 	var shouldResetPassword: Boolean? = null
 
 	/**
+	 * Indicates if the user has to use two-factor authentication to log in.
+	 */
+	var twoFactorAuthenticationEnabled: Boolean? = null
+
+	/**
 	 * The user's username. It can have a maximum of 1000 characters.
 	 */
 	var userName: String? = null
@@ -115,7 +119,6 @@ class User {
 	@Deprecated(message = "This property might be removed in future releases.")
 	var devicePermissions: DevicePermissions? = null
 
-	
 	/**
 	 * Indicates the password strength. The value can be GREEN, YELLOW or RED for decreasing password strengths.
 	 * [GREEN, YELLOW, RED]

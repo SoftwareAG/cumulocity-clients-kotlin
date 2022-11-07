@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -103,7 +102,6 @@ class MicroserviceApplicationManifest {
 	 */
 	var version: String? = null
 
-	
 	/**
 	 * The billing mode of the application.
 	 * 
@@ -119,7 +117,6 @@ class MicroserviceApplicationManifest {
 		SUBSCRIPTION("SUBSCRIPTION")
 	}
 
-	
 	/**
 	 * Deployment isolation.
 	 * In case of PER_TENANT, there is a separate instance for each tenant.
@@ -135,7 +132,6 @@ class MicroserviceApplicationManifest {
 		PERTENANT("PER_TENANT")
 	}
 
-	
 	/**
 	 * Allows to configure a microservice auto scaling policy.
 	 * If the microservice uses a lot of CPU resources, a second instance will be created automatically when this is set to `AUTO`.

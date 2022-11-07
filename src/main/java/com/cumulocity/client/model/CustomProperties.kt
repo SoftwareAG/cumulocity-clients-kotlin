@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -17,7 +16,7 @@ import com.google.gson.annotations.JsonAdapter
  */
 @JsonAdapter(CustomProperties.JsonAdapter::class)
 class CustomProperties {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -37,7 +36,14 @@ class CustomProperties {
 	 * It is possible to add an arbitrary number of custom properties as a list of key-value pairs, for example, `"property": "value"`.
 	 * 
 	 */
-	var customProperties: MutableMap<String, Any>? = null
+	var customProperties: MutableMap<String, Any> = hashMapOf()
+	
+	operator fun get(key: String): Any? = customProperties[key]
+	operator fun set(key: String, value: Any): Any? = customProperties.put(key, value)
+
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
 
 	class JsonAdapter: JsonDeserializer<CustomProperties>, JsonSerializer<CustomProperties> {
 	
@@ -53,17 +59,14 @@ class CustomProperties {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (customProperties.customProperties == null) {
-								customProperties.customProperties = HashMap()
-							}
-							item?.let { customProperties.customProperties?.put(key, item) }
+							item?.let { customProperties.customProperties.put(key, item) }
 						}
 					}
 				}
 			}
 			return customProperties
 		}
-		
+
 		override fun serialize(src: CustomProperties?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.language?.let { it -> jsonTree.add("language", context?.serialize(it)) }
@@ -72,9 +75,5 @@ class CustomProperties {
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

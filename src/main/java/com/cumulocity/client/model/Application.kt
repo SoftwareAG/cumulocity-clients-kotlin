@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -125,7 +124,6 @@ class Application {
 	@Deprecated(message = "This property might be removed in future releases.")
 	var resourcesUrl: String? = null
 
-	
 	/**
 	 * Application access level for other tenants.
 	 * [MARKET, PRIVATE]
@@ -137,7 +135,6 @@ class Application {
 		PRIVATE("PRIVATE")
 	}
 
-	
 	/**
 	 * The type of the application.
 	 * [EXTERNAL, HOSTED, MICROSERVICE]

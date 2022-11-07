@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 
 /**
@@ -59,6 +58,11 @@ class CurrentUser {
 	 * Indicates if the user should reset the password on the next login.
 	 */
 	var shouldResetPassword: Boolean? = null
+
+	/**
+	 * Indicates if the user has to use two-factor authentication to log in.
+	 */
+	var twoFactorAuthenticationEnabled: Boolean? = null
 
 	/**
 	 * The user's username. It can have a maximum of 1000 characters.

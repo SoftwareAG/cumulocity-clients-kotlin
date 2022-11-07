@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -14,7 +13,7 @@ import com.google.gson.annotations.JsonAdapter
 
 @JsonAdapter(Event.JsonAdapter::class)
 class Event {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -71,7 +70,10 @@ class Event {
 	 * Review the [Naming conventions of fragments](https://cumulocity.com/guides/concepts/domain-model/#naming-conventions-of-fragments) as there are characters that can not be used when naming custom fragments.
 	 * 
 	 */
-	var customFragments: MutableMap<String, Any>? = null
+	var customFragments: MutableMap<String, Any> = hashMapOf()
+	
+	operator fun get(key: String): Any? = customFragments[key]
+	operator fun set(key: String, value: Any): Any? = customFragments.put(key, value)
 
 	/**
 	 * The managed object to which the event is associated.
@@ -93,6 +95,10 @@ class Event {
 		}
 	}
 
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
+
 	class JsonAdapter: JsonDeserializer<Event>, JsonSerializer<Event> {
 	
 		override fun deserialize(json: JsonElement?, typeOfT: java.lang.reflect.Type?, context: JsonDeserializationContext?): Event {
@@ -107,17 +113,14 @@ class Event {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (event.customFragments == null) {
-								event.customFragments = HashMap()
-							}
-							item?.let { event.customFragments?.put(key, item) }
+							item?.let { event.customFragments.put(key, item) }
 						}
 					}
 				}
 			}
 			return event
 		}
-		
+
 		override fun serialize(src: Event?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.creationTime?.let { it -> jsonTree.add("creationTime", context?.serialize(it)) }
@@ -133,9 +136,5 @@ class Event {
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

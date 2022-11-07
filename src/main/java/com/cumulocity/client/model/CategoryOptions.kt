@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
-
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonDeserializationContext
@@ -14,7 +13,7 @@ import com.google.gson.annotations.JsonAdapter
 
 @JsonAdapter(CategoryOptions.JsonAdapter::class)
 class CategoryOptions {
-	
+
 	companion object Serialization {
 	
 		@Transient
@@ -28,7 +27,14 @@ class CategoryOptions {
 	/**
 	 * It is possible to specify an arbitrary number of existing options as a list of key-value pairs, for example, `"key1": "value1"`, `"key2": "value2"`.
 	 */
-	var keyValuePairs: MutableMap<String, Any>? = null
+	var keyValuePairs: MutableMap<String, Any> = hashMapOf()
+	
+	operator fun get(key: String): Any? = keyValuePairs[key]
+	operator fun set(key: String, value: Any): Any? = keyValuePairs.put(key, value)
+
+	override fun toString(): String {
+		return Gson().toJson(this).toString()
+	}
 
 	class JsonAdapter: JsonDeserializer<CategoryOptions>, JsonSerializer<CategoryOptions> {
 	
@@ -44,17 +50,14 @@ class CategoryOptions {
 					} catch (e: NoSuchFieldException) {
 						additionalPropertyClasses[key]?.let {
 							val item = context?.deserialize<Any>(value, it)
-							if (categoryOptions.keyValuePairs == null) {
-								categoryOptions.keyValuePairs = HashMap()
-							}
-							item?.let { categoryOptions.keyValuePairs?.put(key, item) }
+							item?.let { categoryOptions.keyValuePairs.put(key, item) }
 						}
 					}
 				}
 			}
 			return categoryOptions
 		}
-		
+
 		override fun serialize(src: CategoryOptions?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
 			val jsonTree = JsonObject()
 			src?.keyValuePairs?.let { it ->
@@ -62,9 +65,5 @@ class CategoryOptions {
 			}
 			return jsonTree
 		}
-	}
-
-	override fun toString(): String {
-		return Gson().toJson(this).toString()
 	}
 }

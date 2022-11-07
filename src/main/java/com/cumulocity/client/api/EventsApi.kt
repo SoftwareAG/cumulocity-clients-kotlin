@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -48,7 +47,7 @@ interface EventsApi {
 
 	/**
 	 * Retrieve all events </br>
-	 * Retrieve all events on your tenant.  In case of executing [range queries](https://en.wikipedia.org/wiki/Range_query_(database)) between an upper and lower boundary, for example, querying using `dateFrom`–`dateTo` or `createdFrom`–`createdTo`, the oldest registered events are returned first. It is possible to change the order using the query parameter `revert=true`.  <section><h5>Required roles</h5> ROLE_EVENT_READ </section> 
+	 * Retrieve all events on your tenant.  In case of executing [range queries](https://en.wikipedia.org/wiki/Range_query_(database)) between an upper and lower boundary, for example, querying using `dateFrom`–`dateTo` or `createdFrom`–`createdTo`, the newest registered events are returned first. It is possible to change the order using the query parameter `revert=true`.  <section><h5>Required roles</h5> ROLE_EVENT_READ </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
@@ -66,7 +65,7 @@ interface EventsApi {
 	 * @param lastUpdatedFrom Start date or date and time of the last update made.
 	 * @param lastUpdatedTo End date or date and time of the last update made.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param revert If you are using a range query (that is, at least one of the `dateFrom` or `dateTo` parameters is included in the request), then setting `revert=true` will sort the results by the oldest events first. By default, the results are sorted by the latest events first. 
+	 * @param revert If you are using a range query (that is, at least one of the `dateFrom` or `dateTo` parameters is included in the request), then setting `revert=true` will sort the results by the oldest events first. By default, the results are sorted by the newest events first. 
 	 * @param source The managed object ID to which the event is associated.
 	 * @param type The type of event to search for.
 	 * @param withSourceAssets When set to `true` also events for related source assets will be included in the request. When this parameter is provided a `source` must be specified.

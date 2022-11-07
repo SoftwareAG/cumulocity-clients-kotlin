@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -88,19 +87,20 @@ interface OperationsApi {
 	
 	/**
 	 * Create an operation </br>
-	 * Create an operation.  <section><h5>Required roles</h5> ROLE_DEVICE_CONTROL_ADMIN <b>OR</b> owner of the device <b>OR</b> ADMIN permissions on the device </section> 
+	 * Create an operation.  It is possible to add custom fragments to operations, for example `com_cumulocity_model_WebCamDevice` is a custom object of the webcam operation.  <section><h5>Required roles</h5> ROLE_DEVICE_CONTROL_ADMIN <b>OR</b> owner of the device <b>OR</b> ADMIN permissions on the device </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
 	 * <li>201 An operation was created.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
 	 * </ul>
 	 *
 	 * @param body 
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.operation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.operation+json"]) 
 	@POST("/devicecontrol/operations")
-	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id")
+	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id", "status")
 	fun createOperation(
 		@Body body: Operation
 	): Call<Operation>
@@ -168,7 +168,7 @@ interface OperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.operation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.operation+json"]) 
 	@PUT("/devicecontrol/operations/{id}")
-	@ReadOnlyProperties("creationTime", "self", "com_cumulocity_model_WebCamDevice", "bulkOperationId", "failureReason", "self", "id", "deviceId")
+	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id", "deviceId")
 	fun updateOperation(
 		@Body body: Operation, 
 		@Path("id") id: String

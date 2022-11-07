@@ -2,7 +2,6 @@
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
-
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.gson.ExtendedGsonConverterFactory
 import retrofit2.Retrofit
@@ -21,6 +20,7 @@ import okhttp3.ResponseBody
 import com.cumulocity.client.model.Tenant
 import com.cumulocity.client.model.TenantCollection
 import com.cumulocity.client.model.CurrentTenant
+import com.cumulocity.client.model.TenantTfaData
 
 /**
  * Tenants are physically separated data spaces with a separate URL, with own users, a separate application management and no sharing of data by default. Users in a single tenant by default share the same URL and the same data space.
@@ -197,4 +197,23 @@ interface TenantsApi {
 	fun deleteTenant(
 		@Path("tenantId") tenantId: String
 	): Call<ResponseBody>
+	
+	/**
+	 * Retrieve TFA settings of a specific tenant </br>
+	 * Retrieve the two-factor authentication settings of a specific tenant by a given tenant ID.  <section><h5>Required roles</h5> ((ROLE_TENANT_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_READ) <b>AND</b> (the current tenant is its parent <b>OR</b> is the management tenant <b>OR</b> the current user belongs to the tenant)) <b>OR</b> (the user belongs to the tenant <b>AND</b> ROLE_USER_MANAGEMENT_OWN_READ) </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The request has succeeded and the TFA settings are sent in the response.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>404 Tenant not found.</li>
+	 * </ul>
+	 *
+	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@GET("/tenant/tenants/{tenantId}/tfa")
+	fun getTenantTfaSettings(
+		@Path("tenantId") tenantId: String
+	): Call<TenantTfaData>
 }
