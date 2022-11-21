@@ -215,6 +215,7 @@ interface ManagedObjectsApi {
 	 * <li>204 A managed object was removed.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * <li>404 Managed object not found.</li>
+	 * <li>409 Conflict – The managed object is associated to other objects, for example child devices.</li>
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the managed object.
