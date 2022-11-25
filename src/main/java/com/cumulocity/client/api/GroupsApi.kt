@@ -13,6 +13,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -90,13 +91,15 @@ interface GroupsApi {
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.group+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.group+json"]) 
 	@POST("/user/{tenantId}/groups")
 	@ReadOnlyProperties("roles", "self", "id", "devicePermissions", "users", "applications")
 	fun createUserGroup(
 		@Body body: Group, 
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Group>
 	
 	/**
@@ -137,6 +140,7 @@ interface GroupsApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.group+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.group+json"]) 
 	@PUT("/user/{tenantId}/groups/{groupId}")
@@ -144,7 +148,8 @@ interface GroupsApi {
 	fun updateUserGroup(
 		@Body body: Group, 
 		@Path("tenantId") tenantId: String, 
-		@Path("groupId") groupId: Int
+		@Path("groupId") groupId: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Group>
 	
 	/**
@@ -161,12 +166,14 @@ interface GroupsApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/groups/{groupId}")
 	fun deleteUserGroup(
 		@Path("tenantId") tenantId: String, 
-		@Path("groupId") groupId: Int
+		@Path("groupId") groupId: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**

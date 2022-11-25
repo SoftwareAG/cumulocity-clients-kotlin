@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.Call
 import retrofit2.http.POST
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -250,11 +251,13 @@ interface RealtimeNotificationApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/notification/realtime")
 	@ReadOnlyProperties("clientId", "data", "error", "successful")
 	fun createRealtimeNotification(
-		@Body body: RealtimeNotification
+		@Body body: RealtimeNotification, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<RealtimeNotification>
 }

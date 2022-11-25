@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -96,12 +97,14 @@ interface AuditsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.auditrecord+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecord+json"]) 
 	@POST("/audit/auditRecords")
 	@ReadOnlyProperties("severity", "application", "creationTime", "c8y_Metadata", "changes", "self", "id", "self")
 	fun createAuditRecord(
-		@Body body: AuditRecord
+		@Body body: AuditRecord, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<AuditRecord>
 	
 	/**

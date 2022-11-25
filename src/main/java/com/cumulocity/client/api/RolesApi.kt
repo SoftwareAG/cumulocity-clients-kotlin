@@ -12,6 +12,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Path
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -133,13 +134,15 @@ interface RolesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.rolereference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereference+json"]) 
 	@POST("/user/{tenantId}/groups/{groupId}/roles")
 	fun assignGroupRole(
 		@Body body: SubscribedRole, 
 		@Path("tenantId") tenantId: String, 
-		@Path("groupId") groupId: Int
+		@Path("groupId") groupId: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<RoleReference>
 	
 	/**
@@ -157,13 +160,15 @@ interface RolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
 	 * @param roleId Unique identifier of the user role.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/groups/{groupId}/roles/{roleId}")
 	fun unassignGroupRole(
 		@Path("tenantId") tenantId: String, 
 		@Path("groupId") groupId: Int, 
-		@Path("roleId") roleId: String
+		@Path("roleId") roleId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -182,13 +187,15 @@ interface RolesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.rolereference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereference+json"]) 
 	@POST("/user/{tenantId}/users/{userId}/roles")
 	fun assignUserRole(
 		@Body body: SubscribedRole, 
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String
+		@Path("userId") userId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<RoleReference>
 	
 	/**
@@ -206,12 +213,14 @@ interface RolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param roleId Unique identifier of the user role.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}/roles/{roleId}")
 	fun unassignUserRole(
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String, 
-		@Path("roleId") roleId: String
+		@Path("roleId") roleId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

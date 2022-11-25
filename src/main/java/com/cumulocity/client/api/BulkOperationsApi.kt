@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -91,12 +92,14 @@ interface BulkOperationsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.bulkoperation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json"]) 
 	@POST("/devicecontrol/bulkoperations")
 	@ReadOnlyProperties("generalStatus", "failedParentId", "self", "progress", "id", "status")
 	fun createBulkOperation(
-		@Body body: BulkOperation
+		@Body body: BulkOperation, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<BulkOperation>
 	
 	/**
@@ -131,13 +134,15 @@ interface BulkOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the bulk operation.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.bulkoperation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json"]) 
 	@PUT("/devicecontrol/bulkoperations/{id}")
 	@ReadOnlyProperties("generalStatus", "failedParentId", "self", "progress", "id", "status")
 	fun updateBulkOperation(
 		@Body body: BulkOperation, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<BulkOperation>
 	
 	/**
@@ -153,10 +158,12 @@ interface BulkOperationsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the bulk operation.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/devicecontrol/bulkoperations/{id}")
 	fun deleteBulkOperation(
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

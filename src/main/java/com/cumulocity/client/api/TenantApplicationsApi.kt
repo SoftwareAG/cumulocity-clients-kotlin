@@ -12,6 +12,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -86,12 +87,14 @@ interface TenantApplicationsApi {
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.applicationreference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationreference+json"]) 
 	@POST("/tenant/tenants/{tenantId}/applications")
 	fun subscribeApplication(
 		@Body body: SubscribedApplicationReference, 
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ApplicationReference>
 	
 	/**
@@ -107,11 +110,13 @@ interface TenantApplicationsApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param applicationId Unique identifier of the application.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/tenants/{tenantId}/applications/{applicationId}")
 	fun unsubscribeApplication(
 		@Path("tenantId") tenantId: String, 
-		@Path("applicationId") applicationId: String
+		@Path("applicationId") applicationId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

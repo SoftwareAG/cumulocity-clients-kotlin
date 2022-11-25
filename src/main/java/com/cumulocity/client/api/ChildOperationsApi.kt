@@ -12,6 +12,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -94,12 +95,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreference+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAdditions")
 	fun assignAsChildAddition(
 		@Body body: ChildOperationsAddOne, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -115,12 +118,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAdditions")
 	fun assignAsChildAddition(
 		@Body body: ChildOperationsAddMultiple, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -136,13 +141,15 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAdditions")
 	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun assignAsChildAddition(
 		@Body body: ManagedObject, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -159,12 +166,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json", "Accept:application/json"]) 
 	@DELETE("/inventory/managedObjects/{id}/childAdditions")
 	fun unassignChildAdditions(
 		@Body body: ChildOperationsAddMultiple, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -203,12 +212,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/inventory/managedObjects/{id}/childAdditions/{childId}")
 	fun unassignChildAddition(
 		@Path("id") id: String, 
-		@Path("childId") childId: String
+		@Path("childId") childId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -258,12 +269,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreference+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAssets")
 	fun assignAsChildAsset(
 		@Body body: ChildOperationsAddOne, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -279,12 +292,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAssets")
 	fun assignAsChildAsset(
 		@Body body: ChildOperationsAddMultiple, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -300,13 +315,15 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAssets")
 	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun assignAsChildAsset(
 		@Body body: ManagedObject, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -323,12 +340,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json", "Accept:application/json"]) 
 	@DELETE("/inventory/managedObjects/{id}/childAssets")
 	fun unassignChildAssets(
 		@Body body: ChildOperationsAddMultiple, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -367,12 +386,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/inventory/managedObjects/{id}/childAssets/{childId}")
 	fun unassignChildAsset(
 		@Path("id") id: String, 
-		@Path("childId") childId: String
+		@Path("childId") childId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -422,12 +443,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreference+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childDevices")
 	fun assignAsChildDevice(
 		@Body body: ChildOperationsAddOne, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -443,12 +466,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childDevices")
 	fun assignAsChildDevice(
 		@Body body: ChildOperationsAddMultiple, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -464,13 +489,15 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childDevices")
 	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun assignAsChildDevice(
 		@Body body: ManagedObject, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -487,12 +514,14 @@ interface ChildOperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json", "Accept:application/json"]) 
 	@DELETE("/inventory/managedObjects/{id}/childDevices")
 	fun unassignChildDevices(
 		@Body body: ChildOperationsAddMultiple, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -531,11 +560,13 @@ interface ChildOperationsApi {
 	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/inventory/managedObjects/{id}/childDevices/{childId}")
 	fun unassignChildDevice(
 		@Path("id") id: String, 
-		@Path("childId") childId: String
+		@Path("childId") childId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

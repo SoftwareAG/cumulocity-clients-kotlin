@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -83,12 +84,14 @@ interface RetentionRulesApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.retentionrule+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.retentionrule+json"]) 
 	@POST("/retention/retentions")
 	@ReadOnlyProperties("self", "id")
 	fun createRetentionRule(
-		@Body body: RetentionRule
+		@Body body: RetentionRule, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<RetentionRule>
 	
 	/**
@@ -126,13 +129,15 @@ interface RetentionRulesApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the retention rule.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.retentionrule+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.retentionrule+json"]) 
 	@PUT("/retention/retentions/{id}")
 	@ReadOnlyProperties("self", "id")
 	fun updateRetentionRule(
 		@Body body: RetentionRule, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<RetentionRule>
 	
 	/**
@@ -148,10 +153,12 @@ interface RetentionRulesApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the retention rule.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/retention/retentions/{id}")
 	fun deleteRetentionRule(
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

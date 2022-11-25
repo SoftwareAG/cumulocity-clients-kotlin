@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -117,12 +118,14 @@ interface ManagedObjectsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@POST("/inventory/managedObjects")
 	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun createManagedObject(
-		@Body body: ManagedObject
+		@Body body: ManagedObject, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ManagedObject>
 	
 	/**
@@ -197,13 +200,15 @@ interface ManagedObjectsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@PUT("/inventory/managedObjects/{id}")
 	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun updateManagedObject(
 		@Body body: ManagedObject, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ManagedObject>
 	
 	/**
@@ -219,6 +224,7 @@ interface ManagedObjectsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param cascade When set to `true` and the managed object is a device or group, all the hierarchy will be deleted.
 	 * @param forceCascade When set to `true` all the hierarchy will be deleted without checking the type of managed object. It takes precedence over the parameter `cascade`.
 	 * @param withDeviceUser When set to `true` and the managed object is a device, it deletes the associated device user (credentials).
@@ -227,6 +233,7 @@ interface ManagedObjectsApi {
 	@DELETE("/inventory/managedObjects/{id}")
 	fun deleteManagedObject(
 		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("cascade") cascade: Boolean? = null, 
 		@Query("forceCascade") forceCascade: Boolean? = null, 
 		@Query("withDeviceUser") withDeviceUser: Boolean? = null
@@ -321,12 +328,14 @@ interface ManagedObjectsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobjectuser+json", "Accept:application/vnd.com.nsn.cumulocity.managedobjectuser+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/inventory/managedObjects/{id}/user")
 	@ReadOnlyProperties("self", "userName")
 	fun updateManagedObjectUser(
 		@Body body: ManagedObjectUser, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ManagedObjectUser>
 }

@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -81,12 +82,14 @@ interface NewDeviceRequestsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.newdevicerequest+json", "Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@POST("/devicecontrol/newDeviceRequests")
 	@ReadOnlyProperties("self", "status")
 	fun createNewDeviceRequest(
-		@Body body: NewDeviceRequest
+		@Body body: NewDeviceRequest, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<NewDeviceRequest>
 	
 	/**
@@ -121,13 +124,15 @@ interface NewDeviceRequestsApi {
 	 *
 	 * @param body 
 	 * @param requestId Unique identifier of the new device request.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.newdevicerequest+json", "Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/devicecontrol/newDeviceRequests/{requestId}")
 	@ReadOnlyProperties("self", "id")
 	fun updateNewDeviceRequest(
 		@Body body: NewDeviceRequest, 
-		@Path("requestId") requestId: String
+		@Path("requestId") requestId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<NewDeviceRequest>
 	
 	/**
@@ -143,10 +148,12 @@ interface NewDeviceRequestsApi {
 	 * </ul>
 	 *
 	 * @param requestId Unique identifier of the new device request.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/devicecontrol/newDeviceRequests/{requestId}")
 	fun deleteNewDeviceRequest(
-		@Path("requestId") requestId: String
+		@Path("requestId") requestId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

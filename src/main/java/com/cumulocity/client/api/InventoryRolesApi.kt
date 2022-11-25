@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -82,12 +83,14 @@ interface InventoryRolesApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryrole+json", "Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@POST("/user/inventoryroles")
 	@ReadOnlyProperties("self", "id")
 	fun createInventoryRole(
-		@Body body: InventoryRole
+		@Body body: InventoryRole, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<InventoryRole>
 	
 	/**
@@ -123,13 +126,15 @@ interface InventoryRolesApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the inventory role.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryrole+json", "Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/user/inventoryroles/{id}")
 	@ReadOnlyProperties("self", "id")
 	fun updateInventoryRole(
 		@Body body: InventoryRole, 
-		@Path("id") id: Int
+		@Path("id") id: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<InventoryRole>
 	
 	/**
@@ -145,11 +150,13 @@ interface InventoryRolesApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the inventory role.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/inventoryroles/{id}")
 	fun deleteInventoryRole(
-		@Path("id") id: Int
+		@Path("id") id: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -190,6 +197,7 @@ interface InventoryRolesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryassignment+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json"]) 
 	@POST("/user/{tenantId}/users/{userId}/roles/inventory")
@@ -197,7 +205,8 @@ interface InventoryRolesApi {
 	fun assignUserInventoryRole(
 		@Body body: InventoryAssignment, 
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String
+		@Path("userId") userId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<InventoryAssignment>
 	
 	/**
@@ -241,6 +250,7 @@ interface InventoryRolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param id Unique identifier of the inventory assignment.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryassignment+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json"]) 
 	@PUT("/user/{tenantId}/users/{userId}/roles/inventory/{id}")
@@ -248,7 +258,8 @@ interface InventoryRolesApi {
 		@Body body: InventoryAssignmentReference, 
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String, 
-		@Path("id") id: Int
+		@Path("id") id: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<InventoryAssignment>
 	
 	/**
@@ -266,12 +277,14 @@ interface InventoryRolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param id Unique identifier of the inventory assignment.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}/roles/inventory/{id}")
 	fun unassignUserInventoryRole(
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String, 
-		@Path("id") id: Int
+		@Path("id") id: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

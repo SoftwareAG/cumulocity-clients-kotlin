@@ -12,6 +12,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.PUT
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -108,12 +109,14 @@ interface EventsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.event+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@POST("/event/events")
 	@ReadOnlyProperties("lastUpdated", "creationTime", "self", "id", "self")
 	fun createEvent(
-		@Body body: Event
+		@Body body: Event, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Event>
 	
 	/**
@@ -127,6 +130,7 @@ interface EventsApi {
 	 * <li>403 Not authorized to perform this operation.</li>
 	 * </ul>
 	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param createdFrom Start date or date and time of the event's creation (set by the platform during creation).
 	 * @param createdTo End date or date and time of the event's creation (set by the platform during creation).
 	 * @param dateFrom Start date or date and time of the event occurrence (provided by the device).
@@ -138,6 +142,7 @@ interface EventsApi {
 	@Headers("Accept:application/json")
 	@DELETE("/event/events")
 	fun deleteEvents(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("createdFrom") createdFrom: String? = null, 
 		@Query("createdTo") createdTo: String? = null, 
 		@Query("dateFrom") dateFrom: String? = null, 
@@ -180,13 +185,15 @@ interface EventsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the event.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.event+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@PUT("/event/events/{id}")
 	@ReadOnlyProperties("lastUpdated", "creationTime", "self", "id", "source", "time", "type")
 	fun updateEvent(
 		@Body body: Event, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Event>
 	
 	/**
@@ -202,10 +209,12 @@ interface EventsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the event.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/event/events/{id}")
 	fun deleteEvent(
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -110,12 +111,14 @@ interface TenantsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.tenant+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenant+json"]) 
 	@POST("/tenant/tenants")
 	@ReadOnlyProperties("allowCreateTenants", "parent", "creationTime", "self", "id", "ownedApplications", "applications", "status")
 	fun createTenant(
-		@Body body: Tenant
+		@Body body: Tenant, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Tenant>
 	
 	/**
@@ -169,13 +172,15 @@ interface TenantsApi {
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.tenant+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenant+json"]) 
 	@PUT("/tenant/tenants/{tenantId}")
 	@ReadOnlyProperties("adminName", "allowCreateTenants", "parent", "creationTime", "self", "id", "ownedApplications", "applications", "status")
 	fun updateTenant(
 		@Body body: Tenant, 
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Tenant>
 	
 	/**
@@ -191,11 +196,13 @@ interface TenantsApi {
 	 * </ul>
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/tenants/{tenantId}")
 	fun deleteTenant(
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
