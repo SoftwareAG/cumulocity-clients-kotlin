@@ -12,6 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -103,12 +104,14 @@ interface ApplicationsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.application+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json"]) 
 	@POST("/application/applications")
 	@ReadOnlyProperties("owner", "activeVersionId", "self", "id", "resourcesUrl")
 	fun createApplication(
-		@Body body: Application
+		@Body body: Application, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Application>
 	
 	/**
@@ -143,13 +146,15 @@ interface ApplicationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the application.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.application+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json"]) 
 	@PUT("/application/applications/{id}")
 	@ReadOnlyProperties("owner", "activeVersionId", "self", "id", "type", "resourcesUrl")
 	fun updateApplication(
 		@Body body: Application, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Application>
 	
 	/**
@@ -166,12 +171,14 @@ interface ApplicationsApi {
 	 *
 	 * @param id Unique identifier of the application.
 	 * @param force Force deletion by unsubscribing all tenants from the application first and then deleting the application itself.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/application/applications/{id}")
 	fun deleteApplication(
 		@Path("id") id: String, 
-		@Query("force") force: Boolean? = null
+		@Query("force") force: Boolean? = null, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -186,11 +193,13 @@ interface ApplicationsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the application.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json")
 	@POST("/application/applications/{id}/clone")
 	fun copyApplication(
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Application>
 	
 	/**

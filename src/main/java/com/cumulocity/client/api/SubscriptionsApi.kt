@@ -11,6 +11,7 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -83,12 +84,14 @@ interface SubscriptionsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.subscription+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.subscription+json"]) 
 	@POST("/notification2/subscriptions")
 	@ReadOnlyProperties("self", "id", "self")
 	fun createSubscription(
-		@Body body: NotificationSubscription
+		@Body body: NotificationSubscription, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<NotificationSubscription>
 	
 	/**
@@ -103,12 +106,14 @@ interface SubscriptionsApi {
 	 * <li>422 Unprocessable Entity – error in query parameters</li>
 	 * </ul>
 	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param context The context to which the subscription is associated. > **&#9432; Info:** If the value is `mo`, then `source` must also be provided in the query. 
 	 * @param source The managed object ID to which the subscription is associated.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/notification2/subscriptions")
 	fun deleteSubscriptions(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("context") context: String? = null, 
 		@Query("source") source: String? = null
 	): Call<ResponseBody>
@@ -146,10 +151,12 @@ interface SubscriptionsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the notification subscription.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/notification2/subscriptions/{id}")
 	fun deleteSubscription(
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

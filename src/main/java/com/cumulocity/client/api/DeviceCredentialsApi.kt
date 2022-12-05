@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.Call
 import retrofit2.http.POST
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.Part
 import retrofit2.http.Headers
@@ -58,12 +59,14 @@ interface DeviceCredentialsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.devicecredentials+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.devicecredentials+json"]) 
 	@POST("/devicecontrol/deviceCredentials")
 	@ReadOnlyProperties("password", "tenantId", "self", "username")
 	fun createDeviceCredentials(
-		@Body body: DeviceCredentials
+		@Body body: DeviceCredentials, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<DeviceCredentials>
 	
 	/**
@@ -77,11 +80,13 @@ interface DeviceCredentialsApi {
 	 * </ul>
 	 *
 	 * @param file The CSV file to be uploaded.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulknewdevicerequest+json"]) 
 	@POST("/devicecontrol/bulkNewDeviceRequests")
 	@Multipart
 	fun createBulkDeviceCredentials(
-		@Part("file") file: UByteArray
+		@Part("file") file: UByteArray, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<BulkNewDeviceRequest>
 }

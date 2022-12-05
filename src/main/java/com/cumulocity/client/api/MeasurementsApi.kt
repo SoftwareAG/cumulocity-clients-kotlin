@@ -11,6 +11,7 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -96,12 +97,14 @@ interface MeasurementsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.measurement+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.measurement+json, application/vnd.com.nsn.cumulocity.measurementcollection+json"]) 
 	@POST("/measurement/measurements")
 	@ReadOnlyProperties("self", "id", "self")
 	fun createMeasurement(
-		@Body body: Measurement
+		@Body body: Measurement, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Measurement>
 	
 	/**
@@ -117,12 +120,14 @@ interface MeasurementsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.measurementcollection+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.measurement+json, application/vnd.com.nsn.cumulocity.measurementcollection+json"]) 
 	@POST("/measurement/measurements")
 	@ReadOnlyProperties("next", "prev", "self", "statistics")
 	fun createMeasurement(
-		@Body body: MeasurementCollection
+		@Body body: MeasurementCollection, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<MeasurementCollection>
 	
 	/**
@@ -136,6 +141,7 @@ interface MeasurementsApi {
 	 * <li>403 Not authorized to perform this operation.</li>
 	 * </ul>
 	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param dateFrom Start date or date and time of the measurement.
 	 * @param dateTo End date or date and time of the measurement.
 	 * @param fragmentType A characteristic which identifies a managed object or event, for example, geolocation, electricity sensor, relay state.
@@ -145,6 +151,7 @@ interface MeasurementsApi {
 	@Headers("Accept:application/json")
 	@DELETE("/measurement/measurements")
 	fun deleteMeasurements(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("fragmentType") fragmentType: String? = null, 
@@ -184,11 +191,13 @@ interface MeasurementsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the measurement.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/measurement/measurements/{id}")
 	fun deleteMeasurement(
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**

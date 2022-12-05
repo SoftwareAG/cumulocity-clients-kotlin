@@ -12,6 +12,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.PUT
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -97,12 +98,14 @@ interface OperationsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.operation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.operation+json"]) 
 	@POST("/devicecontrol/operations")
 	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id", "status")
 	fun createOperation(
-		@Body body: Operation
+		@Body body: Operation, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Operation>
 	
 	/**
@@ -116,6 +119,7 @@ interface OperationsApi {
 	 * <li>403 Not authorized to perform this operation.</li>
 	 * </ul>
 	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param agentId An agent ID that may be part of the operation.
 	 * @param dateFrom Start date or date and time of the operation.
 	 * @param dateTo End date or date and time of the operation.
@@ -125,6 +129,7 @@ interface OperationsApi {
 	@Headers("Accept:application/json")
 	@DELETE("/devicecontrol/operations")
 	fun deleteOperations(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("agentId") agentId: String? = null, 
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
@@ -165,12 +170,14 @@ interface OperationsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the operation.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.operation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.operation+json"]) 
 	@PUT("/devicecontrol/operations/{id}")
 	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id", "deviceId")
 	fun updateOperation(
 		@Body body: Operation, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Operation>
 }

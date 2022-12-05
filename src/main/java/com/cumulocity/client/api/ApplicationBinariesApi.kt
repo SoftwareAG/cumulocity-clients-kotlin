@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Path
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.Part
 import retrofit2.http.Headers
@@ -71,13 +72,15 @@ interface ApplicationBinariesApi {
 	 *
 	 * @param file The ZIP file to be uploaded.
 	 * @param id Unique identifier of the application.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json"]) 
 	@POST("/application/applications/{id}/binaries")
 	@Multipart
 	fun uploadApplicationAttachment(
 		@Part("file") file: UByteArray, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Application>
 	
 	/**
@@ -113,11 +116,13 @@ interface ApplicationBinariesApi {
 	 *
 	 * @param id Unique identifier of the application.
 	 * @param binaryId Unique identifier of the binary.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/application/applications/{id}/binaries/{binaryId}")
 	fun deleteApplicationAttachment(
 		@Path("id") id: String, 
-		@Path("binaryId") binaryId: String
+		@Path("binaryId") binaryId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

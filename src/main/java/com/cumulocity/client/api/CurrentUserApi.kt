@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.POST
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -73,12 +74,14 @@ interface CurrentUserApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.currentuser+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.currentuser+json"]) 
 	@PUT("/user/currentUser")
 	@ReadOnlyProperties("self", "effectiveRoles", "shouldResetPassword", "id", "lastPasswordChange", "twoFactorAuthenticationEnabled", "devicePermissions")
 	fun updateCurrentUser(
-		@Body body: CurrentUser
+		@Body body: CurrentUser, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<CurrentUser>
 	
 	/**
@@ -93,11 +96,13 @@ interface CurrentUserApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@PUT("/user/currentUser/password")
 	fun updateCurrentUserPassword(
-		@Body body: PasswordChange
+		@Body body: PasswordChange, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -110,10 +115,12 @@ interface CurrentUserApi {
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * </ul>
 	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@POST("/user/currentUser/totpSecret")
 	fun generateTfaSecret(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<CurrentUserTotpSecret>
 	
 	/**
@@ -146,11 +153,13 @@ interface CurrentUserApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@POST("/user/currentUser/totpSecret/activity")
 	fun setTfaState(
-		@Body body: CurrentUserTotpSecretActivity
+		@Body body: CurrentUserTotpSecretActivity, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -167,10 +176,12 @@ interface CurrentUserApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@POST("/user/currentUser/totpSecret/verify")
 	fun verifyTfaCode(
-		@Body body: CurrentUserTotpCode
+		@Body body: CurrentUserTotpCode, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 }

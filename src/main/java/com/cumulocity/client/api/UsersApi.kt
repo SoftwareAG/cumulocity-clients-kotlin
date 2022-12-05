@@ -103,13 +103,15 @@ interface UsersApi {
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.user+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.user+json"]) 
 	@POST("/user/{tenantId}/users")
 	@ReadOnlyProperties("passwordStrength", "roles", "groups", "self", "shouldResetPassword", "id", "lastPasswordChange", "twoFactorAuthenticationEnabled", "devicePermissions", "applications")
 	fun createUser(
 		@Body body: User, 
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<User>
 	
 	/**
@@ -150,6 +152,7 @@ interface UsersApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.user+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.user+json"]) 
 	@PUT("/user/{tenantId}/users/{userId}")
@@ -157,7 +160,8 @@ interface UsersApi {
 	fun updateUser(
 		@Body body: User, 
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String
+		@Path("userId") userId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<User>
 	
 	/**
@@ -174,12 +178,14 @@ interface UsersApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}")
 	fun deleteUser(
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String
+		@Path("userId") userId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -197,13 +203,15 @@ interface UsersApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@PUT("/user/{tenantId}/users/{userId}/password")
 	fun updateUserPassword(
 		@Body body: PasswordChange, 
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String
+		@Path("userId") userId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -294,13 +302,15 @@ interface UsersApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.userreference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.userreference+json"]) 
 	@POST("/user/{tenantId}/groups/{groupId}/users")
 	fun assignUserToUserGroup(
 		@Body body: SubscribedUser, 
 		@Path("tenantId") tenantId: String, 
-		@Path("groupId") groupId: Int
+		@Path("groupId") groupId: Int, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<UserReference>
 	
 	/**
@@ -318,13 +328,15 @@ interface UsersApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
 	 * @param userId Unique identifier of the a user.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/groups/{groupId}/users/{userId}")
 	fun removeUserFromUserGroup(
 		@Path("tenantId") tenantId: String, 
 		@Path("groupId") groupId: Int, 
-		@Path("userId") userId: String
+		@Path("userId") userId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**

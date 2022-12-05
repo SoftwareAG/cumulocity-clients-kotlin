@@ -13,6 +13,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -91,13 +92,15 @@ interface TrustedCertificatesApi {
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates")
 	@ReadOnlyProperties("notAfter", "serialNumber", "subject", "fingerprint", "self", "algorithmName", "version", "issuer", "notBefore")
 	fun addTrustedCertificate(
 		@Body body: TrustedCertificate, 
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<TrustedCertificate>
 	
 	/**
@@ -115,13 +118,15 @@ interface TrustedCertificatesApi {
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates/bulk")
 	@ReadOnlyProperties("next", "prev", "self", "statistics")
 	fun addTrustedCertificates(
 		@Body body: TrustedCertificateCollection, 
-		@Path("tenantId") tenantId: String
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<TrustedCertificateCollection>
 	
 	/**
@@ -159,6 +164,7 @@ interface TrustedCertificatesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param fingerprint Unique identifier of a trusted certificate.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@PUT("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
@@ -166,7 +172,8 @@ interface TrustedCertificatesApi {
 	fun updateTrustedCertificate(
 		@Body body: TrustedCertificate, 
 		@Path("tenantId") tenantId: String, 
-		@Path("fingerprint") fingerprint: String
+		@Path("fingerprint") fingerprint: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<TrustedCertificate>
 	
 	/**
@@ -182,12 +189,14 @@ interface TrustedCertificatesApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param fingerprint Unique identifier of a trusted certificate.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
 	fun removeTrustedCertificate(
 		@Path("tenantId") tenantId: String, 
-		@Path("fingerprint") fingerprint: String
+		@Path("fingerprint") fingerprint: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<ResponseBody>
 	
 	/**
@@ -206,13 +215,15 @@ interface TrustedCertificatesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param fingerprint Unique identifier of a trusted certificate.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/pop")
 	fun proveCertificatePossession(
 		@Body body: UploadedTrustedCertSignedVerificationCode, 
 		@Path("tenantId") tenantId: String, 
-		@Path("fingerprint") fingerprint: String
+		@Path("fingerprint") fingerprint: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<TrustedCertificate>
 	
 	/**
@@ -229,12 +240,14 @@ interface TrustedCertificatesApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param fingerprint Unique identifier of a trusted certificate.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/confirmed")
 	fun confirmCertificate(
 		@Path("tenantId") tenantId: String, 
-		@Path("fingerprint") fingerprint: String
+		@Path("fingerprint") fingerprint: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<TrustedCertificate>
 	
 	/**
@@ -250,11 +263,13 @@ interface TrustedCertificatesApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param fingerprint Unique identifier of a trusted certificate.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/verification-code")
 	fun generateVerificationCode(
 		@Path("tenantId") tenantId: String, 
-		@Path("fingerprint") fingerprint: String
+		@Path("fingerprint") fingerprint: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<TrustedCertificate>
 }

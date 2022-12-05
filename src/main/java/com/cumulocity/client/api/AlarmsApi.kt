@@ -12,6 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -109,6 +110,7 @@ interface AlarmsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param createdFrom Start date or date and time of the alarm creation.
 	 * @param createdTo End date or date and time of the alarm creation.
 	 * @param dateFrom Start date or date and time of the alarm occurrence.
@@ -125,6 +127,7 @@ interface AlarmsApi {
 	@ReadOnlyProperties("firstOccurrenceTime", "severity", "lastUpdated", "creationTime", "count", "self", "id", "source", "text", "time", "type")
 	fun updateAlarms(
 		@Body body: Alarm, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("createdFrom") createdFrom: String? = null, 
 		@Query("createdTo") createdTo: String? = null, 
 		@Query("dateFrom") dateFrom: String? = null, 
@@ -150,12 +153,14 @@ interface AlarmsApi {
 	 * </ul>
 	 *
 	 * @param body 
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.alarm+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.alarm+json"]) 
 	@POST("/alarm/alarms")
 	@ReadOnlyProperties("firstOccurrenceTime", "lastUpdated", "creationTime", "count", "self", "id", "self")
 	fun createAlarm(
-		@Body body: Alarm
+		@Body body: Alarm, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Alarm>
 	
 	/**
@@ -169,6 +174,7 @@ interface AlarmsApi {
 	 * <li>403 Not authorized to perform this operation.</li>
 	 * </ul>
 	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 * @param createdFrom Start date or date and time of the alarm creation.
 	 * @param createdTo End date or date and time of the alarm creation.
 	 * @param dateFrom Start date or date and time of the alarm occurrence.
@@ -184,6 +190,7 @@ interface AlarmsApi {
 	@Headers("Accept:application/json")
 	@DELETE("/alarm/alarms")
 	fun deleteAlarms(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
 		@Query("createdFrom") createdFrom: String? = null, 
 		@Query("createdTo") createdTo: String? = null, 
 		@Query("dateFrom") dateFrom: String? = null, 
@@ -232,13 +239,15 @@ interface AlarmsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the alarm.
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.alarm+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.alarm+json"]) 
 	@PUT("/alarm/alarms/{id}")
 	@ReadOnlyProperties("firstOccurrenceTime", "lastUpdated", "creationTime", "count", "self", "id", "source", "time", "type")
 	fun updateAlarm(
 		@Body body: Alarm, 
-		@Path("id") id: String
+		@Path("id") id: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Alarm>
 	
 	/**
