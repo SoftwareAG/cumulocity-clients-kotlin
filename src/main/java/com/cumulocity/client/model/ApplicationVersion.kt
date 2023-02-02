@@ -4,17 +4,22 @@
 package com.cumulocity.client.model
 import com.google.gson.Gson
 
-class InventoryAssignmentCollection {
+class ApplicationVersion {
 
 	/**
-	 * A URL linking to this resource.
+	 * Unique identifier of the version.
 	 */
-	var self: String? = null
+	var version: String? = null
 
 	/**
-	 * An array of inventory assignments.
+	 * Unique identifier of the binary file assigned to the version.
 	 */
-	var inventoryAssignments: Array<InventoryAssignment>? = null
+	var binaryId: String? = null
+
+	/**
+	 * Tag assigned to the version. Version tags must be unique across all versions and version fields of application versions.
+	 */
+	var tag: Array<String>? = null
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

@@ -4,17 +4,8 @@
 package com.cumulocity.client.model
 import com.google.gson.Gson
 
-class InventoryAssignmentCollection {
-
-	/**
-	 * A URL linking to this resource.
-	 */
-	var self: String? = null
-
-	/**
-	 * An array of inventory assignments.
-	 */
-	var inventoryAssignments: Array<InventoryAssignment>? = null
+data class ApplicationVersionTag(var tag: Array<String>?) {
+	constructor() : this(tag = null)
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

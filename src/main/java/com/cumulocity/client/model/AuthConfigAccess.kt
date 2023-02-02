@@ -4,17 +4,12 @@
 package com.cumulocity.client.model
 import com.google.gson.Gson
 
-class InventoryAssignmentCollection {
+class AuthConfigAccess {
 
 	/**
-	 * A URL linking to this resource.
+	 * Indicates whether the configuration is only accessible to the management tenant.
 	 */
-	var self: String? = null
-
-	/**
-	 * An array of inventory assignments.
-	 */
-	var inventoryAssignments: Array<InventoryAssignment>? = null
+	var onlyManagementTenantAccess: Boolean? = null
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

@@ -12,7 +12,6 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -82,14 +81,12 @@ interface OptionsApi {
 	 * </ul>
 	 *
 	 * @param body 
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.option+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json"]) 
 	@POST("/tenant/options")
 	@ReadOnlyProperties("self")
 	fun createOption(
-		@Body body: Option, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Body body: Option
 	): Call<Option>
 	
 	/**
@@ -123,14 +120,12 @@ interface OptionsApi {
 	 *
 	 * @param body 
 	 * @param category The category of the options.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json"]) 
 	@PUT("/tenant/options/{category}")
 	fun updateOptionsByCategory(
 		@Body body: CategoryOptions, 
-		@Path("category") category: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("category") category: String
 	): Call<CategoryOptions>
 	
 	/**
@@ -169,15 +164,13 @@ interface OptionsApi {
 	 * @param body 
 	 * @param category The category of the options.
 	 * @param key The key of an option.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json"]) 
 	@PUT("/tenant/options/{category}/{key}")
 	fun updateOption(
 		@Body body: CategoryKeyOption, 
 		@Path("category") category: String, 
-		@Path("key") key: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("key") key: String
 	): Call<Option>
 	
 	/**
@@ -193,13 +186,11 @@ interface OptionsApi {
 	 *
 	 * @param category The category of the options.
 	 * @param key The key of an option.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/options/{category}/{key}")
 	fun deleteOption(
 		@Path("category") category: String, 
-		@Path("key") key: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("key") key: String
 	): Call<ResponseBody>
 }

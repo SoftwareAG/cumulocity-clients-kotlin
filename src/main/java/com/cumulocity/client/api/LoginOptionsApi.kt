@@ -8,13 +8,15 @@ import retrofit2.Retrofit
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 import retrofit2.http.Body
-import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import com.cumulocity.client.model.AuthConfig
+import com.cumulocity.client.model.AuthConfigAccess
 import com.cumulocity.client.model.LoginOptionCollection
 
 /**
@@ -76,13 +78,34 @@ interface LoginOptionsApi {
 	 * </ul>
 	 *
 	 * @param body 
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.authconfig+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
 	@POST("/tenant/loginOptions")
 	@ReadOnlyProperties("self")
 	fun createLoginOption(
-		@Body body: AuthConfig, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Body body: AuthConfig
+	): Call<AuthConfig>
+	
+	/**
+	 * Update a tenant's access to the login option </br>
+	 * Update the tenant's access to the authentication configuration.  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN <b>AND</b> is the management tenant </section> 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The login option was updated.</li>
+	 * <li>403 Not authorized to perform this operation.</li>
+	 * <li>404 Tenant not found.</li>
+	 * </ul>
+	 *
+	 * @param body 
+	 * @param typeOrId The type or ID of the login option. The type's value is case insensitive and can be `OAUTH2`, `OAUTH2_INTERNAL` or `BASIC`.
+	 * @param targetTenant Unique identifier of a Cumulocity IoT tenant.
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
+	@PUT("/tenant/loginOptions/{type_or_id}/restrict")
+	fun updateLoginOption(
+		@Body body: AuthConfigAccess, 
+		@Path("type_or_id") typeOrId: String, 
+		@Query("targetTenant") targetTenant: String
 	): Call<AuthConfig>
 }

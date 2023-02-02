@@ -32,6 +32,11 @@ class CurrentTenant {
 	var name: String? = null
 
 	/**
+	 * ID of the parent tenant.
+	 */
+	var parent: String? = null
+
+	/**
 	 * A URL linking to this resource.
 	 */
 	var self: String? = null

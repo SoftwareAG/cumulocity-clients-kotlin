@@ -3,18 +3,26 @@
 
 package com.cumulocity.client.model
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 
-class InventoryAssignmentCollection {
-
-	/**
-	 * A URL linking to this resource.
-	 */
-	var self: String? = null
+class Response1 {
 
 	/**
-	 * An array of inventory assignments.
+	 * The status of the notification subscription deletion.
 	 */
-	var inventoryAssignments: Array<InventoryAssignment>? = null
+	var result: Result? = null
+
+	/**
+	 * The status of the notification subscription deletion.
+	 * [DONE, SCHEDULED]
+	 */
+	enum class Result(val value: String) {
+		@SerializedName(value = "DONE")
+		DONE("DONE"),
+		@SerializedName(value = "SCHEDULED")
+		SCHEDULED("SCHEDULED")
+	}
+
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

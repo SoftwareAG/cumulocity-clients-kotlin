@@ -19,11 +19,15 @@ class BulkOperation {
 
 	/**
 	 * Identifies the target group on which this operation should be performed.
+	 * >**&#9432; Info:** `groupId` and `failedParentId` are mutually exclusive. Use only one of them in your request.
+	 * 
 	 */
 	var groupId: String? = null
 
 	/**
 	 * Identifies the failed bulk operation from which the failed operations should be rescheduled.
+	 * >**&#9432; Info:** `groupId` and `failedParentId` are mutually exclusive. Use only one of them in your request. 
+	 * 
 	 */
 	var failedParentId: String? = null
 

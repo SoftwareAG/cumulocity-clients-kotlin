@@ -7,7 +7,7 @@ import com.google.gson.Gson
 class MeasurementSeries {
 
 	/**
-	 * Each property contained here is a date taken from the measurement and it contains an array of objects specifying `min` and `max` pair of values. Each pair corresponds to a single series object in the `series` array. If there is no aggregation used, `min` is equals to `max` in every pair.
+	 * Each property contained here is a date taken from the measurement and it contains an array of objects specifying `min` and `max` pair of values. Each pair corresponds to a single series object in the `series` array. If there is no aggregation used, `min` is equal to `max` in every pair.
 	 */
 	var values: Values? = null
 
@@ -22,7 +22,7 @@ class MeasurementSeries {
 	var truncated: Boolean? = null
 
 	/**
-	 * Each property contained here is a date taken from the measurement and it contains an array of objects specifying `min` and `max` pair of values. Each pair corresponds to a single series object in the `series` array. If there is no aggregation used, `min` is equals to `max` in every pair.
+	 * Each property contained here is a date taken from the measurement and it contains an array of objects specifying `min` and `max` pair of values. Each pair corresponds to a single series object in the `series` array. If there is no aggregation used, `min` is equal to `max` in every pair.
 	 */
 	class Values {
 	

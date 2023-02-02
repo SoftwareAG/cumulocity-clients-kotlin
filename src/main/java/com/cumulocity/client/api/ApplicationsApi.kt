@@ -70,10 +70,11 @@ interface ApplicationsApi {
 	 * @param providedFor The ID of a tenant that is subscribed to the applications but doesn't own them.
 	 * @param subscriber The ID of a tenant that is subscribed to the applications.
 	 * @param tenant The ID of a tenant that either owns the application or is subscribed to the applications.
-	 * @param type The type of the application.
+	 * @param type The type of the application. It is possible to use multiple values separated by a comma. For example, `EXTERNAL,HOSTED` will return only applications with type `EXTERNAL` or `HOSTED`.
 	 * @param user The ID of a user that has access to the applications.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @param hasVersions When set to `true`, the returned result contains applications with an `applicationVersions` field that is not empty. When set to `false`, the result will contain applications with an empty `applicationVersions` field.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationcollection+json")
 	@GET("/application/applications")
@@ -88,7 +89,8 @@ interface ApplicationsApi {
 		@Query("type") type: String? = null, 
 		@Query("user") user: String? = null, 
 		@Query("withTotalElements") withTotalElements: Boolean? = null, 
-		@Query("withTotalPages") withTotalPages: Boolean? = null
+		@Query("withTotalPages") withTotalPages: Boolean? = null, 
+		@Query("hasVersions") hasVersions: Boolean? = null
 	): Call<ApplicationCollection>
 	
 	/**

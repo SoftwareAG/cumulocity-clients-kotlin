@@ -12,7 +12,6 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -75,7 +74,7 @@ interface TenantApplicationsApi {
 	
 	/**
 	 * Subscribe to an application </br>
-	 * Subscribe a tenant (by a given ID) to an application.  <section><h5>Required roles</h5> (ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> is the application owner <b>AND</b> is the current tenant) <b>OR</b> ((ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_UPDATE) <b>AND</b> (the current tenant is its parent <b>OR</b> is the management tenant)) </section> 
+	 * Subscribe a tenant (by a given ID) to an application.  <section><h5>Required roles</h5> 1. the current tenant is application owner and has the role ROLE_APPLICATION_MANAGEMENT_ADMIN <b>OR</b><br> 2. for applications that are not microservices, the current tenant is the management tenant or the parent of the application owner tenant, and the user has one of the follwoing roles: ROLE_TENANT_MANAGEMENT_ADMIN, ROLE_TENANT_MANAGEMENT_UPDATE <b>OR</b><br> 3. for microservices, the current tenant is the management tenant or the parent of the application owner tenant, and the user has the role ROLE_TENANT_MANAGEMENT_ADMIN OR ROLE_TENANT_MANAGEMENT_UPDATE and one of following conditions is met:<br> * the microservice has no manifest<br> * the microservice version is supported<br> * the current tenant is subscribed to 'feature-privileged-microservice-hosting' </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
@@ -83,23 +82,22 @@ interface TenantApplicationsApi {
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * <li>404 Application not found.</li>
 	 * <li>409 The application is already assigned to the tenant.</li>
+	 * <li>422 Unprocessable Entity – invalid payload.</li>
 	 * </ul>
 	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.applicationreference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationreference+json"]) 
 	@POST("/tenant/tenants/{tenantId}/applications")
 	fun subscribeApplication(
 		@Body body: SubscribedApplicationReference, 
-		@Path("tenantId") tenantId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("tenantId") tenantId: String
 	): Call<ApplicationReference>
 	
 	/**
 	 * Unsubscribe from an application </br>
-	 * Unsubscribe a tenant (by a given tenant ID) from an application (by a given application ID).  <section><h5>Required roles</h5> (ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> is the application owner <b>AND</b> is the current tenant) <b>OR</b> ((ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_UPDATE) <b>AND</b> (the current tenant is its parent <b>OR</b> is the management tenant)) </section> 
+	 * Unsubscribe a tenant (by a given tenant ID) from an application (by a given application ID).  <section><h5>Required roles</h5> (ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> is the application owner <b>AND</b> is the current tenant) <b>OR</b><br> ((ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_UPDATE) <b>AND</b> (the current tenant is its parent <b>OR</b> is the management tenant)) </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
@@ -110,13 +108,11 @@ interface TenantApplicationsApi {
 	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param applicationId Unique identifier of the application.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/tenants/{tenantId}/applications/{applicationId}")
 	fun unsubscribeApplication(
 		@Path("tenantId") tenantId: String, 
-		@Path("applicationId") applicationId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("applicationId") applicationId: String
 	): Call<ResponseBody>
 }

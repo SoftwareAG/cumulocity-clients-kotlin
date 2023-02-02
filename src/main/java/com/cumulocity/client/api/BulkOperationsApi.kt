@@ -87,7 +87,7 @@ interface BulkOperationsApi {
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
-	 * <li>200 A bulk operation was created.</li>
+	 * <li>201 A bulk operation was created.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * </ul>
 	 *
@@ -96,7 +96,7 @@ interface BulkOperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.bulkoperation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json"]) 
 	@POST("/devicecontrol/bulkoperations")
-	@ReadOnlyProperties("generalStatus", "failedParentId", "self", "progress", "id", "status")
+	@ReadOnlyProperties("generalStatus", "self", "progress", "id", "status")
 	fun createBulkOperation(
 		@Body body: BulkOperation, 
 		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
@@ -138,7 +138,7 @@ interface BulkOperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.bulkoperation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json"]) 
 	@PUT("/devicecontrol/bulkoperations/{id}")
-	@ReadOnlyProperties("generalStatus", "failedParentId", "self", "progress", "id", "status")
+	@ReadOnlyProperties("generalStatus", "self", "progress", "id", "status")
 	fun updateBulkOperation(
 		@Body body: BulkOperation, 
 		@Path("id") id: String, 
