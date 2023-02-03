@@ -13,12 +13,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
-import com.cumulocity.client.model.NotificationTokenClaims
-import com.cumulocity.client.model.NotificationToken
-import com.cumulocity.client.model.Response1
+import okhttp3.ResponseBody
+import com.cumulocity.client.model.ApplicationVersionTag
+import com.cumulocity.client.model.ApplicationVersion
+import com.cumulocity.client.model.ApplicationVersionCollection
 
 // TODO parameterise servers
-class TokensApiTest {
+class ApplicationVersionsApiTest {
 
 	private var clientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
 	
@@ -35,7 +36,7 @@ class TokensApiTest {
 
     @Test
     fun testFactoryCreatesObject() {
-        val api = TokensApi.Factory.create("your tenant")
+        val api = ApplicationVersionsApi.Factory.create("your tenant")
         Assert.assertNotNull(api)
     }
     

@@ -12,7 +12,6 @@ import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Path
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -74,7 +73,7 @@ interface RolesApi {
 	
 	/**
 	 * Retrieve a user role by name </br>
-	 * Retrieve a user role by name.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> current user has acces to the role with this name </section> 
+	 * Retrieve a user role by name.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> current user has access to the role with this name </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
@@ -123,7 +122,7 @@ interface RolesApi {
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
-	 * <li>200 A user role was assigned to a user group.</li>
+	 * <li>201 A user role was assigned to a user group.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * <li>403 Not authorized to perform this operation.</li>
 	 * <li>404 Group not found.</li>
@@ -134,15 +133,13 @@ interface RolesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.rolereference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereference+json"]) 
 	@POST("/user/{tenantId}/groups/{groupId}/roles")
 	fun assignGroupRole(
 		@Body body: SubscribedRole, 
 		@Path("tenantId") tenantId: String, 
-		@Path("groupId") groupId: Int, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("groupId") groupId: Int
 	): Call<RoleReference>
 	
 	/**
@@ -160,24 +157,22 @@ interface RolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
 	 * @param roleId Unique identifier of the user role.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/groups/{groupId}/roles/{roleId}")
 	fun unassignGroupRole(
 		@Path("tenantId") tenantId: String, 
 		@Path("groupId") groupId: Int, 
-		@Path("roleId") roleId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("roleId") roleId: String
 	): Call<ResponseBody>
 	
 	/**
 	 * Assign a role to specific user in a specific tenant </br>
-	 * Assign a role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  When a role is assigned to a user, a corresponding audit record is created with type "User" and activity "User updated".  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user </section> 
+	 * Assign a role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  When a role is assigned to a user, a corresponding audit record is created with type "User" and activity "User updated".  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN to assign any role to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/> ROLE_USER_MANAGEMENT_ADMIN to assign roles accessible by the parent of assigned user to non-root users in a user hierarchy<br/> ROLE_USER_MANAGEMENT_CREATE to assign roles accessible by the current user <b>AND</b> accessible by the parent of the assigned user to the descendants of the current user in a user hierarchy </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
-	 * <li>200 A user role was assigned to a user.</li>
+	 * <li>201 A user role was assigned to a user.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * <li>403 Not enough permissions/roles to perform this operation.</li>
 	 * <li>404 User not found.</li>
@@ -187,15 +182,13 @@ interface RolesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.rolereference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereference+json"]) 
 	@POST("/user/{tenantId}/users/{userId}/roles")
 	fun assignUserRole(
 		@Body body: SubscribedRole, 
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("userId") userId: String
 	): Call<RoleReference>
 	
 	/**
@@ -213,14 +206,12 @@ interface RolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param roleId Unique identifier of the user role.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}/roles/{roleId}")
 	fun unassignUserRole(
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String, 
-		@Path("roleId") roleId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("roleId") roleId: String
 	): Call<ResponseBody>
 }

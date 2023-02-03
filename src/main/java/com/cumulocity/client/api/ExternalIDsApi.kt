@@ -11,7 +11,6 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -75,15 +74,13 @@ interface ExternalIDsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.externalid+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.externalid+json"]) 
 	@POST("/identity/globalIds/{id}/externalIds")
 	@ReadOnlyProperties("managedObject", "self")
 	fun createExternalId(
 		@Body body: ExternalId, 
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<ExternalId>
 	
 	/**
@@ -120,13 +117,11 @@ interface ExternalIDsApi {
 	 *
 	 * @param type The identifier used in the external system that Cumulocity IoT interfaces with.
 	 * @param externalId The type of the external identifier.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/identity/externalIds/{type}/{externalId}")
 	fun deleteExternalId(
 		@Path("type") type: String, 
-		@Path("externalId") externalId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("externalId") externalId: String
 	): Call<ResponseBody>
 }

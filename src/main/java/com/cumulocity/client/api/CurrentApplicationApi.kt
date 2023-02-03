@@ -9,7 +9,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -70,15 +69,13 @@ interface CurrentApplicationApi {
 	 * </ul>
 	 *
 	 * @param body 
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.application+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json"]) 
 	@PUT("/application/currentApplication")
 	@Deprecated(message = "This resource is deprecated and might be removed in future releases.")
 	@ReadOnlyProperties("owner", "activeVersionId", "self", "id", "resourcesUrl")
 	fun updateCurrentApplication(
-		@Body body: Application, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Body body: Application
 	): Call<Application>
 	
 	/**

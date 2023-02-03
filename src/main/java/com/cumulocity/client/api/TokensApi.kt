@@ -9,11 +9,13 @@ import retrofit2.Call
 import retrofit2.http.POST
 import retrofit2.http.Body
 import retrofit2.http.Header
+import retrofit2.http.Query
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import com.cumulocity.client.model.NotificationTokenClaims
 import com.cumulocity.client.model.NotificationToken
+import com.cumulocity.client.model.Response1
 
 /**
  * In order to receive subscribed notifications, a consumer application or microservice must obtain an authorization token that provides proof that the holder is allowed to receive subscribed notifications. </br>
@@ -58,4 +60,24 @@ interface TokensApi {
 		@Body body: NotificationTokenClaims, 
 		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<NotificationToken>
+	
+	/**
+	 * Unsubscribe a subscriber </br>
+	 * Unsubscribe a notification subscriber using the notification token.  Once a subscription is made, notifications will be kept until they are consumed by all subscribers who have previously connected to the subscription. For non-volatile subscriptions, this can result in notifications remaining in storage if never consumed by the application. They will be deleted if a tenant is deleted. It can take up considerable space in permanent storage for high-frequency notification sources. Therefore, we recommend you to unsubscribe a subscriber that will never run again. 
+	 *
+	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * <ul>
+	 * <li>200 The notification subscription was deleted or is scheduled for deletion.</li>
+	 * <li>401 Authentication information is missing or invalid.</li>
+	 * </ul>
+	 *
+	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @param token Subscriptions associated with this token will be removed.
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@POST("/notification2/unsubscribe")
+	fun unsubscribeSubscriber(
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
+		@Query("token") token: String
+	): Call<Response1>
 }

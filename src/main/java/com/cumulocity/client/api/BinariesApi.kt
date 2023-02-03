@@ -13,7 +13,6 @@ import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Path
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.Part
 import retrofit2.http.Headers
@@ -99,15 +98,13 @@ interface BinariesApi {
 	 *
 	 * @param pObject 
 	 * @param file Path of the file to be uploaded.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@POST("/inventory/binaries")
 	@Multipart
 	fun uploadBinary(
 		@Part("object") pObject: BinaryInfo, 
-		@Part("file") file: UByteArray, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Part("file") file: UByteArray
 	): Call<Binary>
 	
 	/**
@@ -140,14 +137,12 @@ interface BinariesApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@PUT("/inventory/binaries/{id}")
 	fun replaceBinary(
 		@Body body: UByteArray, 
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<Binary>
 	
 	/**
@@ -161,12 +156,10 @@ interface BinariesApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the managed object.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/inventory/binaries/{id}")
 	fun removeBinary(
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<ResponseBody>
 }

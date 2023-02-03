@@ -10,7 +10,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -24,7 +23,7 @@ import com.cumulocity.client.model.TenantUsageStatisticsFileCollection
 import com.cumulocity.client.model.StatisticsFile
 
 /**
- * Days are counted according to server timezone, so be aware that the tenant usage statistics displaying/filtering may not work correctly when the client is not in the same timezone as the server. However, it is possible to send a request with a time range (using the query parameters `dateFrom` and `dateTo`) in zoned format (for example, `2020-10-26T03:00:00%2B01:00`).
+ * Days are counted according to server timezone, so be aware that the tenant usage statistics displaying/filtering may not work correctly when the client is not in the same timezone as the server. However, it is possible to send a request with a time range (using the query parameters `dateFrom` and `dateTo`) in zoned format (for example, `2020-10-26T03:00:00%2B01:00`). Statistics from past days are stored with daily aggregations, which means that for a specific day you get either the statistics for the whole day or none at all.
  * 
  * ### Request counting in SmartREST and MQTT
  * 
@@ -67,7 +66,7 @@ import com.cumulocity.client.model.StatisticsFile
  * |Creation of an **alarm** in one request|One alarm creation is counted.|One alarm creation is counted via REST.|
  * |Update of an **alarm** (for example, status change)|One alarm update is counted.|One alarm update is counted via REST.|
  * |Creation of **multiple alarms** in one request|Each alarm creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support creating multiple alarms in one call).|
- * |Update of **multiple alarms** (for example, status change) in one request|Each alarm creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support updating multiple alarms in one call).|
+ * |Update of **multiple alarms** (for example, status change) in one request|Each alarm update in a single MQTT request will be counted.|Each alarm that matches the filter is counted as an alarm update (causing multiple updates).|
  * |Creation of an **event** in one request|One event creation is counted.|One event creation is counted.|
  * |Update of an **event** (for example, text change)|One event update is counted.|One event update is counted.|
  * |Creation of **multiple events** in one request|Each event creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support creating multiple events in one call).|
@@ -214,13 +213,11 @@ interface UsageStatisticsApi {
 	 * </ul>
 	 *
 	 * @param body 
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.tenantstatisticsdate+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantstatisticsfile+json"]) 
 	@POST("/tenant/statistics/files")
 	fun generateStatisticsFile(
-		@Body body: RangeStatisticsFile, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Body body: RangeStatisticsFile
 	): Call<StatisticsFile>
 	
 	/**

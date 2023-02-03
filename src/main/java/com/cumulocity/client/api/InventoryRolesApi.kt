@@ -12,7 +12,6 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
@@ -77,20 +76,19 @@ interface InventoryRolesApi {
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
-	 * <li>200 An inventory role was created.</li>
+	 * <li>201 An inventory role was created.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
+	 * <li>409 Duplicate – The inventory role already exists.</li>
 	 * <li>422 Unprocessable Entity – invalid payload.</li>
 	 * </ul>
 	 *
 	 * @param body 
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryrole+json", "Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@POST("/user/inventoryroles")
 	@ReadOnlyProperties("self", "id")
 	fun createInventoryRole(
-		@Body body: InventoryRole, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Body body: InventoryRole
 	): Call<InventoryRole>
 	
 	/**
@@ -126,15 +124,13 @@ interface InventoryRolesApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the inventory role.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryrole+json", "Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/user/inventoryroles/{id}")
 	@ReadOnlyProperties("self", "id")
 	fun updateInventoryRole(
 		@Body body: InventoryRole, 
-		@Path("id") id: Int, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: Int
 	): Call<InventoryRole>
 	
 	/**
@@ -150,13 +146,11 @@ interface InventoryRolesApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the inventory role.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/inventoryroles/{id}")
 	fun deleteInventoryRole(
-		@Path("id") id: Int, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: Int
 	): Call<ResponseBody>
 	
 	/**
@@ -183,11 +177,11 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Assign an inventory role to a user </br>
-	 * Assign an existing inventory role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN <b>AND</b> (is not in user hierarchy <b>OR</b> is root in the user hierarchy) <b>OR</b> ROLE_USER_MANAGEMENT_ADMIN <b>AND</b> is in user hiararchy <b>AND</b> has parent access to inventory assignments <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user <b>AND</b> is not the current user <b>AND</b> has current user access to inventory assignments <b>AND</b> has parent access to inventory assignments </section> 
+	 * Assign an existing inventory role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN to assign any inventory role to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/> ROLE_USER_MANAGEMENT_ADMIN to assign inventory roles accessible by the parent of the assigned user to non-root users in a user hierarchy<br/> ROLE_USER_MANAGEMENT_CREATE to assign inventory roles accessible by the current user <b>AND</b> accessible by the parent of the assigned user to the descendants of the current user in a user hierarchy </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
-	 * <li>201 An inventory role was assigned to a user.</li>
+	 * <li>200 An inventory role was assigned to a user.</li>
 	 * <li>401 Authentication information is missing or invalid.</li>
 	 * <li>403 Not enough permissions/roles to perform this operation.</li>
 	 * <li>404 User not found.</li>
@@ -197,7 +191,6 @@ interface InventoryRolesApi {
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryassignment+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json"]) 
 	@POST("/user/{tenantId}/users/{userId}/roles/inventory")
@@ -205,8 +198,7 @@ interface InventoryRolesApi {
 	fun assignUserInventoryRole(
 		@Body body: InventoryAssignment, 
 		@Path("tenantId") tenantId: String, 
-		@Path("userId") userId: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("userId") userId: String
 	): Call<InventoryAssignment>
 	
 	/**
@@ -235,7 +227,7 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Update a specific inventory role assigned to a user </br>
-	 * Update a specific inventory role (by a given ID) assigned to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN </section> 
+	 * Update a specific inventory role (by a given ID) assigned to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN to update the assignment of any inventory roles to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/> ROLE_USER_MANAGEMENT_ADMIN to update the assignment of inventory roles accessible by the assigned user parent, to non-root users in a user hierarchy<br/> ROLE_USER_MANAGEMENT_CREATE to update the assignment of inventory roles accessible by the current user <b>AND</b> the parent of the assigned user to the descendants of the current user in the user hierarchy </section> 
 	 *
 	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
 	 * <ul>
@@ -250,7 +242,6 @@ interface InventoryRolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param id Unique identifier of the inventory assignment.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryassignment+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json"]) 
 	@PUT("/user/{tenantId}/users/{userId}/roles/inventory/{id}")
@@ -258,8 +249,7 @@ interface InventoryRolesApi {
 		@Body body: InventoryAssignmentReference, 
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String, 
-		@Path("id") id: Int, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: Int
 	): Call<InventoryAssignment>
 	
 	/**
@@ -277,14 +267,12 @@ interface InventoryRolesApi {
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param id Unique identifier of the inventory assignment.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}/roles/inventory/{id}")
 	fun unassignUserInventoryRole(
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String, 
-		@Path("id") id: Int, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: Int
 	): Call<ResponseBody>
 }

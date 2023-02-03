@@ -56,6 +56,11 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 	var logoutRequest: RequestRepresentation? = null
 
 	/**
+	 * Indicates whether the configuration is only accessible to the management tenant.
+	 */
+	var onlyManagementTenantAccess: Boolean? = null
+
+	/**
 	 * SSO specific. Describes the process of internal user creation during login with the external authorization server.
 	 */
 	var onNewUser: OnNewUser? = null

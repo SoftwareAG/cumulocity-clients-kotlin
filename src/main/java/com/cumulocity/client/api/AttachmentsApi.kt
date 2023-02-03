@@ -12,7 +12,6 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.Part
 import retrofit2.http.Headers
@@ -76,14 +75,12 @@ interface AttachmentsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the event.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@PUT("/event/events/{id}/binaries")
 	fun replaceEventAttachment(
 		@Body body: UByteArray, 
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<EventBinary>
 	
 	/**
@@ -100,14 +97,12 @@ interface AttachmentsApi {
 	 *
 	 * @param body 
 	 * @param id Unique identifier of the event.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@POST("/event/events/{id}/binaries")
 	fun uploadEventAttachment(
 		@Body body: UByteArray, 
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<EventBinary>
 	
 	/**
@@ -125,7 +120,6 @@ interface AttachmentsApi {
 	 * @param pObject 
 	 * @param file Path of the file to be uploaded.
 	 * @param id Unique identifier of the event.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@POST("/event/events/{id}/binaries")
@@ -133,8 +127,7 @@ interface AttachmentsApi {
 	fun uploadEventAttachment(
 		@Part("object") pObject: BinaryInfo, 
 		@Part("file") file: UByteArray, 
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<EventBinary>
 	
 	/**
@@ -149,12 +142,10 @@ interface AttachmentsApi {
 	 * </ul>
 	 *
 	 * @param id Unique identifier of the event.
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/event/events/{id}/binaries")
 	fun deleteEventAttachment(
-		@Path("id") id: String, 
-		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+		@Path("id") id: String
 	): Call<ResponseBody>
 }

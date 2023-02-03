@@ -35,7 +35,7 @@ buildscript {
 
 ### Use your own domain model
 
-The CumulocityCoreLibrary allows custom data models. The following classes are designed to be extendible:
+The CumulocityCoreLibrary allows custom data models. The following classes are designed to be extensible:
 
 - `Alarm`, `AuditRecord`, `CategoryOptions`, `CustomProperties`, `Event`, `ManagedObject`, `Measurement`, `Operation`
 
