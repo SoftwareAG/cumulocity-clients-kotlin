@@ -14,6 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
+import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.ManagedObject
 import com.cumulocity.client.model.ManagedObjectUser
 import com.cumulocity.client.model.ManagedObjectCollection

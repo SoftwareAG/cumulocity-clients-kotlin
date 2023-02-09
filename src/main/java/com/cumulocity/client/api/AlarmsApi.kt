@@ -18,6 +18,7 @@ import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
+import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.Alarm
 import com.cumulocity.client.model.AlarmCollection
 
@@ -86,10 +87,10 @@ interface AlarmsApi {
 		@Query("lastUpdatedTo") lastUpdatedTo: String? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: Array<String>? = null, 
+		@Query("severity") severity: SeparatedQueryParameter<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: Array<String>? = null, 
-		@Query("type") type: Array<String>? = null, 
+		@Query("status") status: SeparatedQueryParameter<String>? = null, 
+		@Query("type") type: SeparatedQueryParameter<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null, 
 		@Query("withTotalElements") withTotalElements: Boolean? = null, 
@@ -133,9 +134,9 @@ interface AlarmsApi {
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: Array<String>? = null, 
+		@Query("severity") severity: SeparatedQueryParameter<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: Array<String>? = null, 
+		@Query("status") status: SeparatedQueryParameter<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null
 	): Call<ResponseBody>
@@ -196,10 +197,10 @@ interface AlarmsApi {
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: Array<String>? = null, 
+		@Query("severity") severity: SeparatedQueryParameter<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: Array<String>? = null, 
-		@Query("type") type: Array<String>? = null, 
+		@Query("status") status: SeparatedQueryParameter<String>? = null, 
+		@Query("type") type: SeparatedQueryParameter<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null
 	): Call<ResponseBody>
@@ -276,10 +277,10 @@ interface AlarmsApi {
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: Array<String>? = null, 
+		@Query("severity") severity: SeparatedQueryParameter<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: Array<String>? = null, 
-		@Query("type") type: Array<String>? = null, 
+		@Query("status") status: SeparatedQueryParameter<String>? = null, 
+		@Query("type") type: SeparatedQueryParameter<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null
 	): Call<Int>

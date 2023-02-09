@@ -18,6 +18,7 @@ import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
+import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.ManagedObject
 import com.cumulocity.client.model.ManagedObjectUser
 import com.cumulocity.client.model.ManagedObjectCollection
@@ -89,7 +90,7 @@ interface ManagedObjectsApi {
 		@Query("childDeviceId") childDeviceId: String? = null, 
 		@Query("currentPage") currentPage: Int? = null, 
 		@Query("fragmentType") fragmentType: String? = null, 
-		@Query("ids") ids: Array<String>? = null, 
+		@Query("ids") ids: SeparatedQueryParameter<String>? = null, 
 		@Query("onlyRoots") onlyRoots: Boolean? = null, 
 		@Query("owner") owner: String? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
@@ -154,7 +155,7 @@ interface ManagedObjectsApi {
 		@Query("childAssetId") childAssetId: String? = null, 
 		@Query("childDeviceId") childDeviceId: String? = null, 
 		@Query("fragmentType") fragmentType: String? = null, 
-		@Query("ids") ids: Array<String>? = null, 
+		@Query("ids") ids: SeparatedQueryParameter<String>? = null, 
 		@Query("owner") owner: String? = null, 
 		@Query("text") text: String? = null, 
 		@Query("type") type: String? = null

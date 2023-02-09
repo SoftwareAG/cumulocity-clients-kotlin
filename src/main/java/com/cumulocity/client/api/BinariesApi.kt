@@ -19,6 +19,7 @@ import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
+import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.BinaryInfo
 import com.cumulocity.client.model.BinaryCollection
 import com.cumulocity.client.model.Binary
@@ -76,7 +77,7 @@ interface BinariesApi {
 		@Query("childAssetId") childAssetId: String? = null, 
 		@Query("childDeviceId") childDeviceId: String? = null, 
 		@Query("currentPage") currentPage: Int? = null, 
-		@Query("ids") ids: Array<String>? = null, 
+		@Query("ids") ids: SeparatedQueryParameter<String>? = null, 
 		@Query("owner") owner: String? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
 		@Query("text") text: String? = null, 

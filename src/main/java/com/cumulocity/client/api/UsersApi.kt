@@ -18,6 +18,7 @@ import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
+import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.User
 import com.cumulocity.client.model.PasswordChange
 import com.cumulocity.client.model.SubscribedUser
@@ -78,7 +79,7 @@ interface UsersApi {
 	fun getUsers(
 		@Path("tenantId") tenantId: String, 
 		@Query("currentPage") currentPage: Int? = null, 
-		@Query("groups") groups: Array<String>? = null, 
+		@Query("groups") groups: SeparatedQueryParameter<String>? = null, 
 		@Query("onlyDevices") onlyDevices: Boolean? = null, 
 		@Query("owner") owner: String? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
