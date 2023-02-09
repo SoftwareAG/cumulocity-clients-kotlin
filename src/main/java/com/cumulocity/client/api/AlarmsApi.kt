@@ -65,10 +65,10 @@ interface AlarmsApi {
 	 * @param lastUpdatedTo End date or date and time of the last update made.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param resolved When set to `true` only alarms with status CLEARED will be fetched, whereas `false` will fetch all alarms with status ACTIVE or ACKNOWLEDGED.
-	 * @param severity The severity of the alarm to search for.
+	 * @param severity The severity of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm severities at once, comma-separate the values. 
 	 * @param source The managed object ID to which the alarm is associated.
-	 * @param status The status of the alarm to search for.
-	 * @param type The types of alarm to search for (comma separated).
+	 * @param status The status of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm statuses at once, comma-separate the values. 
+	 * @param type The types of alarm to search for. >**&#9432; Info:** If you query for multiple alarm types at once, comma-separate the values. Space characters in alarm types must be escaped. 
 	 * @param withSourceAssets When set to `true` also alarms for related source assets will be included in the request. When this parameter is provided a `source` must be specified.
 	 * @param withSourceDevices When set to `true` also alarms for related source devices will be included in the request. When this parameter is provided a `source` must be specified.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
@@ -86,9 +86,9 @@ interface AlarmsApi {
 		@Query("lastUpdatedTo") lastUpdatedTo: String? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: String? = null, 
+		@Query("severity") severity: Array<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: String? = null, 
+		@Query("status") status: Array<String>? = null, 
 		@Query("type") type: Array<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null, 
@@ -116,9 +116,9 @@ interface AlarmsApi {
 	 * @param dateFrom Start date or date and time of the alarm occurrence.
 	 * @param dateTo End date or date and time of the alarm occurrence.
 	 * @param resolved When set to `true` only alarms with status CLEARED will be fetched, whereas `false` will fetch all alarms with status ACTIVE or ACKNOWLEDGED.
-	 * @param severity The severity of the alarm to search for.
+	 * @param severity The severity of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm severities at once, comma-separate the values. 
 	 * @param source The managed object ID to which the alarm is associated.
-	 * @param status The status of the alarm to search for.
+	 * @param status The status of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm statuses at once, comma-separate the values. 
 	 * @param withSourceAssets When set to `true` also alarms for related source assets will be included in the request. When this parameter is provided a `source` must be specified.
 	 * @param withSourceDevices When set to `true` also alarms for related source devices will be included in the request. When this parameter is provided a `source` must be specified.
 	 */
@@ -133,9 +133,9 @@ interface AlarmsApi {
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: String? = null, 
+		@Query("severity") severity: Array<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: String? = null, 
+		@Query("status") status: Array<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null
 	): Call<ResponseBody>
@@ -180,10 +180,10 @@ interface AlarmsApi {
 	 * @param dateFrom Start date or date and time of the alarm occurrence.
 	 * @param dateTo End date or date and time of the alarm occurrence.
 	 * @param resolved When set to `true` only alarms with status CLEARED will be fetched, whereas `false` will fetch all alarms with status ACTIVE or ACKNOWLEDGED.
-	 * @param severity The severity of the alarm to search for.
+	 * @param severity The severity of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm severities at once, comma-separate the values. 
 	 * @param source The managed object ID to which the alarm is associated.
-	 * @param status The status of the alarm to search for.
-	 * @param type The types of alarm to search for (comma separated).
+	 * @param status The status of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm statuses at once, comma-separate the values. 
+	 * @param type The types of alarm to search for. >**&#9432; Info:** If you query for multiple alarm types at once, comma-separate the values. Space characters in alarm types must be escaped. 
 	 * @param withSourceAssets When set to `true` also alarms for related source assets will be included in the request. When this parameter is provided a `source` must be specified.
 	 * @param withSourceDevices When set to `true` also alarms for related source devices will be included in the request. When this parameter is provided a `source` must be specified.
 	 */
@@ -196,9 +196,9 @@ interface AlarmsApi {
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: String? = null, 
+		@Query("severity") severity: Array<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: String? = null, 
+		@Query("status") status: Array<String>? = null, 
 		@Query("type") type: Array<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null
@@ -263,10 +263,10 @@ interface AlarmsApi {
 	 * @param dateFrom Start date or date and time of the alarm occurrence.
 	 * @param dateTo End date or date and time of the alarm occurrence.
 	 * @param resolved When set to `true` only alarms with status CLEARED will be fetched, whereas `false` will fetch all alarms with status ACTIVE or ACKNOWLEDGED.
-	 * @param severity The severity of the alarm to search for.
+	 * @param severity The severity of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm severities at once, comma-separate the values. 
 	 * @param source The managed object ID to which the alarm is associated.
-	 * @param status The status of the alarm to search for.
-	 * @param type The types of alarm to search for (comma separated).
+	 * @param status The status of the alarm to search for. >**&#9432; Info:** If you query for multiple alarm statuses at once, comma-separate the values. 
+	 * @param type The types of alarm to search for. >**&#9432; Info:** If you query for multiple alarm types at once, comma-separate the values. Space characters in alarm types must be escaped. 
 	 * @param withSourceAssets When set to `true` also alarms for related source assets will be included in the request. When this parameter is provided a `source` must be specified.
 	 * @param withSourceDevices When set to `true` also alarms for related source devices will be included in the request. When this parameter is provided a `source` must be specified.
 	 */
@@ -276,9 +276,9 @@ interface AlarmsApi {
 		@Query("dateFrom") dateFrom: String? = null, 
 		@Query("dateTo") dateTo: String? = null, 
 		@Query("resolved") resolved: Boolean? = null, 
-		@Query("severity") severity: String? = null, 
+		@Query("severity") severity: Array<String>? = null, 
 		@Query("source") source: String? = null, 
-		@Query("status") status: String? = null, 
+		@Query("status") status: Array<String>? = null, 
 		@Query("type") type: Array<String>? = null, 
 		@Query("withSourceAssets") withSourceAssets: Boolean? = null, 
 		@Query("withSourceDevices") withSourceDevices: Boolean? = null
