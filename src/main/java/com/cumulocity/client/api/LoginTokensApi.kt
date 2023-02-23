@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 /**
  * API methods to obtain access tokens to the Cumulocity IoT platform in case of OAI-Secure or SSO authentication. </br>
  * 
- */ 
+ */
 interface LoginTokensApi {
 
 	companion object Factory {
@@ -20,13 +20,17 @@ interface LoginTokensApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): LoginTokensApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(LoginTokensApi::class.java)
+		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
 		}
 	}
 

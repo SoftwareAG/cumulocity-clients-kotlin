@@ -49,7 +49,6 @@ class RetentionRule {
 
 	/**
 	 * The data type(s) to which the rule is applied.
-	 * [ALARM, AUDIT, BULK_OPERATION, EVENT, MEASUREMENT, OPERATION, *]
 	 */
 	enum class DataType(val value: String) {
 		@SerializedName(value = "ALARM")

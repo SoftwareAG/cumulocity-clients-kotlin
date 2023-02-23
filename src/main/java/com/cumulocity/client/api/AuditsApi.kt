@@ -30,7 +30,7 @@ import com.cumulocity.client.model.AuditRecordCollection
  * > **&#9432; Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
  *  </br>
  * 
- */ 
+ */
 interface AuditsApi {
 
 	companion object Factory {
@@ -39,26 +39,30 @@ interface AuditsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): AuditsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(AuditsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all audit records </br>
-	 * Retrieve all audit records registered on your tenant, or a specific subset based on queries. 
+	 * Retrieve all audit records
+	 * Retrieve all audit records registered on your tenant, or a specific subset based on queries.
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all audit records are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all audit records are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param application Name of the application from which the audit was carried out.
 	 * @param currentPage The current page of the paginated results.
 	 * @param dateFrom Start date or date and time of the audit record.
@@ -69,6 +73,7 @@ interface AuditsApi {
 	 * @param user The username to search for.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecordcollection+json")
 	@GET("/audit/auditRecords")
@@ -86,16 +91,21 @@ interface AuditsApi {
 	): Call<AuditRecordCollection>
 	
 	/**
-	 * Create an audit record </br>
-	 * Create an audit record.  <section><h5>Required roles</h5> ROLE_AUDIT_ADMIN <b>OR</b> ROLE_SYSTEM <b>OR</b> AUDIT_ADMIN permission on the resource </section> 
+	 * Create an audit record
+	 * Create an audit record.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_AUDIT_ADMIN <b>OR</b> ROLE_SYSTEM <b>OR</b> AUDIT_ADMIN permission on the resource
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 An audit record was created.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 201 - An audit record was created.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.auditrecord+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecord+json"]) 
 	@POST("/audit/auditRecords")
@@ -105,16 +115,21 @@ interface AuditsApi {
 	): Call<AuditRecord>
 	
 	/**
-	 * Retrieve a specific audit record </br>
-	 * Retrieve a specific audit record by a given ID.  <section><h5>Required roles</h5> ROLE_AUDIT_READ <b>OR</b> AUDIT_READ permission on the source </section> 
+	 * Retrieve a specific audit record
+	 * Retrieve a specific audit record by a given ID.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_AUDIT_READ <b>OR</b> AUDIT_READ permission on the source
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the audit record is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the audit record is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the audit record.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecord+json")
 	@GET("/audit/auditRecords/{id}")

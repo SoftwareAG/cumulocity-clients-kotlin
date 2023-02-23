@@ -47,6 +47,23 @@ Alarm.Serialization.registerAdditionalProperty(typeName: String, type: Class<*>)
 
 Each of the extensible objects contains a dictionary object holding instances of custom fragments. Use the custom fragment's key to access it's value.
 
+### Working with errors
+
+HTTP error codes will be forwarded and can be accessed using a `retrofit2.Response`. Error codes can be retrievied by calling `#code()`, respectively `#message()`. The response object also allows access to error objects. Here, a so called response body converter needs to be used. In this context the `Retrofit` instance allows to access the configured converter. Use the companion object `Factory` on each the API interfaces to acces a pre-configured `Retrofit.Builder`.
+
+The error object itself can be converted from the response `errorBody`:
+
+```kotlin
+override fun onResponse(call: Call<T>?, response: Response<T>?) {
+    // response?.message()
+    // response?.code()
+    response?.errorBody()?.let {
+        val retrofitBuilder: Retrofit.Builder = ...
+	    val converter = retrofitBuilder.build().responseBodyConverter<Error>(Error::class.java, arrayOf())
+		converter.convert(it)
+}
+```
+
 ### Basic Authentication
 
 The client sends HTTP requests with the `Authorization` header that contains the word `Basic` word followed by a space and a base64-encoded string `username:password`.

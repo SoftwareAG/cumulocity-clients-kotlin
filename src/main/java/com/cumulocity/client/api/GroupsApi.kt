@@ -29,7 +29,7 @@ import com.cumulocity.client.model.GroupReferenceCollection
  * > **&#9432; Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  *  </br>
  * 
- */ 
+ */
 interface GroupsApi {
 
 	companion object Factory {
@@ -38,32 +38,41 @@ interface GroupsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): GroupsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(GroupsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all user groups of a specific tenant </br>
-	 * Retrieve all user groups of a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE </section> 
+	 * Retrieve all user groups of a specific tenant
+	 * Retrieve all user groups of a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all user groups are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all user groups are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.groupcollection+json")
 	@GET("/user/{tenantId}/groups")
@@ -76,20 +85,25 @@ interface GroupsApi {
 	): Call<UserGroupCollection>
 	
 	/**
-	 * Create a user group for a specific tenant </br>
-	 * Create a user group for a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN </section> 
+	 * Create a user group for a specific tenant
+	 * Create a user group for a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A user group was created.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>409 Duplicate – Group name already exists.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 201 - A user group was created.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 409 - Duplicate – Group name already exists.</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.group+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.group+json"]) 
 	@POST("/user/{tenantId}/groups")
@@ -100,19 +114,24 @@ interface GroupsApi {
 	): Call<Group>
 	
 	/**
-	 * Retrieve a specific user group for a specific tenant </br>
-	 * Retrieve a specific user group (by a given user group ID) for a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user <b>AND</b> is not the current user </section> 
+	 * Retrieve a specific user group for a specific tenant
+	 * Retrieve a specific user group (by a given user group ID) for a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user <b>AND</b> is not the current user
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request succeeded and the user group is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>404 Group not found.</li>
+	 *     <li>HTTP 200 - The request succeeded and the user group is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Group not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.group+json")
 	@GET("/user/{tenantId}/groups/{groupId}")
@@ -122,21 +141,26 @@ interface GroupsApi {
 	): Call<Group>
 	
 	/**
-	 * Update a specific user group for a specific tenant </br>
-	 * Update a specific user group (by a given user group ID) for a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN </section> 
+	 * Update a specific user group for a specific tenant
+	 * Update a specific user group (by a given user group ID) for a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 A user group was updated.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>404 Group not found.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 200 - A user group was updated.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Group not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.group+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.group+json"]) 
 	@PUT("/user/{tenantId}/groups/{groupId}")
@@ -148,17 +172,21 @@ interface GroupsApi {
 	): Call<Group>
 	
 	/**
-	 * Delete a specific user group for a specific tenant </br>
-	 * Delete a specific user group (by a given user group ID) for a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN </section> 
+	 * Delete a specific user group for a specific tenant
+	 * Delete a specific user group (by a given user group ID) for a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A user group was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Group not found.</li>
+	 *     <li>HTTP 204 - A user group was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Group not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
 	 */
@@ -170,19 +198,24 @@ interface GroupsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve a user group by group name for a specific tenant </br>
-	 * Retrieve a user group by group name for a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> has access to groups </section> 
+	 * Retrieve a user group by group name for a specific tenant
+	 * Retrieve a user group by group name for a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> has access to groups
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request succeeded and the user group is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>404 Group not found.</li>
+	 *     <li>HTTP 200 - The request succeeded and the user group is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Group not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupName The name of the user group.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.group+json")
 	@GET("/user/{tenantId}/groupByName/{groupName}")
@@ -192,23 +225,28 @@ interface GroupsApi {
 	): Call<Group>
 	
 	/**
-	 * Get all user groups for specific user in a specific tenant </br>
-	 * Get all user groups for a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user </section> 
+	 * Get all user groups for specific user in a specific tenant
+	 * Get all user groups for a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request succeeded and all groups for the user are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>404 User not found.</li>
+	 *     <li>HTTP 200 - The request succeeded and all groups for the user are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.groupreferencecollection+json")
 	@GET("/user/{tenantId}/users/{userId}/groups")

@@ -98,7 +98,6 @@ class Alarm {
 
 	/**
 	 * The severity of the alarm.
-	 * [CRITICAL, MAJOR, MINOR, WARNING]
 	 */
 	enum class Severity(val value: String) {
 		@SerializedName(value = "CRITICAL")
@@ -113,7 +112,6 @@ class Alarm {
 
 	/**
 	 * The status of the alarm. If not specified, a new alarm will be created as ACTIVE.
-	 * [ACTIVE, ACKNOWLEDGED, CLEARED]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "ACTIVE")

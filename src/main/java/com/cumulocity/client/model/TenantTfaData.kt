@@ -39,7 +39,6 @@ class TenantTfaData {
 
 	/**
 	 * Two-factor authentication strategy.
-	 * [SMS, TOTP]
 	 */
 	enum class Strategy(val value: String) {
 		@SerializedName(value = "SMS")

@@ -40,7 +40,7 @@ import com.cumulocity.client.model.BulkOperationCollection
  * > The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  *  </br>
  * 
- */ 
+ */
 interface BulkOperationsApi {
 
 	companion object Factory {
@@ -49,29 +49,38 @@ interface BulkOperationsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): BulkOperationsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(BulkOperationsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve a list of bulk operations </br>
-	 * Retrieve a list of bulk operations.  <section><h5>Required roles</h5> ROLE_BULK_OPERATION_READ </section> 
+	 * Retrieve a list of bulk operations
+	 * Retrieve a list of bulk operations.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_BULK_OPERATION_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the list of bulk operations sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the list of bulk operations sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.bulkoperationcollection+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/devicecontrol/bulkoperations")
@@ -82,17 +91,22 @@ interface BulkOperationsApi {
 	): Call<BulkOperationCollection>
 	
 	/**
-	 * Create a bulk operation </br>
-	 * Create a bulk operation.  <section><h5>Required roles</h5> ROLE_BULK_OPERATION_ADMIN </section> 
+	 * Create a bulk operation
+	 * Create a bulk operation.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_BULK_OPERATION_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A bulk operation was created.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 201 - A bulk operation was created.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.bulkoperation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json"]) 
 	@POST("/devicecontrol/bulkoperations")
@@ -103,17 +117,22 @@ interface BulkOperationsApi {
 	): Call<BulkOperation>
 	
 	/**
-	 * Retrieve a specific bulk operation </br>
-	 * Retrieve a specific bulk operation (by a given ID).  <section><h5>Required roles</h5> ROLE_BULK_OPERATION_READ </section> 
+	 * Retrieve a specific bulk operation
+	 * Retrieve a specific bulk operation (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_BULK_OPERATION_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the bulk operation is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Bulk operation not found.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the bulk operation is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Bulk operation not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the bulk operation.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json")
 	@GET("/devicecontrol/bulkoperations/{id}")
@@ -122,19 +141,24 @@ interface BulkOperationsApi {
 	): Call<BulkOperation>
 	
 	/**
-	 * Update a specific bulk operation </br>
-	 * Update a specific bulk operation (by a given ID).  <section><h5>Required roles</h5> ROLE_BULK_OPERATION_ADMIN </section> 
+	 * Update a specific bulk operation
+	 * Update a specific bulk operation (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_BULK_OPERATION_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 A bulk operation was updated.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Bulk operation not found.</li>
+	 *     <li>HTTP 200 - A bulk operation was updated.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Bulk operation not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the bulk operation.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.bulkoperation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.bulkoperation+json"]) 
 	@PUT("/devicecontrol/bulkoperations/{id}")
@@ -146,17 +170,21 @@ interface BulkOperationsApi {
 	): Call<BulkOperation>
 	
 	/**
-	 * Delete a specific bulk operation </br>
-	 * Delete a specific bulk operation (by a given ID).  <section><h5>Required roles</h5> ROLE_BULK_OPERATION_ADMIN </section> 
+	 * Delete a specific bulk operation
+	 * Delete a specific bulk operation (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_BULK_OPERATION_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A bulk operation was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Bulk operation not found.</li>
+	 *     <li>HTTP 204 - A bulk operation was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Bulk operation not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the bulk operation.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */

@@ -51,7 +51,6 @@ class BulkNewDeviceRequest {
 	
 		/**
 		 * The device credentials creation status.
-		 * [CREATED, FAILED, CREDENTIAL_UPDATED]
 		 */
 		enum class NewDeviceStatus(val value: String) {
 			@SerializedName(value = "CREATED")
@@ -92,7 +91,6 @@ class BulkNewDeviceRequest {
 	
 		/**
 		 * The device credentials creation status.
-		 * [CREATED, FAILED, CREDENTIAL_UPDATED]
 		 */
 		enum class NewDeviceStatus(val value: String) {
 			@SerializedName(value = "CREATED")

@@ -111,7 +111,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 
 	/**
 	 * The authentication configuration grant type identifier.
-	 * [AUTHORIZATION_CODE, PASSWORD]
 	 */
 	enum class GrantType(val value: String) {
 		@SerializedName(value = "AUTHORIZATION_CODE")
@@ -122,7 +121,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 
 	/**
 	 * The authentication configuration type. Note that the value is case insensitive.
-	 * [BASIC, OAUTH2, OAUTH2_INTERNAL]
 	 */
 	enum class Type(val value: String) {
 		@SerializedName(value = "BASIC")
@@ -135,7 +133,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 
 	/**
 	 * Indicates whether user data are managed internally by the Cumulocity IoT platform or by an external server. Note that the value is case insensitive.
-	 * [INTERNAL, REMOTE]
 	 */
 	enum class UserManagementSource(val value: String) {
 		@SerializedName(value = "INTERNAL")
@@ -368,7 +365,6 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 			
 				/**
 				 * The signing algorithm of the JWT access token.
-				 * [RSA, PCKS]
 				 */
 				enum class Alg(val value: String) {
 					@SerializedName(value = "RSA")

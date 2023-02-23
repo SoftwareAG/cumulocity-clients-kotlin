@@ -57,7 +57,7 @@ import com.cumulocity.client.model.SystemOption
  * |    device-registration    | security-token.policy         | no                    |
  *  </br>
  * 
- */ 
+ */
 interface SystemOptionsApi {
 
 	companion object Factory {
@@ -66,26 +66,33 @@ interface SystemOptionsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): SystemOptionsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(SystemOptionsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all system options </br>
-	 * Retrieve all the system options available on the tenant.  > **⚠️ Important:** Note that it is possible to call this endpoint without the ROLE_OPTION_MANAGEMENT_ADMIN role, but options that are considered secured (see the list of options above) will be obfuscated with a constant value `"<<Encrypted>>"`. 
+	 * Retrieve all system options
+	 * Retrieve all the system options available on the tenant.
+	 * 
+	 * > **⚠️ Important:** Note that it is possible to call this endpoint without the ROLE_OPTION_MANAGEMENT_ADMIN role, but options that are considered secured (see the list of options above) will be obfuscated with a constant value `"<<Encrypted>>"`.
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the system options are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the system options are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.optioncollection+json")
 	@GET("/tenant/system/options")
@@ -93,18 +100,24 @@ interface SystemOptionsApi {
 	): Call<SystemOptionCollection>
 	
 	/**
-	 * Retrieve a specific system option </br>
-	 * Retrieve a specific system option (by a given category and key) on your tenant.  > **⚠️ Important:** Note that it is possible to call this endpoint without the ROLE_OPTION_MANAGEMENT_ADMIN role, but only the options that are considered not secured (see the list of options above) will be returned. Otherwise, if the option is considered secured and the user does not have the required role, an HTTP response 403 will be returned. <section><h5>Required roles</h5> ROLE_OPTION_MANAGEMENT_ADMIN </section> 
+	 * Retrieve a specific system option
+	 * Retrieve a specific system option (by a given category and key) on your tenant.
+	 * 
+	 * > **⚠️ Important:** Note that it is possible to call this endpoint without the ROLE_OPTION_MANAGEMENT_ADMIN role, but only the options that are considered not secured (see the list of options above) will be returned. Otherwise, if the option is considered secured and the user does not have the required role, an HTTP response 403 will be returned.
+	 * <section><h5>Required roles</h5>
+	 * ROLE_OPTION_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the system option is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the system option is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
 	 * </ul>
-	 *
 	 * @param category The category of the system options.
 	 * @param key The key of a system option.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json")
 	@GET("/tenant/system/options/{category}/{key}")

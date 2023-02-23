@@ -32,7 +32,6 @@ class JSONPredicateRepresentation {
 
 	/**
 	 * Operator executed on the parameter from the JWT access token claim pointed by `parameterPath` and the provided parameter `value`.
-	 * [EQ, NEQ, GT, LT, GTE, LTE, IN, AND, OR]
 	 */
 	enum class Operator(val value: String) {
 		@SerializedName(value = "EQ")

@@ -86,7 +86,7 @@ import com.cumulocity.client.model.StatisticsFile
  * The microservice usage's information is stored in the `resources` object.
  *  </br>
  * 
- */ 
+ */
 interface UsageStatisticsApi {
 
 	companion object Factory {
@@ -95,32 +95,41 @@ interface UsageStatisticsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): UsageStatisticsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(UsageStatisticsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve statistics of the current tenant </br>
-	 * Retrieve usage statistics of the current tenant.  <section><h5>Required roles</h5> ROLE_TENANT_STATISTICS_READ </section> 
+	 * Retrieve statistics of the current tenant
+	 * Retrieve usage statistics of the current tenant.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_TENANT_STATISTICS_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the tenant statistics are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the tenant statistics are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param currentPage The current page of the paginated results.
 	 * @param dateFrom Start date or date and time of the statistics.
 	 * @param dateTo End date or date and time of the statistics.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantusagestatisticscollection+json")
 	@GET("/tenant/statistics")
@@ -134,20 +143,21 @@ interface UsageStatisticsApi {
 	): Call<TenantUsageStatisticsCollection>
 	
 	/**
-	 * Retrieve a usage statistics summary </br>
-	 * Retrieve a usage statistics summary of a tenant. <section><h5>Required roles</h5> ROLE_TENANT_STATISTICS_READ <b>OR</b> ROLE_INVENTORY_READ <br/> If the `tenant` request parameter is specified, then the current tenant must be the management tenant <b>OR</b> the parent of the requested `tenant`. </section>
+	 * Retrieve a usage statistics summary
+	 * Retrieve a usage statistics summary of a tenant.
+	 * <section><h5>Required roles</h5> ROLE_TENANT_STATISTICS_READ <b>OR</b> ROLE_INVENTORY_READ <br/> If the `tenant` request parameter is specified, then the current tenant must be the management tenant <b>OR</b> the parent of the requested `tenant`. </section>
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the usage statistics summary is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Tenant not found.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the usage statistics summary is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Tenant not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param dateFrom Start date or date and time of the statistics.
 	 * @param dateTo End date or date and time of the statistics.
 	 * @param tenant Unique identifier of a Cumulocity IoT tenant.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantusagestatisticssummary+json")
 	@GET("/tenant/statistics/summary")
@@ -158,17 +168,22 @@ interface UsageStatisticsApi {
 	): Call<SummaryTenantUsageStatistics>
 	
 	/**
-	 * Retrieve a summary of all usage statistics </br>
-	 * Retrieve a summary of all tenants usage statistics.  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_READ </section> 
+	 * Retrieve a summary of all usage statistics
+	 * Retrieve a summary of all tenants usage statistics.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_TENANT_MANAGEMENT_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the usage statistics summary is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the usage statistics summary is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param dateFrom Start date or date and time of the statistics.
 	 * @param dateTo End date or date and time of the statistics.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/tenant/statistics/allTenantsSummary")
@@ -178,20 +193,25 @@ interface UsageStatisticsApi {
 	): Call<Array<SummaryAllTenantsUsageStatistics>>
 	
 	/**
-	 * Retrieve usage statistics files metadata </br>
-	 * Retrieve usage statistics summary files report metadata.  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
+	 * Retrieve usage statistics files metadata
+	 * Retrieve usage statistics summary files report metadata.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_TENANT_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the tenant statistics are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the tenant statistics are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param currentPage The current page of the paginated results.
 	 * @param dateFrom Start date or date and time of the statistics file generation.
 	 * @param dateTo End date or date and time of the statistics file generation.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantStatisticsfilecollection+json")
 	@GET("/tenant/statistics/files")
@@ -204,17 +224,25 @@ interface UsageStatisticsApi {
 	): Call<TenantUsageStatisticsFileCollection>
 	
 	/**
-	 * Generate a statistics file report </br>
-	 * Generate a TEST statistics file report for a given time range.  There are two types of statistics files: * REAL - generated by the system on the first day of the month and including statistics from the previous month. * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`). <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_CREATE </section> 
+	 * Generate a statistics file report
+	 * Generate a TEST statistics file report for a given time range.
+	 * 
+	 * There are two types of statistics files:
+	 * * REAL - generated by the system on the first day of the month and including statistics from the previous month.
+	 * * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`).
+	 * <section><h5>Required roles</h5>
+	 * ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_CREATE
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A statistics file was generated.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 201 - A statistics file was generated.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.tenantstatisticsdate+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantstatisticsfile+json"]) 
 	@POST("/tenant/statistics/files")
@@ -223,16 +251,20 @@ interface UsageStatisticsApi {
 	): Call<StatisticsFile>
 	
 	/**
-	 * Retrieve a usage statistics file </br>
-	 * Retrieve a specific usage statistics file (by a given ID).  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
+	 * Retrieve a usage statistics file
+	 * Retrieve a specific usage statistics file (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_TENANT_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the file is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Statistics file not found.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the file is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Statistics file not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the statistics file.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/octet-stream")
@@ -242,15 +274,23 @@ interface UsageStatisticsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve the latest usage statistics file </br>
-	 * Retrieve the latest usage statistics file with REAL data for a given month.  There are two types of statistics files: * REAL - generated by the system on the first day of the month and includes statistics for the previous month. * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`).  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
+	 * Retrieve the latest usage statistics file
+	 * Retrieve the latest usage statistics file with REAL data for a given month.
+	 * 
+	 * There are two types of statistics files:
+	 * * REAL - generated by the system on the first day of the month and includes statistics for the previous month.
+	 * * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_TENANT_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the file is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the file is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param month Date (format YYYY-MM-dd) specifying the month for which the statistics file will be downloaded (the day value is ignored).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/octet-stream")

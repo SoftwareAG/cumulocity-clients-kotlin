@@ -126,7 +126,6 @@ class User {
 
 	/**
 	 * Indicates the password strength. The value can be GREEN, YELLOW or RED for decreasing password strengths.
-	 * [GREEN, YELLOW, RED]
 	 */
 	enum class PasswordStrength(val value: String) {
 		@SerializedName(value = "GREEN")

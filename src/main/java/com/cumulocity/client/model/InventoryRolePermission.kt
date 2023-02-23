@@ -32,7 +32,6 @@ class InventoryRolePermission {
 
 	/**
 	 * The permission level.
-	 * [ADMIN, READ, *]
 	 */
 	enum class Permission(val value: String) {
 		@SerializedName(value = "ADMIN")
@@ -45,7 +44,6 @@ class InventoryRolePermission {
 
 	/**
 	 * The scope of this permission.
-	 * [ALARM, AUDIT, EVENT, MANAGED_OBJECT, MEASUREMENT, OPERATION, *]
 	 */
 	enum class Scope(val value: String) {
 		@SerializedName(value = "ALARM")

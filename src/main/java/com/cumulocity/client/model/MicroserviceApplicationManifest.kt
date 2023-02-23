@@ -108,7 +108,6 @@ class MicroserviceApplicationManifest {
 	 * In case of RESOURCES, the number of resources used is exposed for billing calculation per usage.
 	 * In case of SUBSCRIPTION, all resources usage is counted for the microservice owner and the subtenant is charged for subscription.
 	 * 
-	 * [RESOURCES, SUBSCRIPTION]
 	 */
 	enum class BillingMode(val value: String) {
 		@SerializedName(value = "RESOURCES")
@@ -123,7 +122,6 @@ class MicroserviceApplicationManifest {
 	 * Otherwise, there is one single instance for all subscribed tenants.
 	 * This will affect billing.
 	 * 
-	 * [MULTI_TENANT, PER_TENANT]
 	 */
 	enum class Isolation(val value: String) {
 		@SerializedName(value = "MULTI_TENANT")
@@ -137,7 +135,6 @@ class MicroserviceApplicationManifest {
 	 * If the microservice uses a lot of CPU resources, a second instance will be created automatically when this is set to `AUTO`.
 	 * The default is `NONE`, meaning auto scaling will not happen.
 	 * 
-	 * [NONE, AUTO]
 	 */
 	enum class Scale(val value: String) {
 		@SerializedName(value = "NONE")

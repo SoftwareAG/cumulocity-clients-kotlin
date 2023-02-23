@@ -15,7 +15,7 @@ import com.cumulocity.client.model.BootstrapUser
 /**
  * API methods to retrieve the bootstrap user of an application. </br>
  * 
- */ 
+ */
 interface BootstrapUserApi {
 
 	companion object Factory {
@@ -24,28 +24,39 @@ interface BootstrapUserApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): BootstrapUserApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(BootstrapUserApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve the bootstrap user for a specific application </br>
-	 * Retrieve the bootstrap user for a specific application (by a given ID).  This only works for microservice applications.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN </section> 
+	 * Retrieve the bootstrap user for a specific application
+	 * Retrieve the bootstrap user for a specific application (by a given ID).
+	 * 
+	 * This only works for microservice applications.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the bootstrap user of the application is sent in the response.</li>
-	 * <li>400 Bad request.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the bootstrap user of the application is sent in the response.</li>
+	 *     <li>HTTP 400 - Bad request., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.user+json")
 	@GET("/application/applications/{id}/bootstrapUser")

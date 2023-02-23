@@ -26,7 +26,7 @@ import com.cumulocity.client.model.RetentionRuleCollection
  * > **&#9432; Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  *  </br>
  * 
- */ 
+ */
 interface RetentionRulesApi {
 
 	companion object Factory {
@@ -35,31 +35,40 @@ interface RetentionRulesApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): RetentionRulesApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(RetentionRulesApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all retention rules </br>
-	 * Retrieve all retention rules on your tenant.  <section><h5>Required roles</h5> ROLE_RETENTION_RULE_READ </section> 
+	 * Retrieve all retention rules
+	 * Retrieve all retention rules on your tenant.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_RETENTION_RULE_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all retention rules are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all retention rules are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
 	 * </ul>
-	 *
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.retentionrulecollection+json")
 	@GET("/retention/retentions")
@@ -71,18 +80,23 @@ interface RetentionRulesApi {
 	): Call<RetentionRuleCollection>
 	
 	/**
-	 * Create a retention rule </br>
-	 * Create a retention rule on your tenant.  <section><h5>Required roles</h5> ROLE_RETENTION_RULE_ADMIN </section> 
+	 * Create a retention rule
+	 * Create a retention rule on your tenant.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_RETENTION_RULE_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A retention rule was created.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 201 - A retention rule was created.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.retentionrule+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.retentionrule+json"]) 
 	@POST("/retention/retentions")
@@ -92,18 +106,23 @@ interface RetentionRulesApi {
 	): Call<RetentionRule>
 	
 	/**
-	 * Retrieve a retention rule </br>
-	 * Retrieve a specific retention rule by a given ID.  <section><h5>Required roles</h5> ROLE_RETENTION_RULE_READ </section> 
+	 * Retrieve a retention rule
+	 * Retrieve a specific retention rule by a given ID.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_RETENTION_RULE_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the retention rule is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Retention rule not found.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the retention rule is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Retention rule not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the retention rule.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.retentionrule+json")
 	@GET("/retention/retentions/{id}")
@@ -112,20 +131,25 @@ interface RetentionRulesApi {
 	): Call<RetentionRule>
 	
 	/**
-	 * Update a retention rule </br>
-	 * Update a specific retention rule by a given ID.  <section><h5>Required roles</h5> ROLE_RETENTION_RULE_ADMIN <b>AND</b> (the rule is editable <b>OR</b> it's the tenant management) </section> 
+	 * Update a retention rule
+	 * Update a specific retention rule by a given ID.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_RETENTION_RULE_ADMIN <b>AND</b> (the rule is editable <b>OR</b> it's the tenant management)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 A retention rule was updated.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Retention rule not found.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 200 - A retention rule was updated.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Retention rule not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the retention rule.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.retentionrule+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.retentionrule+json"]) 
 	@PUT("/retention/retentions/{id}")
@@ -136,17 +160,21 @@ interface RetentionRulesApi {
 	): Call<RetentionRule>
 	
 	/**
-	 * Remove a retention rule </br>
-	 * Remove a specific retention rule by a given ID.  <section><h5>Required roles</h5> ROLE_RETENTION_RULE_ADMIN <b>AND</b> the rule is editable </section> 
+	 * Remove a retention rule
+	 * Remove a specific retention rule by a given ID.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_RETENTION_RULE_ADMIN <b>AND</b> the rule is editable
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A retention rule was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Retention rule not found.</li>
+	 *     <li>HTTP 204 - A retention rule was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Retention rule not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the retention rule.
 	 */
 	@Headers("Accept:application/json")

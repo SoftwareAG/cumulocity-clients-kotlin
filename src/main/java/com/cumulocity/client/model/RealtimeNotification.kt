@@ -71,7 +71,6 @@ data class RealtimeNotification(var channel: Channel?) {
 
 	/**
 	 * The channel name as a URI.
-	 * [/meta/handshake, /meta/subscribe, /meta/unsubscribe, /meta/connect, /meta/disconnect]
 	 */
 	enum class Channel(val value: String) {
 		@SerializedName(value = "/meta/handshake")
@@ -132,7 +131,6 @@ data class RealtimeNotification(var channel: Channel?) {
 	
 		/**
 		 * The system of units to use.
-		 * [imperial, metric]
 		 */
 		enum class SystemOfUnits(val value: String) {
 			@SerializedName(value = "imperial")

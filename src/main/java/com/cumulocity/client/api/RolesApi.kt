@@ -28,7 +28,7 @@ import com.cumulocity.client.model.RoleReference
  * > **&#9432; Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
  *  </br>
  * 
- */ 
+ */
 interface RolesApi {
 
 	companion object Factory {
@@ -37,30 +37,39 @@ interface RolesApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): RolesApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(RolesApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all user roles </br>
-	 * Retrieve all user roles.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> has access to the user role </section> 
+	 * Retrieve all user roles
+	 * Retrieve all user roles.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> has access to the user role
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all user roles are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all user roles are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolecollection+json")
 	@GET("/user/roles")
@@ -72,17 +81,22 @@ interface RolesApi {
 	): Call<UserRoleCollection>
 	
 	/**
-	 * Retrieve a user role by name </br>
-	 * Retrieve a user role by name.  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> current user has access to the role with this name </section> 
+	 * Retrieve a user role by name
+	 * Retrieve a user role by name.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> current user has access to the role with this name
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the user role is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Role not found.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the user role is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param name The name of the user role.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.role+json")
 	@GET("/user/roles/{name}")
@@ -91,21 +105,26 @@ interface RolesApi {
 	): Call<Role>
 	
 	/**
-	 * Retrieve all roles assigned to a specific user group in a specific tenant </br>
-	 * Retrieve all roles assigned to a specific user group (by a given user group ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ </section> 
+	 * Retrieve all roles assigned to a specific user group in a specific tenant
+	 * Retrieve all roles assigned to a specific user group (by a given user group ID) in a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request succeeded and the roles are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>404 Group not found.</li>
+	 *     <li>HTTP 200 - The request succeeded and the roles are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Group not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereferencecollection+json")
 	@GET("/user/{tenantId}/groups/{groupId}/roles")
@@ -117,22 +136,27 @@ interface RolesApi {
 	): Call<RoleReferenceCollection>
 	
 	/**
-	 * Assign a role to a specific user group in a specific tenant </br>
-	 * Assign a role to a specific user group (by a given user group ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN </section> 
+	 * Assign a role to a specific user group in a specific tenant
+	 * Assign a role to a specific user group (by a given user group ID) in a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A user role was assigned to a user group.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Group not found.</li>
-	 * <li>409 Conflict – Role already assigned to the user group.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 201 - A user role was assigned to a user group.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Group not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 409 - Conflict – Role already assigned to the user group.</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.rolereference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereference+json"]) 
 	@POST("/user/{tenantId}/groups/{groupId}/roles")
@@ -143,17 +167,21 @@ interface RolesApi {
 	): Call<RoleReference>
 	
 	/**
-	 * Unassign a specific role for a specific user group in a specific tenant </br>
-	 * Unassign a specific role (given by a role ID) for a specific user group (by a given user group ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN </section> 
+	 * Unassign a specific role for a specific user group in a specific tenant
+	 * Unassign a specific role (given by a role ID) for a specific user group (by a given user group ID) in a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A role was unassigned from a user group.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Role not found.</li>
+	 *     <li>HTTP 204 - A role was unassigned from a user group.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param groupId Unique identifier of the user group.
 	 * @param roleId Unique identifier of the user role.
@@ -167,21 +195,30 @@ interface RolesApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a role to specific user in a specific tenant </br>
-	 * Assign a role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  When a role is assigned to a user, a corresponding audit record is created with type "User" and activity "User updated".  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_ADMIN to assign any role to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/> ROLE_USER_MANAGEMENT_ADMIN to assign roles accessible by the parent of assigned user to non-root users in a user hierarchy<br/> ROLE_USER_MANAGEMENT_CREATE to assign roles accessible by the current user <b>AND</b> accessible by the parent of the assigned user to the descendants of the current user in a user hierarchy </section> 
+	 * Assign a role to specific user in a specific tenant
+	 * Assign a role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
+	 * 
+	 * When a role is assigned to a user, a corresponding audit record is created with type "User" and activity "User updated".
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_ADMIN to assign any role to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/>
+	 * ROLE_USER_MANAGEMENT_ADMIN to assign roles accessible by the parent of assigned user to non-root users in a user hierarchy<br/>
+	 * ROLE_USER_MANAGEMENT_CREATE to assign roles accessible by the current user <b>AND</b> accessible by the parent of the assigned user to the descendants of the current user in a user hierarchy
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A user role was assigned to a user.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not enough permissions/roles to perform this operation.</li>
-	 * <li>404 User not found.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 201 - A user role was assigned to a user.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.rolereference+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.rolereference+json"]) 
 	@POST("/user/{tenantId}/users/{userId}/roles")
@@ -192,17 +229,21 @@ interface RolesApi {
 	): Call<RoleReference>
 	
 	/**
-	 * Unassign a specific role from a specific user in a specific tenant </br>
-	 * Unassign a specific role (by a given role ID) from a specific user (by a given user ID) in a specific tenant (by a given tenant ID).  <section><h5>Required roles</h5> ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user <b>AND</b> has access to roles </section> 
+	 * Unassign a specific role from a specific user in a specific tenant
+	 * Unassign a specific role (by a given role ID) from a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user <b>AND</b> has access to roles
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A user role was unassigned from a user.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 User not found.</li>
+	 *     <li>HTTP 204 - A user role was unassigned from a user.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
+	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
 	 * @param userId Unique identifier of the a user.
 	 * @param roleId Unique identifier of the user role.

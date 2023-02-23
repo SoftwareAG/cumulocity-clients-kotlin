@@ -75,7 +75,6 @@ class Operation {
 
 	/**
 	 * The status of the operation.
-	 * [SUCCESSFUL, FAILED, EXECUTING, PENDING]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "SUCCESSFUL")

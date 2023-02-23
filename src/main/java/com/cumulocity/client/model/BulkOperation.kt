@@ -63,7 +63,6 @@ class BulkOperation {
 
 	/**
 	 * The status of this bulk operation, in context of the execution of all its single operations.
-	 * [ACTIVE, IN_PROGRESS, COMPLETED, DELETED]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "ACTIVE")
@@ -78,7 +77,6 @@ class BulkOperation {
 
 	/**
 	 * The general status of this bulk operation. The general status is visible for end users and they can filter and evaluate bulk operations by this status.
-	 * [SCHEDULED, EXECUTING, EXECUTING_WITH_ERRORS, SUCCESSFUL, FAILED, CANCELED]
 	 */
 	enum class GeneralStatus(val value: String) {
 		@SerializedName(value = "SCHEDULED")

@@ -19,7 +19,7 @@ import com.cumulocity.client.model.IdentityApiResource
  * The identity API resource returns URIs and URI templates for associating external identifiers with unique identifiers.
  *  </br>
  * 
- */ 
+ */
 interface IdentityApi {
 
 	companion object Factory {
@@ -28,26 +28,35 @@ interface IdentityApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): IdentityApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(IdentityApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve URIs to collections of external IDs </br>
-	 * Retrieve URIs and URI templates for associating external identifiers with unique identifiers.  <section><h5>Required roles</h5> ROLE_IDENTITY_READ </section> 
+	 * Retrieve URIs to collections of external IDs
+	 * Retrieve URIs and URI templates for associating external identifiers with unique identifiers.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_IDENTITY_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the URIs are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the URIs are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.identityapi+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/identity")

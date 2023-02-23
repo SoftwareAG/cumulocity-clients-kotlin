@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * The current status, one of `AVAILABLE`, `CONNECTED`, `MAINTENANCE`, `DISCONNECTED`.
- * [AVAILABLE, CONNECTED, MAINTENANCE, DISCONNECTED]
  */
 enum class C8yAvailabilityStatus(val value: String) {
 	@SerializedName(value = "AVAILABLE")

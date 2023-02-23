@@ -37,7 +37,6 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 	 * The context within which the subscription is to be processed.
 	 * > **&#9432; Info:** If the value is `mo`, then `source` must also be provided in the request body.
 	 * 
-	 * [mo, tenant]
 	 */
 	enum class Context(val value: String) {
 		@SerializedName(value = "mo")

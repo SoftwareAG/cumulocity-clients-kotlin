@@ -78,7 +78,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 
 	/**
 	 * The severity of the audit action.
-	 * [CRITICAL, MAJOR, MINOR, WARNING, INFORMATION]
 	 */
 	enum class Severity(val value: String) {
 		@SerializedName(value = "CRITICAL")
@@ -95,7 +94,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 
 	/**
 	 * Identifies the platform component of the audit.
-	 * [Alarm, Application, BulkOperation, CepModule, Connector, Event, Group, Inventory, InventoryRole, Operation, Option, Report, SingleSignOn, SmartRule, SYSTEM, Tenant, TenantAuthConfig, TrustedCertificates, User, UserAuthentication]
 	 */
 	enum class Type(val value: String) {
 		@SerializedName(value = "Alarm")
@@ -152,7 +150,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 	
 		/**
 		 * The action that was carried out.
-		 * [SUBSCRIBE, DEPLOY, SCALE, DELETE]
 		 */
 		enum class Action(val value: String) {
 			@SerializedName(value = "SUBSCRIBE")
@@ -200,7 +197,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 	
 		/**
 		 * The type of change that was carried out.
-		 * [ADDED, REPLACED]
 		 */
 		enum class ChangeType(val value: String) {
 			@SerializedName(value = "ADDED")

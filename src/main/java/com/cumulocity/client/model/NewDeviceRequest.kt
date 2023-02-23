@@ -24,7 +24,6 @@ class NewDeviceRequest {
 
 	/**
 	 * Status of this new device request.
-	 * [WAITING_FOR_CONNECTION, PENDING_ACCEPTANCE, ACCEPTED]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "WAITING_FOR_CONNECTION")

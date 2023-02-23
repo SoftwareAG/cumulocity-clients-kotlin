@@ -21,7 +21,7 @@ import com.cumulocity.client.model.Application
 /**
  * An API method to upload an application binary. It is a deployable microservice or web application. </br>
  * 
- */ 
+ */
 interface ApplicationBinariesApi {
 
 	companion object Factory {
@@ -30,28 +30,38 @@ interface ApplicationBinariesApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): ApplicationBinariesApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(ApplicationBinariesApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all application attachments </br>
-	 * Retrieve all application attachments. This method is not supported by microservice applications.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN </section> 
+	 * Retrieve all application attachments
+	 * Retrieve all application attachments.
+	 * This method is not supported by microservice applications.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the application attachments are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Application not found.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the application attachments are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Application not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.applicationbinaries+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/application/applications/{id}/binaries")
@@ -60,17 +70,31 @@ interface ApplicationBinariesApi {
 	): Call<ApplicationBinaries>
 	
 	/**
-	 * Upload an application attachment </br>
-	 * Upload an application attachment (by a given application ID).  For the applications of type “microservice” and “web application” to be available for Cumulocity IoT platform users, an attachment ZIP file must be uploaded.  For a microservice application, the ZIP file must consist of:  * cumulocity.json - file describing the deployment * image.tar - executable Docker image  For a web application, the ZIP file must include an index.html file in the root directory.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> tenant is the owner of the application </section> 
+	 * Upload an application attachment
+	 * Upload an application attachment (by a given application ID).
+	 * 
+	 * For the applications of type “microservice” and “web application” to be available for Cumulocity IoT platform users, an attachment ZIP file must be uploaded.
+	 * 
+	 * For a microservice application, the ZIP file must consist of:
+	 * 
+	 * * cumulocity.json - file describing the deployment
+	 * * image.tar - executable Docker image
+	 * 
+	 * For a web application, the ZIP file must include an index.html file in the root directory.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> tenant is the owner of the application
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 The application attachments have been uploaded.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 201 - The application attachments have been uploaded.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param file The ZIP file to be uploaded.
 	 * @param id Unique identifier of the application.
+	 * @return
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json"]) 
 	@POST("/application/applications/{id}/binaries")
@@ -81,15 +105,20 @@ interface ApplicationBinariesApi {
 	): Call<Application>
 	
 	/**
-	 * Retrieve a specific application attachment </br>
-	 * Retrieve a specific application attachment (by a given application ID and a given binary ID). This method is not supported by microservice applications.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN </section> 
+	 * Retrieve a specific application attachment
+	 * Retrieve a specific application attachment (by a given application ID and a given binary ID).
+	 * This method is not supported by microservice applications.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the application attachment is sent as a ZIP file in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the application attachment is sent as a ZIP file in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
 	 * @param binaryId Unique identifier of the binary.
 	 */
@@ -101,16 +130,21 @@ interface ApplicationBinariesApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Delete a specific application attachment </br>
-	 * Delete  a specific application attachment (by a given application ID and a given binary ID). This method is not supported by microservice applications.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> tenant is the owner of the application </section> 
+	 * Delete a specific application attachment
+	 * Delete  a specific application attachment (by a given application ID and a given binary ID).
+	 * This method is not supported by microservice applications.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN <b>AND</b> tenant is the owner of the application
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 An application binary was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
+	 *     <li>HTTP 204 - An application binary was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
 	 * @param binaryId Unique identifier of the binary.
 	 */

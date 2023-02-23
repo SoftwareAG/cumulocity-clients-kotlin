@@ -15,7 +15,7 @@ import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import com.cumulocity.client.model.NotificationTokenClaims
 import com.cumulocity.client.model.NotificationToken
-import com.cumulocity.client.model.Response1
+import com.cumulocity.client.model.NotificationSubscriptionResult
 
 // TODO parameterise servers
 class TokensApiTest {

@@ -126,7 +126,6 @@ class Application {
 
 	/**
 	 * Application access level for other tenants.
-	 * [MARKET, PRIVATE]
 	 */
 	enum class Availability(val value: String) {
 		@SerializedName(value = "MARKET")
@@ -137,7 +136,6 @@ class Application {
 
 	/**
 	 * The type of the application.
-	 * [EXTERNAL, HOSTED, MICROSERVICE]
 	 */
 	enum class Type(val value: String) {
 		@SerializedName(value = "EXTERNAL")

@@ -91,7 +91,6 @@ class Tenant {
 
 	/**
 	 * Current status of the tenant.
-	 * [ACTIVE, SUSPENDED]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "ACTIVE")

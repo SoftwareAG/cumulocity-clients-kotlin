@@ -9,6 +9,7 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
+@Suppress("UNCHECKED_CAST")
 class ExtendedGsonConverterFactory(val gson: Gson = Gson()) : Converter.Factory() {
 
     override fun responseBodyConverter(type: Type, annotations: Array<out Annotation>, retrofit: Retrofit): Converter<ResponseBody, *> {
@@ -18,7 +19,11 @@ class ExtendedGsonConverterFactory(val gson: Gson = Gson()) : Converter.Factory(
 
     override fun requestBodyConverter(type: Type, parameterAnnotations: Array<out Annotation>, methodAnnotations: Array<out Annotation>, retrofit: Retrofit): Converter<*, RequestBody> {
         val adapter: TypeAdapter<*> = gson.getAdapter(TypeToken.get(type))
-        val readOnlyProperties = methodAnnotations.first { it is ReadOnlyProperties } as ReadOnlyProperties
-        return ExtendedGsonRequestBodyConverter(gson, adapter, readOnlyProperties?.value)
+        val readOnlyProperties = methodAnnotations.first { it is ReadOnlyProperties } as ReadOnlyProperties?
+        readOnlyProperties?.let {
+			val values: Array<String> = it.value as Array<String>
+			return ExtendedGsonRequestBodyConverter(gson, adapter, values)
+		}
+		return ExtendedGsonRequestBodyConverter(gson, adapter)
     }
 }

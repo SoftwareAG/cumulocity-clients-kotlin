@@ -29,7 +29,7 @@ import com.cumulocity.client.model.ManagedObjectReference
  * > **&#9432; Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
  *  </br>
  * 
- */ 
+ */
 interface ChildOperationsApi {
 
 	companion object Factory {
@@ -38,28 +38,36 @@ interface ChildOperationsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): ChildOperationsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(ChildOperationsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve all child additions of a specific managed object </br>
-	 * Retrieve all child additions of a specific managed object by a given ID, or a subset based on queries.  <section><h5>Required roles</h5> ROLE_INVENTORY_READ <b>OR</b> owner of the source <b>OR</b> MANAGE_OBJECT_READ permission on the source </section> 
+	 * Retrieve all child additions of a specific managed object
+	 * Retrieve all child additions of a specific managed object by a given ID, or a subset based on queries.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_READ <b>OR</b> owner of the source <b>OR</b> MANAGE_OBJECT_READ permission on the source
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all child additions are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all child additions are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
@@ -68,6 +76,7 @@ interface ChildOperationsApi {
 	 * @param withChildrenCount When set to `true`, the returned result will contain the total number of children in the respective objects (`childAdditions`, `childAssets` and `childDevices`).
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json")
 	@GET("/inventory/managedObjects/{id}/childAdditions")
@@ -83,16 +92,24 @@ interface ChildOperationsApi {
 	): Call<ManagedObjectReferenceCollection>
 	
 	/**
-	 * Assign a managed object as child addition </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child addition of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child additions of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child addition to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child addition
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child addition of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child additions of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child addition to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child addition.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child addition.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -106,16 +123,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a managed object as child addition </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child addition of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child additions of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child addition to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child addition
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child addition of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child additions of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child addition to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child addition.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child addition.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -129,16 +154,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a managed object as child addition </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child addition of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child additions of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child addition to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child addition
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child addition of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child additions of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child addition to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child addition.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child addition.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -153,17 +186,21 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Remove specific child additions from its parent </br>
-	 * Remove specific child additions (by given child IDs) from its parent (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent) </section> 
+	 * Remove specific child additions from its parent
+	 * Remove specific child additions (by given child IDs) from its parent (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 Child additions were removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 204 - Child additions were removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -177,19 +214,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve a specific child addition of a specific managed object </br>
-	 * Retrieve a specific child addition (by a given child ID) of a specific managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_READ <b>OR</b> MANAGE_OBJECT_READ permission on the source (parent) </section> 
+	 * Retrieve a specific child addition of a specific managed object
+	 * Retrieve a specific child addition (by a given child ID) of a specific managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_READ <b>OR</b> MANAGE_OBJECT_READ permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the child addition is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the child addition is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.managedobjectreference+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/inventory/managedObjects/{id}/childAdditions/{childId}")
@@ -199,17 +241,21 @@ interface ChildOperationsApi {
 	): Call<ManagedObjectReference>
 	
 	/**
-	 * Remove a specific child addition from its parent </br>
-	 * Remove a specific child addition (by a given child ID) from its parent (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent) </section> 
+	 * Remove a specific child addition from its parent
+	 * Remove a specific child addition (by a given child ID) from its parent (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A child addition was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 204 - A child addition was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -223,17 +269,21 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve all child assets of a specific managed object </br>
-	 * Retrieve all child assets of a specific managed object by a given ID, or a subset based on queries.  <section><h5>Required roles</h5> ROLE_INVENTORY_READ <b>OR</b> owner of the source <b>OR</b> MANAGE_OBJECT_READ permission on the source </section> 
+	 * Retrieve all child assets of a specific managed object
+	 * Retrieve all child assets of a specific managed object by a given ID, or a subset based on queries.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_READ <b>OR</b> owner of the source <b>OR</b> MANAGE_OBJECT_READ permission on the source
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all child assets are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all child assets are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
@@ -242,6 +292,7 @@ interface ChildOperationsApi {
 	 * @param withChildrenCount When set to `true`, the returned result will contain the total number of children in the respective objects (`childAdditions`, `childAssets` and `childDevices`).
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json")
 	@GET("/inventory/managedObjects/{id}/childAssets")
@@ -257,16 +308,24 @@ interface ChildOperationsApi {
 	): Call<ManagedObjectReferenceCollection>
 	
 	/**
-	 * Assign a managed object as child asset </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child asset of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child assets of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child asset to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child asset
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child asset of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child assets of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child asset to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child asset.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child asset.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -280,16 +339,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a managed object as child asset </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child asset of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child assets of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child asset to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child asset
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child asset of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child assets of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child asset to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child asset.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child asset.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -303,16 +370,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a managed object as child asset </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child asset of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child assets of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child asset to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child asset
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child asset of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child assets of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child asset to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child asset.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child asset.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -327,17 +402,21 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Remove specific child assets from its parent </br>
-	 * Remove specific child assets (by given child IDs) from its parent (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent) </section> 
+	 * Remove specific child assets from its parent
+	 * Remove specific child assets (by given child IDs) from its parent (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 Child assets were removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 204 - Child assets were removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -351,19 +430,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve a specific child asset of a specific managed object </br>
-	 * Retrieve a specific child asset (by a given child ID) of a specific managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_READ <b>OR</b> MANAGE_OBJECT_READ permission on the source (parent) </section> 
+	 * Retrieve a specific child asset of a specific managed object
+	 * Retrieve a specific child asset (by a given child ID) of a specific managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_READ <b>OR</b> MANAGE_OBJECT_READ permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the child asset is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the child asset is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.managedobjectreference+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/inventory/managedObjects/{id}/childAssets/{childId}")
@@ -373,17 +457,21 @@ interface ChildOperationsApi {
 	): Call<ManagedObjectReference>
 	
 	/**
-	 * Remove a specific child asset from its parent </br>
-	 * Remove a specific child asset (by a given child ID) from its parent (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent) </section> 
+	 * Remove a specific child asset from its parent
+	 * Remove a specific child asset (by a given child ID) from its parent (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A child asset was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 204 - A child asset was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -397,17 +485,21 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve all child devices of a specific managed object </br>
-	 * Retrieve all child devices of a specific managed object by a given ID, or a subset based on queries.  <section><h5>Required roles</h5> ROLE_INVENTORY_READ <b>OR</b> owner of the source <b>OR</b> MANAGE_OBJECT_READ permission on the source </section> 
+	 * Retrieve all child devices of a specific managed object
+	 * Retrieve all child devices of a specific managed object by a given ID, or a subset based on queries.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_READ <b>OR</b> owner of the source <b>OR</b> MANAGE_OBJECT_READ permission on the source
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and all child devices are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 200 - The request has succeeded and all child devices are sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param currentPage The current page of the paginated results.
 	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
@@ -416,6 +508,7 @@ interface ChildOperationsApi {
 	 * @param withChildrenCount When set to `true`, the returned result will contain the total number of children in the respective objects (`childAdditions`, `childAssets` and `childDevices`).
 	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobjectreferencecollection+json")
 	@GET("/inventory/managedObjects/{id}/childDevices")
@@ -431,16 +524,24 @@ interface ChildOperationsApi {
 	): Call<ManagedObjectReferenceCollection>
 	
 	/**
-	 * Assign a managed object as child device </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child device of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child devices of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child device to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child device
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child device of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child devices of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child device to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child device.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child device.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -454,16 +555,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a managed object as child device </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child device of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child devices of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child device to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child device
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child device of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child devices of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child device to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child device.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child device.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -477,16 +586,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Assign a managed object as child device </br>
-	 * The possible ways to assign child objects are:  *  Assign an existing managed object (by a given child ID) as child device of another managed object (by a given ID). *  Assign multiple existing managed objects (by given child IDs) as child devices of another managed object (by a given ID). *  Create a managed object in the inventory and assign it as a child device to another managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child)) </section> 
+	 * Assign a managed object as child device
+	 * The possible ways to assign child objects are:
+	 * 
+	 * *  Assign an existing managed object (by a given child ID) as child device of another managed object (by a given ID).
+	 * *  Assign multiple existing managed objects (by given child IDs) as child devices of another managed object (by a given ID).
+	 * *  Create a managed object in the inventory and assign it as a child device to another managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> ((owner of the source <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source) <b>AND</b> (owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the child))
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 A managed object was assigned as child device.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
+	 *     <li>HTTP 201 - A managed object was assigned as child device.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -501,17 +618,21 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Remove specific child devices from its parent </br>
-	 * Remove specific child devices (by given child IDs) from its parent (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent) </section> 
+	 * Remove specific child devices from its parent
+	 * Remove specific child devices (by given child IDs) from its parent (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 Child devices were removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
+	 *     <li>HTTP 204 - Child devices were removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the managed object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
@@ -525,19 +646,24 @@ interface ChildOperationsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve a specific child device of a specific managed object </br>
-	 * Retrieve a specific child device (by a given child ID) of a specific managed object (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_READ <b>OR</b> MANAGE_OBJECT_READ permission on the source (parent) </section> 
+	 * Retrieve a specific child device of a specific managed object
+	 * Retrieve a specific child device (by a given child ID) of a specific managed object (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_READ <b>OR</b> MANAGE_OBJECT_READ permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the child device is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the child device is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.managedobjectreference+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/inventory/managedObjects/{id}/childDevices/{childId}")
@@ -547,17 +673,21 @@ interface ChildOperationsApi {
 	): Call<ManagedObjectReference>
 	
 	/**
-	 * Remove a specific child device from its parent </br>
-	 * Remove a specific child device (by a given child ID) from its parent (by a given ID).  <section><h5>Required roles</h5> ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent) </section> 
+	 * Remove a specific child device from its parent
+	 * Remove a specific child device (by a given child ID) from its parent (by a given ID).
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the source (parent) <b>OR</b> owner of the child <b>OR</b> MANAGE_OBJECT_ADMIN permission on the source (parent)
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A child device was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Managed object not found.</li>
-	 * <li>422 Invalid data was sent.</li>
+	 *     <li>HTTP 204 - A child device was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Managed object not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - Invalid data was sent., @{link com.cumulocity.client.model.Error}</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the managed object.
 	 * @param childId Unique identifier of the child object.
 	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.

@@ -39,7 +39,6 @@ class RequestRepresentation {
 
 	/**
 	 * HTTP request method.
-	 * [GET, POST]
 	 */
 	enum class Method(val value: String) {
 		@SerializedName(value = "GET")
@@ -50,7 +49,6 @@ class RequestRepresentation {
 
 	/**
 	 * Requested operation.
-	 * [EXECUTE, REDIRECT]
 	 */
 	enum class Operation(val value: String) {
 		@SerializedName(value = "EXECUTE")

@@ -26,7 +26,7 @@ import com.cumulocity.client.model.ApplicationVersionCollection
 /**
  * API methods to retrieve, create, update and delete application versions. </br>
  * 
- */ 
+ */
 interface ApplicationVersionsApi {
 
 	companion object Factory {
@@ -35,31 +35,36 @@ interface ApplicationVersionsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): ApplicationVersionsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(ApplicationVersionsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve a specific version of an application </br>
-	 * Retrieve the selected version of an application in your tenant. To select the version, use only the version or only the tag query parameter. <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_READ </section>
+	 * Retrieve a specific version of an application
+	 * Retrieve the selected version of an application in your tenant. To select the version, use only the version or only the tag query parameter.
+	 * <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_READ </section>
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the application version is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Application not found.</li>
-	 * <li>422 both parameters (version and tag) are present.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the application version is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Application not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - both parameters (version and tag) are present.</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
 	 * @param version The version field of the application version.
 	 * @param tag The tag of the application version.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationVersion+json")
 	@GET("/application/applications/{id}/versions?version=1.0")
@@ -70,18 +75,23 @@ interface ApplicationVersionsApi {
 	): Call<ApplicationVersion>
 	
 	/**
-	 * Retrieve all versions of an application </br>
-	 * Retrieve all versions of an application in your tenant.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_READ </section> 
+	 * Retrieve all versions of an application
+	 * Retrieve all versions of an application in your tenant.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>200 The request has succeeded and the list of application versions is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Application version not found.</li>
-	 * <li>422 This application doesn't support versioning.</li>
+	 *     <li>HTTP 200 - The request has succeeded and the list of application versions is sent in the response.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Application version not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - This application doesn't support versioning.</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
+	 * @return
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationVersionCollection+json")
 	@GET("/application/applications/{id}/versions")
@@ -90,21 +100,28 @@ interface ApplicationVersionsApi {
 	): Call<ApplicationVersionCollection>
 	
 	/**
-	 * Create an application version </br>
-	 * Create an application version in your tenant.  Uploaded version and tags can only contain upper and lower case letters, integers and `.`,` + `,` -`. Other characters are prohibited.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN </section> 
+	 * Create an application version
+	 * Create an application version in your tenant.
+	 * 
+	 * Uploaded version and tags can only contain upper and lower case letters, integers and `.`,` + `,` -`. Other characters are prohibited.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 An application version was created.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Application version not found.</li>
-	 * <li>409 Duplicate version/tag or versions limit exceeded.</li>
-	 * <li>422 tag or version contains unacceptable characters.</li>
+	 *     <li>HTTP 201 - An application version was created.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Application version not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 409 - Duplicate version/tag or versions limit exceeded., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - tag or version contains unacceptable characters.</li>
 	 * </ul>
-	 *
 	 * @param applicationBinary The ZIP file to be uploaded.
 	 * @param applicationVersion The JSON file with version information.
 	 * @param id Unique identifier of the application.
+	 * @return
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationVersion+json"]) 
 	@POST("/application/applications/{id}/versions")
@@ -116,18 +133,22 @@ interface ApplicationVersionsApi {
 	): Call<ApplicationVersion>
 	
 	/**
-	 * Delete a specific version of an application </br>
-	 * Delete a specific version of an application in your tenant, by a given tag or version.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_READ </section> 
+	 * Delete a specific version of an application
+	 * Delete a specific version of an application in your tenant, by a given tag or version.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_READ
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>204 A version was removed.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Application version not found.</li>
-	 * <li>409 Version with tag latest cannot be removed.</li>
-	 * <li>422 both parameters (version and tag) are present.</li>
+	 *     <li>HTTP 204 - A version was removed.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Application version not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 409 - Version with tag latest cannot be removed.</li>
+	 *     <li>HTTP 422 - both parameters (version and tag) are present.</li>
 	 * </ul>
-	 *
 	 * @param id Unique identifier of the application.
 	 * @param version The version field of the application version.
 	 * @param tag The tag of the application version.
@@ -141,21 +162,26 @@ interface ApplicationVersionsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Replace an application version's tags </br>
-	 * Replaces the tags of a given application version in your tenant.  <section><h5>Required roles</h5> ROLE_APPLICATION_MANAGEMENT_ADMIN </section> 
+	 * Replace an application version's tags
+	 * Replaces the tags of a given application version in your tenant.
+	 * 
+	 * <section><h5>Required roles</h5>
+	 * ROLE_APPLICATION_MANAGEMENT_ADMIN
+	 * </section>
+	 * 
 	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
+	 * The following table gives an overview of the possible response codes and their meanings:
 	 * <ul>
-	 * <li>201 An application version was updated.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Application version not found.</li>
-	 * <li>409 Duplicate version/tag or versions limit exceeded.</li>
-	 * <li>422 tag contains unacceptable characters.</li>
+	 *     <li>HTTP 201 - An application version was updated.</li>
+	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 404 - Application version not found., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 409 - Duplicate version/tag or versions limit exceeded., @{link com.cumulocity.client.model.Error}</li>
+	 *     <li>HTTP 422 - tag contains unacceptable characters.</li>
 	 * </ul>
-	 *
 	 * @param body 
 	 * @param id Unique identifier of the application.
 	 * @param version Version of the application.
+	 * @return
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationVersion+json"]) 
 	@PUT("/application/applications/{id}/versions/{version}")

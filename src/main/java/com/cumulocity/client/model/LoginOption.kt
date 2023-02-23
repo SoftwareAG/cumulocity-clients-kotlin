@@ -88,7 +88,6 @@ class LoginOption {
 
 	/**
 	 * The grant type of the OAuth configuration.
-	 * [PASSWORD, AUTHORIZATION_CODE]
 	 */
 	enum class GrantType(val value: String) {
 		@SerializedName(value = "PASSWORD")

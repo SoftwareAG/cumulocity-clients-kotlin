@@ -36,7 +36,6 @@ class LoginForm {
 
 	/**
 	 * Dependent on the authentication type. PASSWORD is used for OAI-Secure.
-	 * [PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN]
 	 */
 	enum class GrantType(val value: String) {
 		@SerializedName(value = "PASSWORD")
