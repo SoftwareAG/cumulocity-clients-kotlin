@@ -9,8 +9,7 @@ import retrofit2.Call
 import okhttp3.OkHttpClient
 
 /**
- * API methods to obtain access tokens to the Cumulocity IoT platform in case of OAI-Secure or SSO authentication. </br>
- * 
+ * API methods to obtain access tokens to the Cumulocity IoT platform in case of OAI-Secure or SSO authentication.
  */
 interface LoginTokensApi {
 

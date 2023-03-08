@@ -18,9 +18,7 @@ class MicroserviceApplicationManifest {
 	/**
 	 * The billing mode of the application.
 	 * 
-	 * In case of RESOURCES, the number of resources used is exposed for billing calculation per usage.
-	 * In case of SUBSCRIPTION, all resources usage is counted for the microservice owner and the subtenant is charged for subscription.
-	 * 
+	 * In case of RESOURCES, the number of resources used is exposed for billing calculation per usage.In case of SUBSCRIPTION, all resources usage is counted for the microservice owner and the subtenant is charged for subscription.
 	 */
 	var billingMode: BillingMode? = null
 
@@ -35,21 +33,14 @@ class MicroserviceApplicationManifest {
 	var extensions: Array<Extensions>? = null
 
 	/**
-	 * Deployment isolation.
-	 * In case of PER_TENANT, there is a separate instance for each tenant.
-	 * Otherwise, there is one single instance for all subscribed tenants.
-	 * This will affect billing.
-	 * 
+	 * Deployment isolation.In case of PER_TENANT, there is a separate instance for each tenant.Otherwise, there is one single instance for all subscribed tenants.This will affect billing.
 	 */
 	var isolation: Isolation? = null
 
 	var livenessProbe: ApplicationManifestProbe? = null
 
 	/**
-	 * Application provider information.
-	 * Simple name allowed for predefined providers, for example, c8y.
-	 * Detailed object for external provider.
-	 * 
+	 * Application provider information.Simple name allowed for predefined providers, for example, c8y.Detailed object for external provider.
 	 */
 	var provider: Provider? = null
 
@@ -76,10 +67,7 @@ class MicroserviceApplicationManifest {
 	var requiredRoles: Array<String>? = null
 
 	/**
-	 * Allows to configure a microservice auto scaling policy.
-	 * If the microservice uses a lot of CPU resources, a second instance will be created automatically when this is set to `AUTO`.
-	 * The default is `NONE`, meaning auto scaling will not happen.
-	 * 
+	 * Allows to configure a microservice auto scaling policy.If the microservice uses a lot of CPU resources, a second instance will be created automatically when this is set to `AUTO`.The default is `NONE`, meaning auto scaling will not happen.
 	 */
 	var scale: Scale? = null
 
@@ -89,25 +77,19 @@ class MicroserviceApplicationManifest {
 	var settings: Array<ApplicationSettings>? = null
 
 	/**
-	 * Allows to specify a custom category for microservice settings.
-	 * By default, `contextPath` is used.
-	 * 
+	 * Allows to specify a custom category for microservice settings.By default, `contextPath` is used.
 	 */
 	var settingsCategory: String? = null
 
 	/**
-	 * Application version.
-	 * Must be a correct [SemVer](https://semver.org/) value but the "+" sign is disallowed.
-	 * 
+	 * Application version.Must be a correct [SemVer](https://semver.org/) value but the "+" sign is disallowed.
 	 */
 	var version: String? = null
 
 	/**
 	 * The billing mode of the application.
 	 * 
-	 * In case of RESOURCES, the number of resources used is exposed for billing calculation per usage.
-	 * In case of SUBSCRIPTION, all resources usage is counted for the microservice owner and the subtenant is charged for subscription.
-	 * 
+	 * In case of RESOURCES, the number of resources used is exposed for billing calculation per usage.In case of SUBSCRIPTION, all resources usage is counted for the microservice owner and the subtenant is charged for subscription.
 	 */
 	enum class BillingMode(val value: String) {
 		@SerializedName(value = "RESOURCES")
@@ -117,11 +99,7 @@ class MicroserviceApplicationManifest {
 	}
 
 	/**
-	 * Deployment isolation.
-	 * In case of PER_TENANT, there is a separate instance for each tenant.
-	 * Otherwise, there is one single instance for all subscribed tenants.
-	 * This will affect billing.
-	 * 
+	 * Deployment isolation.In case of PER_TENANT, there is a separate instance for each tenant.Otherwise, there is one single instance for all subscribed tenants.This will affect billing.
 	 */
 	enum class Isolation(val value: String) {
 		@SerializedName(value = "MULTI_TENANT")
@@ -131,10 +109,7 @@ class MicroserviceApplicationManifest {
 	}
 
 	/**
-	 * Allows to configure a microservice auto scaling policy.
-	 * If the microservice uses a lot of CPU resources, a second instance will be created automatically when this is set to `AUTO`.
-	 * The default is `NONE`, meaning auto scaling will not happen.
-	 * 
+	 * Allows to configure a microservice auto scaling policy.If the microservice uses a lot of CPU resources, a second instance will be created automatically when this is set to `AUTO`.The default is `NONE`, meaning auto scaling will not happen.
 	 */
 	enum class Scale(val value: String) {
 		@SerializedName(value = "NONE")
@@ -163,10 +138,7 @@ class MicroserviceApplicationManifest {
 
 
 	/**
-	 * Application provider information.
-	 * Simple name allowed for predefined providers, for example, c8y.
-	 * Detailed object for external provider.
-	 * 
+	 * Application provider information.Simple name allowed for predefined providers, for example, c8y.Detailed object for external provider.
 	 */
 	class Provider {
 	

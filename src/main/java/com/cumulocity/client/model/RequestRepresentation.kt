@@ -64,7 +64,6 @@ class RequestRepresentation {
 	
 		/**
 		 * It is possible to add an arbitrary number of headers as a list of key-value string pairs, for example, `"header": "value"`.
-		 * 
 		 */
 		var requestHeaders: MutableMap<String, String> = hashMapOf()
 		
@@ -85,7 +84,6 @@ class RequestRepresentation {
 	
 		/**
 		 * It is possible to add an arbitrary number of parameters as a list of key-value string pairs, for example, `"parameter": "value"`.
-		 * 
 		 */
 		var requestParameters: MutableMap<String, String> = hashMapOf()
 		

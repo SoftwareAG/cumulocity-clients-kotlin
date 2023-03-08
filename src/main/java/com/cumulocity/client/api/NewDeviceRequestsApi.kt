@@ -24,9 +24,7 @@ import com.cumulocity.client.model.NewDeviceRequestCollection
 /**
  * API methods to create, retrieve, update and delete new device requests in Cumulocity IoT.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface NewDeviceRequestsApi {
 
@@ -52,23 +50,29 @@ interface NewDeviceRequestsApi {
 
 	/**
 	 * Retrieve a list of new device requests
+	 * 
 	 * Retrieve a list of new device requests.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_DEVICE_CONTROL_READ
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_DEVICE_CONTROL_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the list of new device requests sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param currentPage The current page of the paginated results.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the list of new device requests sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalElements
+	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.newdevicerequestcollection+json")
 	@GET("/devicecontrol/newDeviceRequests")
@@ -81,22 +85,25 @@ interface NewDeviceRequestsApi {
 	
 	/**
 	 * Create a new device request
+	 * 
 	 * Create a new device request.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_DEVICE_CONTROL_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_DEVICE_CONTROL_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - A new device request was created.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param xCumulocityProcessingMode Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
-	 * @return
+	 * 
+	 * * HTTP 201 A new device request was created.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param xCumulocityProcessingMode
+	 * Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.newdevicerequest+json", "Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@POST("/devicecontrol/newDeviceRequests")
@@ -108,21 +115,24 @@ interface NewDeviceRequestsApi {
 	
 	/**
 	 * Retrieve a specific new device request
+	 * 
 	 * Retrieve a specific new device request (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_DEVICE_CONTROL_READ
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_DEVICE_CONTROL_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the new device request is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - New device request not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param requestId Unique identifier of the new device request.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the new device request is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 New device request not found.
+	 * 
+	 * @param requestId
+	 * Unique identifier of the new device request.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/devicecontrol/newDeviceRequests/{requestId}")
@@ -132,23 +142,25 @@ interface NewDeviceRequestsApi {
 	
 	/**
 	 * Update a specific new device request status
-	 * Update a specific new device request (by a given ID).
-	 * You can only update its status.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_DEVICE_CONTROL_ADMIN
-	 * </section>
+	 * Update a specific new device request (by a given ID).You can only update its status.
 	 * 
-	 *
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_DEVICE_CONTROL_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - A new device request was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - New device request not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @param requestId Unique identifier of the new device request.
-	 * @return
+	 * 
+	 * * HTTP 200 A new device request was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 New device request not found.
+	 * 
+	 * @param body
+	 * @param requestId
+	 * Unique identifier of the new device request.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.newdevicerequest+json", "Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/devicecontrol/newDeviceRequests/{requestId}")
@@ -160,21 +172,25 @@ interface NewDeviceRequestsApi {
 	
 	/**
 	 * Delete a specific new device request
+	 * 
 	 * Delete a specific new device request (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - A new device request was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
-	 *     <li>HTTP 404 - New device request not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param requestId Unique identifier of the new device request.
+	 * 
+	 * * HTTP 204 A new device request was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 New device request not found.
+	 * 
+	 * @param requestId
+	 * Unique identifier of the new device request.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/devicecontrol/newDeviceRequests/{requestId}")

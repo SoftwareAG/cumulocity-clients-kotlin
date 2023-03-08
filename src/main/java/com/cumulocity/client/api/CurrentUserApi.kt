@@ -23,9 +23,7 @@ import com.cumulocity.client.model.CurrentUserTotpSecret
 /**
  * The current user is the user that is currently authenticated with Cumulocity IoT for the API calls.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all PUT requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all PUT requests, otherwise an empty response body will be returned.
  */
 interface CurrentUserApi {
 
@@ -51,19 +49,20 @@ interface CurrentUserApi {
 
 	/**
 	 * Retrieve the current user
+	 * 
 	 * Retrieve the user reference of the current user.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_OWN_READ *OR* ROLE_SYSTEM 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the current user is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the current user is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.currentuser+json")
 	@GET("/user/currentUser")
@@ -72,21 +71,23 @@ interface CurrentUserApi {
 	
 	/**
 	 * Update the current user
+	 * 
 	 * Update the current user.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_OWN_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The current user was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @return
+	 * 
+	 * * HTTP 200 The current user was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.currentuser+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.currentuser+json"]) 
 	@PUT("/user/currentUser")
@@ -97,22 +98,24 @@ interface CurrentUserApi {
 	
 	/**
 	 * Update the current user's password
+	 * 
 	 * Update the current user's  password.
 	 * 
 	 * > **⚠️ Important:** If the tenant uses OAI-Secure authentication, the current user will not be logged out. Instead, a new cookie will be set with a new token, and the previous token will expire within a minute.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_ADMIN
-	 * </section>
+	 * ##### Required roles
 	 * 
-	 *
+	 *  ROLE_USER_MANAGEMENT_OWN_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The current user password was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
+	 * 
+	 * * HTTP 200 The current user password was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@PUT("/user/currentUser/password")
@@ -122,21 +125,22 @@ interface CurrentUserApi {
 	
 	/**
 	 * Generate secret to set up TFA
+	 * 
 	 * Generate a secret code to create a QR code to set up the two-factor authentication functionality using a TFA app/service.
 	 * 
 	 * For more information about the feature, see [User Guide > Administration > Two-factor authentication](https://cumulocity.com/guides/users-guide/administration/#tfa) in the *Cumulocity IoT documentation*.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_OWN_READ *OR* ROLE_SYSTEM 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the secret is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the secret is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@POST("/user/currentUser/totpSecret")
@@ -145,20 +149,21 @@ interface CurrentUserApi {
 	
 	/**
 	 * Returns the activation state of the two-factor authentication feature.
+	 * 
 	 * Returns the activation state of the two-factor authentication feature for the current user.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_OWN_READ *OR* ROLE_SYSTEM 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - Returns the activation state.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @return
+	 * 
+	 * * HTTP 200 Returns the activation state.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 User not found.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/user/currentUser/totpSecret/activity")
@@ -167,23 +172,26 @@ interface CurrentUserApi {
 	
 	/**
 	 * Activates or deactivates the two-factor authentication feature
+	 * 
 	 * Activates or deactivates the two-factor authentication feature for the current user.
 	 * 
 	 * For more information about the feature, see [User Guide > Administration > Two-factor authentication](https://cumulocity.com/guides/users-guide/administration/#tfa) in the *Cumulocity IoT documentation*.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_OWN_READ *OR* ROLE_SYSTEM 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - The two-factor authentication was activated or deactivated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Cannot deactivate TOTP setup.</li>
-	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
+	 * 
+	 * * HTTP 204 The two-factor authentication was activated or deactivated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Cannot deactivate TOTP setup.
+	 * * HTTP 404 User not found.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@POST("/user/currentUser/totpSecret/activity")
@@ -193,22 +201,25 @@ interface CurrentUserApi {
 	
 	/**
 	 * Verify TFA code
+	 * 
 	 * Verifies the authentication code that the current user received from a TFA app/service and uploaded to the platform to gain access or enable the two-factor authentication feature.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_OWN_READ <b>OR</b> ROLE_SYSTEM
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_OWN_READ *OR* ROLE_SYSTEM 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - The sent code was correct and the access can be granted.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Invalid verification code.</li>
-	 *     <li>HTTP 404 - Cannot validate TFA TOTP code - user's TFA TOTP secret does not exist.</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
+	 * 
+	 * * HTTP 204 The sent code was correct and the access can be granted.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Invalid verification code.
+	 * * HTTP 404 Cannot validate TFA TOTP code - user's TFA TOTP secret does not exist.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@POST("/user/currentUser/totpSecret/verify")

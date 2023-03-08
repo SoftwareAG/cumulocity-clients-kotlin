@@ -17,10 +17,7 @@ import com.cumulocity.client.model.ApplicationSettings
 import com.cumulocity.client.model.ApplicationUserCollection
 
 /**
- * API methods to retrieve and update the current application and to retrieve its subscribers.
- * It is the authenticated microservice user's application.
- *  </br>
- * 
+ * API methods to retrieve and update the current application and to retrieve its subscribers.It is the authenticated microservice user's application.
  */
 interface CurrentApplicationApi {
 
@@ -46,21 +43,21 @@ interface CurrentApplicationApi {
 
 	/**
 	 * Retrieve the current application
-	 * Retrieve the current application.
-	 * This only works inside an application, for example, a microservice.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * Microservice bootstrap user required.
-	 * </section>
+	 * Retrieve the current application.This only works inside an application, for example, a microservice.
 	 * 
-	 *
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  Microservice bootstrap user required. 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the current application sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the current application sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json")
 	@GET("/application/currentApplication")
@@ -69,22 +66,23 @@ interface CurrentApplicationApi {
 	
 	/**
 	 * Update the current application
-	 * Update the current application.
-	 * This only works inside an application, for example, a microservice. This method is deprecated as it is only used by legacy microservices that are not running on Kubernetes.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * Microservice bootstrap user required.
-	 * </section>
+	 * Update the current application.This only works inside an application, for example, a microservice. This method is deprecated as it is only used by legacy microservices that are not running on Kubernetes.
 	 * 
-	 *
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  Microservice bootstrap user required. 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The current application was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @return
+	 * 
+	 * * HTTP 200 The current application was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.application+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json"]) 
 	@PUT("/application/currentApplication")
@@ -96,21 +94,21 @@ interface CurrentApplicationApi {
 	
 	/**
 	 * Retrieve the current application settings
-	 * Retrieve the current application settings.
-	 * This only works inside an application, for example, a microservice.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * Microservice bootstrap user <b>OR</b> microservice service user required.
-	 * </section>
+	 * Retrieve the current application settings.This only works inside an application, for example, a microservice.
 	 * 
-	 *
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  Microservice bootstrap user *OR* microservice service user required. 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the current application settings are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the current application settings are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.applicationsettings+json")
 	@GET("/application/currentApplication/settings")
@@ -119,19 +117,20 @@ interface CurrentApplicationApi {
 	
 	/**
 	 * Retrieve the subscribed users of the current application
+	 * 
 	 * Retrieve the subscribed users of the current application.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * Microservice bootstrap user required.
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  Microservice bootstrap user required. 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the list of subscribed users for the current application is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the list of subscribed users for the current application is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.applicationusercollection+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/application/currentApplication/subscriptions")

@@ -8,7 +8,6 @@ import com.google.gson.Gson
  * There are three main measurements of humidity; absolute, relative and specific.
  * 
  * Absolute humidity is the water content of air. Relative humidity, expressed as a percentage, measures the current absolute humidity relative to the maximum for that temperature. Specific humidity is a ratio of the water vapour content of the mixture to the total air content on a mass basis.
- * 
  */
 class C8yHumidityMeasurement {
 

@@ -12,7 +12,6 @@ data class C8yMobile(var imei: String?, var cellId: String?, var iccid: String?)
 
 	/**
 	 * Other possible values are: `c8y_Mobile.imsi`, `c8y_Mobile.currentOperator`, `c8y_Mobile.currentBand`, `c8y_Mobile.connType`, `c8y_Mobile.rssi`, `c8y_Mobile.ecn0`, `c8y_Mobile.rcsp`, `c8y_Mobile.mnc`, `c8y_Mobile.lac` and `c8y_Mobile.msisdn`.
-	 * 
 	 */
 	var customFragments: MutableMap<String, String> = hashMapOf()
 	

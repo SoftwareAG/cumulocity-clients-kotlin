@@ -25,9 +25,7 @@ import com.cumulocity.client.model.OptionCollection
 /**
  * API methods to retrieve the options configured in the tenant.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface OptionsApi {
 
@@ -53,22 +51,27 @@ interface OptionsApi {
 
 	/**
 	 * Retrieve all options
+	 * 
 	 * Retrieve all the options available on the tenant.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_READ
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the options are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param currentPage The current page of the paginated results.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the options are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.optioncollection+json")
 	@GET("/tenant/options")
@@ -80,6 +83,7 @@ interface OptionsApi {
 	
 	/**
 	 * Create an option
+	 * 
 	 * Create an option on your tenant.
 	 * 
 	 * Options are category-key-value tuples which store tenant configurations. Some categories of options allow the creation of new ones, while others are limited to predefined set of keys.
@@ -90,15 +94,11 @@ interface OptionsApi {
 	 * 
 	 * **access.control**
 	 * 
-	 * | Key |	Default value |	Predefined | Description |
-	 * |--|--|--|--|
-	 * | allow.origin | * | Yes | Comma separated list of domains allowed for execution of CORS. Wildcards are allowed (for example, `*.cumuclocity.com`) |
+	 * | Key |	Default value |	Predefined | Description ||--|--|--|--|| allow.origin | * | Yes | Comma separated list of domains allowed for execution of CORS. Wildcards are allowed (for example, `*.cumuclocity.com`) |
 	 * 
 	 * **alarm.type.mapping**
 	 * 
-	 * | Key  |	Predefined | Description |
-	 * |--|--|--|
-	 * | &lt;ALARM_TYPE> | No | Overrides the severity and alarm text for the alarm with type &lt;ALARM_TYPE>. The severity and text are specified as `<ALARM_SEVERITY>\|<ALARM_TEXT>`. If either part is empty, the value will not be overridden. If the severity is NONE, the alarm will be suppressed. Example: `"CRITICAL\|temperature too high"`|
+	 * | Key  |	Predefined | Description ||--|--|--|| <ALARM_TYPE> | No | Overrides the severity and alarm text for the alarm with type <ALARM_TYPE>. The severity and text are specified as `<ALARM_SEVERITY>\|<ALARM_TEXT>`. If either part is empty, the value will not be overridden. If the severity is NONE, the alarm will be suppressed. Example: `"CRITICAL\|temperature too high"`|
 	 * 
 	 * ### Encrypted credentials
 	 * 
@@ -111,22 +111,22 @@ interface OptionsApi {
 	 *   "value": "myvalue"
 	 * }
 	 * ```
-	 * 
 	 * In that particular example, the request will contain an additional header `"Mykey": "myvalue"`.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - An option was created.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @return
+	 * 
+	 * * HTTP 200 An option was created.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.option+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json"]) 
 	@POST("/tenant/options")
@@ -137,20 +137,23 @@ interface OptionsApi {
 	
 	/**
 	 * Retrieve all options by category
+	 * 
 	 * Retrieve all the options (by a specified category) on your tenant.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_READ
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the options are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param category The category of the options.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the options are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param category
+	 * The category of the options.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json")
 	@GET("/tenant/options/{category}")
@@ -160,22 +163,25 @@ interface OptionsApi {
 	
 	/**
 	 * Update options by category
+	 * 
 	 * Update one or more options (by a specified category) on your tenant.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - A collection of options was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param category The category of the options.
-	 * @return
+	 * 
+	 * * HTTP 200 A collection of options was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param category
+	 * The category of the options.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json"]) 
 	@PUT("/tenant/options/{category}")
@@ -186,22 +192,26 @@ interface OptionsApi {
 	
 	/**
 	 * Retrieve a specific option
+	 * 
 	 * Retrieve a specific option (by a given category and key) on your tenant.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_READ
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the option is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Option not found.</li>
-	 * </ul>
-	 * @param category The category of the options.
-	 * @param key The key of an option.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the option is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Option not found.
+	 * 
+	 * @param category
+	 * The category of the options.
+	 * @param key
+	 * The key of an option.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json")
 	@GET("/tenant/options/{category}/{key}")
@@ -212,24 +222,28 @@ interface OptionsApi {
 	
 	/**
 	 * Update a specific option
+	 * 
 	 * Update the value of a specific option (by a given category and key) on your tenant.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_ADMIN <b>AND</b> the option is editable
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_ADMIN *AND* the option is editable 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - An option was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Option not found.</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param category The category of the options.
-	 * @param key The key of an option.
-	 * @return
+	 * 
+	 * * HTTP 200 An option was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Option not found.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param category
+	 * The category of the options.
+	 * @param key
+	 * The key of an option.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.option+json"]) 
 	@PUT("/tenant/options/{category}/{key}")
@@ -241,21 +255,26 @@ interface OptionsApi {
 	
 	/**
 	 * Remove a specific option
+	 * 
 	 * Remove a specific option (by a given category and key) on your tenant.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_OPTION_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_OPTION_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - An option was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Option not found.</li>
-	 * </ul>
-	 * @param category The category of the options.
-	 * @param key The key of an option.
+	 * 
+	 * * HTTP 204 An option was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Option not found.
+	 * 
+	 * @param category
+	 * The category of the options.
+	 * @param key
+	 * The key of an option.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/options/{category}/{key}")

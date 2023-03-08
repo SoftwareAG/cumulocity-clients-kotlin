@@ -22,8 +22,7 @@ import com.cumulocity.client.model.BinaryInfo
 import com.cumulocity.client.model.EventBinary
 
 /**
- * It is possible to store, retrieve and delete binaries for events. Each event can have one binary attached. </br>
- * 
+ * It is possible to store, retrieve and delete binaries for events. Each event can have one binary attached.
  */
 interface AttachmentsApi {
 
@@ -49,20 +48,24 @@ interface AttachmentsApi {
 
 	/**
 	 * Retrieve the attached file of a specific event
+	 * 
 	 * Retrieve the attached file (binary) of a specific event by a given ID.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_EVENT_READ <b>OR</b> EVENT_READ permission on the source
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_EVENT_READ *OR* EVENT_READ permission on the source 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the file is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Attachment not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the event.
+	 * 
+	 * * HTTP 200 The request has succeeded and the file is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Attachment not found.
+	 * 
+	 * @param id
+	 * Unique identifier of the event.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/octet-stream")
 	@GET("/event/events/{id}/binaries")
@@ -72,23 +75,26 @@ interface AttachmentsApi {
 	
 	/**
 	 * Replace the attached file of a specific event
-	 * Upload and replace the attached file (binary) of a specific event by a given ID.<br>
+	 * 
+	 * Upload and replace the attached file (binary) of a specific event by a given ID.
 	 * The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_EVENT_ADMIN <b>OR</b> owner of the source <b>OR</b> EVENT_ADMIN permission on the source
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_EVENT_ADMIN *OR* owner of the source *OR* EVENT_ADMIN permission on the source 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - A file was uploaded.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Event not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @param id Unique identifier of the event.
-	 * @return
+	 * 
+	 * * HTTP 201 A file was uploaded.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Event not found.
+	 * 
+	 * @param body
+	 * @param id
+	 * Unique identifier of the event.
 	 */
 	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@PUT("/event/events/{id}/binaries")
@@ -99,7 +105,8 @@ interface AttachmentsApi {
 	
 	/**
 	 * Attach a file to a specific event
-	 * Upload a file (binary) as an attachment of a specific event by a given ID.<br>
+	 * 
+	 * Upload a file (binary) as an attachment of a specific event by a given ID.
 	 * The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
 	 * 
 	 * After the file has been uploaded, the corresponding event will contain the fragment `c8y_IsBinary` similar to:
@@ -111,7 +118,6 @@ interface AttachmentsApi {
 	 *     "type": "text/plain"
 	 * }
 	 * ```
-	 * 
 	 * When using `multipart/form-data` each value is sent as a block of data (body part), with a user agent-defined delimiter (`boundary`) separating each part. The keys are given in the `Content-Disposition` header of each part.
 	 * 
 	 * ```http
@@ -133,21 +139,22 @@ interface AttachmentsApi {
 	 * --boundary--
 	 * ```
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_EVENT_ADMIN <b>OR</b> owner of the source <b>OR</b> EVENT_ADMIN permission on the source
-	 * </section>
+	 * ##### Required roles
 	 * 
-	 *
+	 *  ROLE_EVENT_ADMIN *OR* owner of the source *OR* EVENT_ADMIN permission on the source 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - A file was uploaded.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Event not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 409 - An attachment exists already., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @param id Unique identifier of the event.
-	 * @return
+	 * 
+	 * * HTTP 201 A file was uploaded.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Event not found.
+	 * * HTTP 409 An attachment exists already.
+	 * 
+	 * @param body
+	 * @param id
+	 * Unique identifier of the event.
 	 */
 	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@POST("/event/events/{id}/binaries")
@@ -158,7 +165,8 @@ interface AttachmentsApi {
 	
 	/**
 	 * Attach a file to a specific event
-	 * Upload a file (binary) as an attachment of a specific event by a given ID.<br>
+	 * 
+	 * Upload a file (binary) as an attachment of a specific event by a given ID.
 	 * The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
 	 * 
 	 * After the file has been uploaded, the corresponding event will contain the fragment `c8y_IsBinary` similar to:
@@ -170,7 +178,6 @@ interface AttachmentsApi {
 	 *     "type": "text/plain"
 	 * }
 	 * ```
-	 * 
 	 * When using `multipart/form-data` each value is sent as a block of data (body part), with a user agent-defined delimiter (`boundary`) separating each part. The keys are given in the `Content-Disposition` header of each part.
 	 * 
 	 * ```http
@@ -192,22 +199,24 @@ interface AttachmentsApi {
 	 * --boundary--
 	 * ```
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_EVENT_ADMIN <b>OR</b> owner of the source <b>OR</b> EVENT_ADMIN permission on the source
-	 * </section>
+	 * ##### Required roles
 	 * 
-	 *
+	 *  ROLE_EVENT_ADMIN *OR* owner of the source *OR* EVENT_ADMIN permission on the source 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - A file was uploaded.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Event not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 409 - An attachment exists already., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param pObject 
-	 * @param file Path of the file to be uploaded.
-	 * @param id Unique identifier of the event.
-	 * @return
+	 * 
+	 * * HTTP 201 A file was uploaded.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Event not found.
+	 * * HTTP 409 An attachment exists already.
+	 * 
+	 * @param pObject
+	 * @param file
+	 * Path of the file to be uploaded.
+	 * @param id
+	 * Unique identifier of the event.
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
 	@POST("/event/events/{id}/binaries")
@@ -220,20 +229,24 @@ interface AttachmentsApi {
 	
 	/**
 	 * Remove the attached file from a specific event
+	 * 
 	 * Remove the attached file (binary) from a specific event by a given ID.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_EVENT_ADMIN <b>OR</b> owner of the source <b>OR</b> EVENT_ADMIN permission on the source
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_EVENT_ADMIN *OR* owner of the source *OR* EVENT_ADMIN permission on the source 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - A file was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Event not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the event.
+	 * 
+	 * * HTTP 204 A file was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Event not found.
+	 * 
+	 * @param id
+	 * Unique identifier of the event.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/event/events/{id}/binaries")

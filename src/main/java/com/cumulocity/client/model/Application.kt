@@ -66,50 +66,50 @@ class Application {
 
 	/**
 	 * A flag to indicate if the application has a breadcrumbs navigation on the UI.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var breadcrumbs: Boolean? = null
 
 	/**
 	 * The content security policy of the application.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var contentSecurityPolicy: String? = null
 
 	/**
 	 * A URL to a JSON object with dynamic content options.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var dynamicOptionsUrl: String? = null
 
 	/**
 	 * The global title of the application.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var globalTitle: String? = null
 
 	/**
 	 * A flag that shows if the application is a legacy application or not.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var legacy: Boolean? = null
 
 	/**
 	 * A flag to indicate if the application uses the UI context menu on the right side.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var rightDrawer: Boolean? = null
 
 	/**
 	 * A flag that shows if the application is hybrid and using Angular and AngularJS simultaneously.
-	 * > **&#9432; Info:** This property is specific to the web application type.
 	 * 
+	 * > **ⓘ Info:** This property is specific to the web application type.
 	 */
 	var upgrade: Boolean? = null
 

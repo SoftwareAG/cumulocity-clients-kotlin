@@ -34,7 +34,6 @@ class CustomProperties {
 
 	/**
 	 * It is possible to add an arbitrary number of custom properties as a list of key-value pairs, for example, `"property": "value"`.
-	 * 
 	 */
 	var customProperties: MutableMap<String, Any> = hashMapOf()
 	

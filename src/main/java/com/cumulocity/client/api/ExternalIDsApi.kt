@@ -21,9 +21,7 @@ import com.cumulocity.client.model.ExternalIds
 /**
  * The external ID resource represents an individual external ID that can be queried and deleted.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
  */
 interface ExternalIDsApi {
 
@@ -49,20 +47,23 @@ interface ExternalIDsApi {
 
 	/**
 	 * Retrieve all external IDs of a specific managed object
+	 * 
 	 * Retrieve all external IDs of a existing managed object (identified by ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_IDENTITY_READ <b>OR</b> owner of the resource <b>OR</b> MANAGED_OBJECT_READ permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_IDENTITY_READ *OR* owner of the resource *OR* MANAGED_OBJECT_READ permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and all the external IDs are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the managed object.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and all the external IDs are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param id
+	 * Unique identifier of the managed object.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.externalidcollection+json")
 	@GET("/identity/globalIds/{id}/externalIds")
@@ -72,22 +73,25 @@ interface ExternalIDsApi {
 	
 	/**
 	 * Create an external ID
+	 * 
 	 * Create an external ID for an existing managed object (identified by ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_IDENTITY_ADMIN <b>OR</b> owner of the resource <b>OR</b> MANAGED_OBJECT_ADMIN permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_IDENTITY_ADMIN *OR* owner of the resource *OR* MANAGED_OBJECT_ADMIN permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - An external ID was created.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 409 - Duplicate – Identity already bound to a different Global ID.</li>
-	 * </ul>
-	 * @param body 
-	 * @param id Unique identifier of the managed object.
-	 * @return
+	 * 
+	 * * HTTP 201 An external ID was created.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 409 Duplicate – Identity already bound to a different Global ID.
+	 * 
+	 * @param body
+	 * @param id
+	 * Unique identifier of the managed object.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.externalid+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.externalid+json"]) 
 	@POST("/identity/globalIds/{id}/externalIds")
@@ -99,22 +103,26 @@ interface ExternalIDsApi {
 	
 	/**
 	 * Retrieve a specific external ID
+	 * 
 	 * Retrieve a specific external ID of a particular type.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_IDENTITY_READ <b>OR</b> owner of the resource <b>OR</b> MANAGED_OBJECT_READ permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_IDENTITY_READ *OR* owner of the resource *OR* MANAGED_OBJECT_READ permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the external ID is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - External ID not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param type The identifier used in the external system that Cumulocity IoT interfaces with.
-	 * @param externalId The type of the external identifier.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the external ID is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 External ID not found.
+	 * 
+	 * @param type
+	 * The identifier used in the external system that Cumulocity IoT interfaces with.
+	 * @param externalId
+	 * The type of the external identifier.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.externalid+json")
 	@GET("/identity/externalIds/{type}/{externalId}")
@@ -125,21 +133,26 @@ interface ExternalIDsApi {
 	
 	/**
 	 * Remove a specific external ID
+	 * 
 	 * Remove a specific external ID of a particular type.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_IDENTITY_ADMIN <b>OR</b> owner of the resource <b>OR</b> MANAGED_OBJECT_ADMIN permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_IDENTITY_ADMIN *OR* owner of the resource *OR* MANAGED_OBJECT_ADMIN permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - An external ID was deleted.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - External ID not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param type The identifier used in the external system that Cumulocity IoT interfaces with.
-	 * @param externalId The type of the external identifier.
+	 * 
+	 * * HTTP 204 An external ID was deleted.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 External ID not found.
+	 * 
+	 * @param type
+	 * The identifier used in the external system that Cumulocity IoT interfaces with.
+	 * @param externalId
+	 * The type of the external identifier.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/identity/externalIds/{type}/{externalId}")

@@ -69,7 +69,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 
 	/**
 	 * It is possible to add an arbitrary number of additional properties as a list of key-value pairs, for example, `"property1": {}`, `"property2": "value"`. These properties can be of any type, for example, object or string.
-	 * 
 	 */
 	var customProperties: MutableMap<String, Any> = hashMapOf()
 	

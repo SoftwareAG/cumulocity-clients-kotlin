@@ -26,9 +26,7 @@ import com.cumulocity.client.model.InventoryAssignmentCollection
 /**
  * API methods to create, retrieve, update and delete inventory roles.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface InventoryRolesApi {
 
@@ -54,22 +52,27 @@ interface InventoryRolesApi {
 
 	/**
 	 * Retrieve all inventory roles
+	 * 
 	 * Retrieve all inventory roles.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_READ *OR* ROLE_USER_MANAGEMENT_CREATE 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request succeeded and all inventory roles are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param currentPage The current page of the paginated results.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @return
+	 * 
+	 * * HTTP 200 The request succeeded and all inventory roles are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalElements
+	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryrolecollection+json")
 	@GET("/user/inventoryroles")
@@ -81,22 +84,24 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Create an inventory role
+	 * 
 	 * Create an inventory role.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - An inventory role was created.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 409 - Duplicate – The inventory role already exists.</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @return
+	 * 
+	 * * HTTP 201 An inventory role was created.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 409 Duplicate – The inventory role already exists.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryrole+json", "Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@POST("/user/inventoryroles")
@@ -107,21 +112,24 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Retrieve a specific inventory role
+	 * 
 	 * Retrieve a specific inventory role (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> has access to the inventory role
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_READ *OR* ROLE_USER_MANAGEMENT_CREATE *AND* has access to the inventory role 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request succeeded and the inventory role is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the inventory role.
-	 * @return
+	 * 
+	 * * HTTP 200 The request succeeded and the inventory role is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Role not found.
+	 * 
+	 * @param id
+	 * Unique identifier of the inventory role.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json")
 	@GET("/user/inventoryroles/{id}")
@@ -131,23 +139,26 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Update a specific inventory role
+	 * 
 	 * Update a specific inventory role (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - An inventory role was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param id Unique identifier of the inventory role.
-	 * @return
+	 * 
+	 * * HTTP 200 An inventory role was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Role not found.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param id
+	 * Unique identifier of the inventory role.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryrole+json", "Accept:application/vnd.com.nsn.cumulocity.inventoryrole+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/user/inventoryroles/{id}")
@@ -159,21 +170,25 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Remove a specific inventory role
+	 * 
 	 * Remove a specific inventory role (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - An inventory role was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
-	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the inventory role.
+	 * 
+	 * * HTTP 204 An inventory role was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Role not found.
+	 * 
+	 * @param id
+	 * Unique identifier of the inventory role.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/inventoryroles/{id}")
@@ -183,23 +198,27 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Retrieve all inventory roles assigned to a user
+	 * 
 	 * Retrieve all inventory roles assigned to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is the parent of the user
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_READ *OR* ROLE_USER_MANAGEMENT_CREATE *AND* is the parent of the user 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the inventory roles are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param userId Unique identifier of the a user.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the inventory roles are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 User not found.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId
+	 * Unique identifier of the a user.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignmentcollection+json")
 	@GET("/user/{tenantId}/users/{userId}/roles/inventory")
@@ -210,27 +229,31 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Assign an inventory role to a user
+	 * 
 	 * Assign an existing inventory role to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN to assign any inventory role to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/>
-	 * ROLE_USER_MANAGEMENT_ADMIN to assign inventory roles accessible by the parent of the assigned user to non-root users in a user hierarchy<br/>
-	 * ROLE_USER_MANAGEMENT_CREATE to assign inventory roles accessible by the current user <b>AND</b> accessible by the parent of the assigned user to the descendants of the current user in a user hierarchy
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN to assign any inventory role to root users in a user hierarchy *OR* users that are not in any hierarchy
+	 *  ROLE_USER_MANAGEMENT_ADMIN to assign inventory roles accessible by the parent of the assigned user to non-root users in a user hierarchy
+	 *  ROLE_USER_MANAGEMENT_CREATE to assign inventory roles accessible by the current user *AND* accessible by the parent of the assigned user to the descendants of the current user in a user hierarchy 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - An inventory role was assigned to a user.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - User not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param userId Unique identifier of the a user.
-	 * @return
+	 * 
+	 * * HTTP 200 An inventory role was assigned to a user.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 User not found.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId
+	 * Unique identifier of the a user.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryassignment+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json"]) 
 	@POST("/user/{tenantId}/users/{userId}/roles/inventory")
@@ -243,24 +266,29 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Retrieve a specific inventory role assigned to a user
+	 * 
 	 * Retrieve a specific inventory role (by a given ID) assigned to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_READ <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is the parent of the user
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_READ *OR* ROLE_USER_MANAGEMENT_CREATE *AND* is the parent of the user 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the inventory role is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param userId Unique identifier of the a user.
-	 * @param id Unique identifier of the inventory assignment.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the inventory role is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 Role not found.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId
+	 * Unique identifier of the a user.
+	 * @param id
+	 * Unique identifier of the inventory assignment.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json")
 	@GET("/user/{tenantId}/users/{userId}/roles/inventory/{id}")
@@ -272,28 +300,33 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Update a specific inventory role assigned to a user
+	 * 
 	 * Update a specific inventory role (by a given ID) assigned to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN to update the assignment of any inventory roles to root users in a user hierarchy <b>OR</b> users that are not in any hierarchy<br/>
-	 * ROLE_USER_MANAGEMENT_ADMIN to update the assignment of inventory roles accessible by the assigned user parent, to non-root users in a user hierarchy<br/>
-	 * ROLE_USER_MANAGEMENT_CREATE to update the assignment of inventory roles accessible by the current user <b>AND</b> the parent of the assigned user to the descendants of the current user in the user hierarchy
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN to update the assignment of any inventory roles to root users in a user hierarchy *OR* users that are not in any hierarchy
+	 *  ROLE_USER_MANAGEMENT_ADMIN to update the assignment of inventory roles accessible by the assigned user parent, to non-root users in a user hierarchy
+	 *  ROLE_USER_MANAGEMENT_CREATE to update the assignment of inventory roles accessible by the current user *AND* the parent of the assigned user to the descendants of the current user in the user hierarchy 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - An inventory assignment was updated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not enough permissions/roles to perform this operation., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param userId Unique identifier of the a user.
-	 * @param id Unique identifier of the inventory assignment.
-	 * @return
+	 * 
+	 * * HTTP 200 An inventory assignment was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 Role not found.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId
+	 * Unique identifier of the a user.
+	 * @param id
+	 * Unique identifier of the inventory assignment.
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.inventoryassignment+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.inventoryassignment+json"]) 
 	@PUT("/user/{tenantId}/users/{userId}/roles/inventory/{id}")
@@ -306,23 +339,29 @@ interface InventoryRolesApi {
 	
 	/**
 	 * Remove a specific inventory role assigned to a user
+	 * 
 	 * Remove a specific inventory role (by a given ID) assigned to a specific user (by a given user ID) in a specific tenant (by a given tenant ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_USER_MANAGEMENT_ADMIN <b>AND</b> (is not in user hierarchy <b>OR</b> is root in the user hierarchy) <b>OR</b> ROLE_USER_MANAGEMENT_ADMIN <b>AND</b> is in user hiararchy <b>AND</b> has parent access to inventory assignments <b>OR</b> ROLE_USER_MANAGEMENT_CREATE <b>AND</b> is parent of the user <b>AND</b> is not the current user <b>AND</b> has current user access to inventory assignments <b>AND</b> has parent access to inventory assignments
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN *AND* (is not in user hierarchy *OR* is root in the user hierarchy) *OR* ROLE_USER_MANAGEMENT_ADMIN *AND* is in user hiararchy *AND* has parent access to inventory assignments *OR* ROLE_USER_MANAGEMENT_CREATE *AND* is parent of the user *AND* is not the current user *AND* has current user access to inventory assignments *AND* has parent access to inventory assignments 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - An inventory assignment was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
-	 *     <li>HTTP 404 - Role not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param userId Unique identifier of the a user.
-	 * @param id Unique identifier of the inventory assignment.
+	 * 
+	 * * HTTP 204 An inventory assignment was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Role not found.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId
+	 * Unique identifier of the a user.
+	 * @param id
+	 * Unique identifier of the inventory assignment.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}/roles/inventory/{id}")

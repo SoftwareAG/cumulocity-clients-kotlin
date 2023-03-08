@@ -27,9 +27,7 @@ import com.cumulocity.client.model.Binary
 /**
  * Managed objects can perform operations to store, retrieve and delete binaries. One binary can store only one file. Together with the binary, a managed object is created which acts as a metadata information for the binary.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface BinariesApi {
 
@@ -55,25 +53,38 @@ interface BinariesApi {
 
 	/**
 	 * Retrieve the stored files
+	 * 
 	 * Retrieve the stored files as a collections of managed objects.
 	 * 
-	 *
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the managed objects are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param childAdditionId Search for a specific child addition and list all the groups to which it belongs.
-	 * @param childAssetId Search for a specific child asset and list all the groups to which it belongs.
-	 * @param childDeviceId Search for a specific child device and list all the groups to which it belongs.
-	 * @param currentPage The current page of the paginated results.
-	 * @param ids The managed object IDs to search for. >**&#9432; Info:** If you query for multiple IDs at once, comma-separate the values. 
-	 * @param owner Username of the owner of the managed objects.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param text Search for managed objects where any property value is equal to the given one. Only string values are supported.
-	 * @param type The type of managed object to search for.
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the managed objects are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param childAdditionId
+	 * Search for a specific child addition and list all the groups to which it belongs.
+	 * @param childAssetId
+	 * Search for a specific child asset and list all the groups to which it belongs.
+	 * @param childDeviceId
+	 * Search for a specific child device and list all the groups to which it belongs.
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param ids
+	 * The managed object IDs to search for.
+	 * 
+	 * **ⓘ Info:** If you query for multiple IDs at once, comma-separate the values.
+	 * @param owner
+	 * Username of the owner of the managed objects.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param text
+	 * Search for managed objects where any property value is equal to the given one. Only string values are supported.
+	 * @param type
+	 * The type of managed object to search for.
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobjectcollection+json")
 	@GET("/inventory/binaries")
@@ -92,6 +103,7 @@ interface BinariesApi {
 	
 	/**
 	 * Upload a file
+	 * 
 	 * Uploading a file (binary) requires providing the following properties:
 	 * 
 	 * * `object` – In JSON format, it contains information about the file.
@@ -99,21 +111,23 @@ interface BinariesApi {
 	 * 
 	 * After the file has been uploaded, the corresponding managed object will contain the fragment `c8y_IsBinary`.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_INVENTORY_ADMIN <b>OR</b> ROLE_INVENTORY_CREATE
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - A file was uploaded.</li>
-	 *     <li>HTTP 400 - Unprocessable Entity – invalid payload.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
-	 * </ul>
-	 * @param pObject 
-	 * @param file Path of the file to be uploaded.
-	 * @return
+	 * 
+	 * * HTTP 201 A file was uploaded.
+	 * * HTTP 400 Unprocessable Entity – invalid payload.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * 
+	 * @param pObject
+	 * @param file
+	 * Path of the file to be uploaded.
 	 */
 	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@POST("/inventory/binaries")
@@ -125,19 +139,23 @@ interface BinariesApi {
 	
 	/**
 	 * Retrieve a stored file
+	 * 
 	 * Retrieve a stored file (managed object) by a given ID.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_INVENTORY_READ <b>OR</b> owner of the resource <b>OR</b> MANAGE_OBJECT_READ permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_INVENTORY_READ *OR* owner of the resource *OR* MANAGE_OBJECT_READ permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the file is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the managed object.
+	 * 
+	 * * HTTP 200 The request has succeeded and the file is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param id
+	 * Unique identifier of the managed object.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/octet-stream")
 	@GET("/inventory/binaries/{id}")
@@ -147,21 +165,24 @@ interface BinariesApi {
 	
 	/**
 	 * Replace a file
-	 * Upload and replace the attached file (binary) of a specific managed object by a given ID.<br>
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the resource <b>OR</b> MANAGE_OBJECT_ADMIN permission on the resource
-	 * </section>
+	 * Upload and replace the attached file (binary) of a specific managed object by a given ID.
 	 * 
-	 *
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_INVENTORY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - A file was uploaded.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @param id Unique identifier of the managed object.
-	 * @return
+	 * 
+	 * * HTTP 201 A file was uploaded.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param body
+	 * @param id
+	 * Unique identifier of the managed object.
 	 */
 	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@PUT("/inventory/binaries/{id}")
@@ -172,19 +193,23 @@ interface BinariesApi {
 	
 	/**
 	 * Remove a stored file
+	 * 
 	 * Remove a managed object and its stored file by a given ID.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_INVENTORY_ADMIN <b>OR</b> owner of the resource <b>OR</b> MANAGE_OBJECT_ADMIN permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_INVENTORY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - A managed object and its stored file was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the managed object.
+	 * 
+	 * * HTTP 204 A managed object and its stored file was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param id
+	 * Unique identifier of the managed object.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/inventory/binaries/{id}")

@@ -14,8 +14,8 @@ class Tenant {
 
 	/**
 	 * Username of the tenant's administrator.
-	 * > **&#9432; Info:** When it is provided in the request body, also `adminEmail` and `adminPass` must be provided.
 	 * 
+	 * > **ⓘ Info:** When it is provided in the request body, also `adminEmail` and `adminPass` must be provided.
 	 */
 	var adminName: String? = null
 

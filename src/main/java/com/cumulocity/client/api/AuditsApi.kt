@@ -27,9 +27,7 @@ import com.cumulocity.client.model.AuditRecordCollection
  * * The actual activity.
  * * A severity.
  * 
- * > **&#9432; Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header should be provided in all POST requests, otherwise an empty response body will be returned.
  */
 interface AuditsApi {
 
@@ -55,25 +53,36 @@ interface AuditsApi {
 
 	/**
 	 * Retrieve all audit records
+	 * 
 	 * Retrieve all audit records registered on your tenant, or a specific subset based on queries.
 	 * 
-	 *
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and all audit records are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param application Name of the application from which the audit was carried out.
-	 * @param currentPage The current page of the paginated results.
-	 * @param dateFrom Start date or date and time of the audit record.
-	 * @param dateTo End date or date and time of the audit record.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param source The platform component ID to which the audit is associated.
-	 * @param type The type of audit record to search for.
-	 * @param user The username to search for.
-	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and all audit records are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param application
+	 * Name of the application from which the audit was carried out.
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param dateFrom
+	 * Start date or date and time of the audit record.
+	 * @param dateTo
+	 * End date or date and time of the audit record.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param source
+	 * The platform component ID to which the audit is associated.
+	 * @param type
+	 * The type of audit record to search for.
+	 * @param user
+	 * The username to search for.
+	 * @param withTotalElements
+	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecordcollection+json")
 	@GET("/audit/auditRecords")
@@ -92,20 +101,22 @@ interface AuditsApi {
 	
 	/**
 	 * Create an audit record
+	 * 
 	 * Create an audit record.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_AUDIT_ADMIN <b>OR</b> ROLE_SYSTEM <b>OR</b> AUDIT_ADMIN permission on the resource
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_AUDIT_ADMIN *OR* ROLE_SYSTEM *OR* AUDIT_ADMIN permission on the resource 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - An audit record was created.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @return
+	 * 
+	 * * HTTP 201 An audit record was created.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.auditrecord+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecord+json"]) 
 	@POST("/audit/auditRecords")
@@ -116,20 +127,23 @@ interface AuditsApi {
 	
 	/**
 	 * Retrieve a specific audit record
+	 * 
 	 * Retrieve a specific audit record by a given ID.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * ROLE_AUDIT_READ <b>OR</b> AUDIT_READ permission on the source
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  ROLE_AUDIT_READ *OR* AUDIT_READ permission on the source 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the audit record is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param id Unique identifier of the audit record.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the audit record is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param id
+	 * Unique identifier of the audit record.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.auditrecord+json")
 	@GET("/audit/auditRecords/{id}")

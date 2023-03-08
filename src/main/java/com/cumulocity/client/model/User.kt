@@ -71,7 +71,6 @@ class User {
 	 * The user's password. Only Latin1 characters are allowed.
 	 * 
 	 * If you do not specify a password when creating a new user with a POST request, it must contain the property `sendPasswordResetEmail` with a value of `true`.
-	 * 
 	 */
 	var password: String? = null
 
@@ -99,7 +98,6 @@ class User {
 	 * When set to `true`, this field will cause Cumulocity IoT to send a password reset email to the email address specified.
 	 * 
 	 * If there is no password specified when creating a new user with a POST request, this must be specified and it must be set to `true`.
-	 * 
 	 */
 	var sendPasswordResetEmail: Boolean? = null
 

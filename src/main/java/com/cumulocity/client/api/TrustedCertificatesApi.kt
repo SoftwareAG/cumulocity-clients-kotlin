@@ -26,9 +26,7 @@ import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
  * 
  * More detailed information about trusted certificates and their role can be found in [Device management > Managing device data](https://cumulocity.com/guides/users-guide/device-management/#managing-device-data) in the *User guide*.
  * 
- * > **&#9432; Info:** The Accept header must be provided in all POST/PUT requests, otherwise an empty response body will be returned.
- *  </br>
- * 
+ * > **ⓘ Info:** The Accept header must be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface TrustedCertificatesApi {
 
@@ -54,26 +52,33 @@ interface TrustedCertificatesApi {
 
 	/**
 	 * Retrieve all stored certificates
+	 * 
 	 * Retrieve all the trusted certificates of a specific tenant (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> (is the current tenant)
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* (is the current tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the trusted certificates are sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 403 - Not authorized to perform this operation.</li>
-	 *     <li>HTTP 404 - Tenant not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param currentPage The current page of the paginated results.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the trusted certificates are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Tenant not found.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalElements
+	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/tenant/tenants/{tenantId}/trusted-certificates")
@@ -87,24 +92,27 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Add a new certificate
+	 * 
 	 * Add a new trusted certificate to a specific tenant (by a given ID) which can be further used by the devices to establish connections with the Cumulocity IoT platform.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> (is the current tenant)
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* (is the current tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - The certificate was added to the tenant.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Tenant not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 409 - Duplicate – A certificate with the same fingerprint already exists.</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – Invalid certificate data.</li>
-	 * </ul>
-	 * @param body 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @return
+	 * 
+	 * * HTTP 201 The certificate was added to the tenant.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Tenant not found.
+	 * * HTTP 409 Duplicate – A certificate with the same fingerprint already exists.
+	 * * HTTP 422 Unprocessable Entity – Invalid certificate data.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates")
@@ -116,24 +124,27 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Add multiple certificates
+	 * 
 	 * Add multiple trusted certificates to a specific tenant (by a given ID) which can be further used by the devices to establish connections with the Cumulocity IoT platform.
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> (is the current tenant)
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* (is the current tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 201 - The certificates were added to the tenant.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Tenant not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 409 - Duplicate – A certificate with the same fingerprint already exists.</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – Invalid certificates data.</li>
-	 * </ul>
-	 * @param body 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @return
+	 * 
+	 * * HTTP 201 The certificates were added to the tenant.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Tenant not found.
+	 * * HTTP 409 Duplicate – A certificate with the same fingerprint already exists.
+	 * * HTTP 422 Unprocessable Entity – Invalid certificates data.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates/bulk")
@@ -145,21 +156,25 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Retrieve a stored certificate
+	 * 
 	 * Retrieve the data of a stored trusted certificate (by a given fingerprint) of a specific tenant (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> (is the current tenant <b>OR</b> is the management tenant)
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* (is the current tenant *OR* is the management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The request has succeeded and the trusted certificate is sent in the response.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param fingerprint Unique identifier of a trusted certificate.
-	 * @return
+	 * 
+	 * * HTTP 200 The request has succeeded and the trusted certificate is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint
+	 * Unique identifier of a trusted certificate.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
@@ -170,24 +185,28 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Update a stored certificate
+	 * 
 	 * Update the data of a stored trusted certificate (by a given fingerprint) of a specific tenant (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> (is the current tenant <b>OR</b> is the management tenant)
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* (is the current tenant *OR* is the management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The certificate was updated on the tenant.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Certificate not found.</li>
-	 *     <li>HTTP 422 - Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 * @param body 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param fingerprint Unique identifier of a trusted certificate.
-	 * @return
+	 * 
+	 * * HTTP 200 The certificate was updated on the tenant.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Certificate not found.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint
+	 * Unique identifier of a trusted certificate.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@PUT("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
@@ -200,21 +219,26 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Remove a stored certificate
+	 * 
 	 * Remove a stored trusted certificate (by a given fingerprint) from a specific tenant (by a given ID).
 	 * 
-	 * <section><h5>Required roles</h5>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> (is the current tenant <b>OR</b> is the management tenant)
-	 * </section>
 	 * 
-	 *
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* (is the current tenant *OR* is the management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 204 - The trusted certificate was removed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Certificate not found.</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param fingerprint Unique identifier of a trusted certificate.
+	 * 
+	 * * HTTP 204 The trusted certificate was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Certificate not found.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint
+	 * Unique identifier of a trusted certificate.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
@@ -225,25 +249,29 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Provide the proof of possession for an already uploaded certificate
+	 * 
 	 * Provide the proof of possession for a specific uploaded certificate (by a given fingerprint) for a specific tenant (by a given ID).
 	 * 
-	 * <div class="reqRoles"><div><h5></h5></div><div>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> is the current tenant
-	 * </div></div>
 	 * 
-	 *
+	 * ##### 
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* is the current tenant 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The provided signed verification code check was successful.</li>
-	 *     <li>HTTP 400 - The provided signed verification code is not correct., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Trusted certificate not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - Proof of possession for the certificate was not confirmed., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param body 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param fingerprint Unique identifier of a trusted certificate.
-	 * @return
+	 * 
+	 * * HTTP 200 The provided signed verification code check was successful.
+	 * * HTTP 400 The provided signed verification code is not correct.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Trusted certificate not found.
+	 * * HTTP 422 Proof of possession for the certificate was not confirmed.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint
+	 * Unique identifier of a trusted certificate.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/pop")
@@ -255,23 +283,27 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Confirm an already uploaded certificate
+	 * 
 	 * Confirm an already uploaded certificate (by a given fingerprint) for a specific tenant (by a given ID).
 	 * 
-	 * <div class="reqRoles"><div><h5></h5></div><div>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> is the management tenant
-	 * </div></div>
 	 * 
-	 *
+	 * ##### 
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* is the management tenant 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The certificate is confirmed.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Trusted certificate not found., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 422 - The verification was not successful. Certificate not confirmed., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param fingerprint Unique identifier of a trusted certificate.
-	 * @return
+	 * 
+	 * * HTTP 200 The certificate is confirmed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Trusted certificate not found.
+	 * * HTTP 422 The verification was not successful. Certificate not confirmed.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint
+	 * Unique identifier of a trusted certificate.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/confirmed")
@@ -282,22 +314,26 @@ interface TrustedCertificatesApi {
 	
 	/**
 	 * Generate a verification code for the proof of possession operation for the given certificate
+	 * 
 	 * Generate a verification code for the proof of possession operation for the certificate (by a given fingerprint).
 	 * 
-	 * <div class="reqRoles"><div><h5></h5></div><div>
-	 * (ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_ADMIN) <b>AND</b> is the current tenant
-	 * </div></div>
 	 * 
-	 *
+	 * ##### 
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_ADMIN) *AND* is the current tenant 
+	 * 
+	 * ##### Response Codes
+	 * 
 	 * The following table gives an overview of the possible response codes and their meanings:
-	 * <ul>
-	 *     <li>HTTP 200 - The verification code was generated.</li>
-	 *     <li>HTTP 401 - Authentication information is missing or invalid., @{link com.cumulocity.client.model.Error}</li>
-	 *     <li>HTTP 404 - Trusted certificate not found., @{link com.cumulocity.client.model.Error}</li>
-	 * </ul>
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param fingerprint Unique identifier of a trusted certificate.
-	 * @return
+	 * 
+	 * * HTTP 200 The verification code was generated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Trusted certificate not found.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param fingerprint
+	 * Unique identifier of a trusted certificate.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates-pop/{fingerprint}/verification-code")

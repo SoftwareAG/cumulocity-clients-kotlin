@@ -36,7 +36,6 @@ class SummaryAllTenantsUsageStatistics {
 	 * 
 	 * * Requests made to <kbd>/user</kbd>, <kbd>/tenant</kbd> and <kbd>/application</kbd> APIs
 	 * * Application related requests (with `X-Cumulocity-Application-Key` header)
-	 * 
 	 */
 	var deviceRequestCount: Int? = null
 
@@ -73,8 +72,7 @@ class SummaryAllTenantsUsageStatistics {
 	/**
 	 * Number of created measurements.
 	 * 
-	 * > **&#9432; Info:** Bulk creation of measurements is handled in a way that each measurement is counted individually.
-	 * 
+	 * > **ⓘ Info:** Bulk creation of measurements is handled in a way that each measurement is counted individually.
 	 */
 	var measurementsCreatedCount: Int? = null
 
@@ -101,12 +99,11 @@ class SummaryAllTenantsUsageStatistics {
 	/**
 	 * Number of requests that were made against the tenant. Updated every 5 minutes. The following requests are not included:
 	 * 
-	 * *  Internal SmartREST requests used to resolve templates
-	 * *  Internal SLA monitoring requests
-	 * *  Calls to any <kbd>/health</kbd> endpoint
-	 * *  Device bootstrap process requests related to configuring and retrieving device credentials
-	 * *  Microservice SDK internal calls for applications and subscriptions
-	 * 
+	 * * Internal SmartREST requests used to resolve templates
+	 * * Internal SLA monitoring requests
+	 * * Calls to any <kbd>/health</kbd> endpoint
+	 * * Device bootstrap process requests related to configuring and retrieving device credentials
+	 * * Microservice SDK internal calls for applications and subscriptions
 	 */
 	var requestCount: Int? = null
 

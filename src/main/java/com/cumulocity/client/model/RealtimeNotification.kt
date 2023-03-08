@@ -65,7 +65,6 @@ data class RealtimeNotification(var channel: Channel?) {
 
 	/**
 	 * [Bayeux protocol](https://docs.cometd.org/current/reference/#_concepts_bayeux_protocol) version used by the client (in a request) or server (in a response).
-	 * 
 	 */
 	var version: String? = null
 

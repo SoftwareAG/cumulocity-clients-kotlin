@@ -35,8 +35,8 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 
 	/**
 	 * The context within which the subscription is to be processed.
-	 * > **&#9432; Info:** If the value is `mo`, then `source` must also be provided in the request body.
 	 * 
+	 * > **ⓘ Info:** If the value is `mo`, then `source` must also be provided in the request body.
 	 */
 	enum class Context(val value: String) {
 		@SerializedName(value = "mo")
@@ -79,8 +79,7 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 		/**
 		 * The Notifications are available for Alarms, Alarms with children, Device control, Events, Events with children, Inventory and Measurements for the `mo` context and for Alarms and Inventory for the `tenant` context. Alternatively, the wildcard `*` can be used to match all the permissible APIs within the bound context.
 		 * 
-		 * > **&#9432; Info:** the wildcard `*` cannot be used in conjunction with other values.
-		 * 
+		 * > **ⓘ Info:** the wildcard `*` cannot be used in conjunction with other values.
 		 */
 		var apis: Array<String>? = null
 	
