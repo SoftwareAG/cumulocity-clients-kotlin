@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
@@ -61,32 +61,14 @@ import com.cumulocity.client.model.StatisticsFile
  * 
  * See the table below for more information on how the counters are increased. Additionally, it shows how inbound data transfers are handled for both MQTT and REST:
  * 
- * |Type of transfer|MQTT counter information|REST counter information|
- * |:---------------|:-----------------------|:-----------------------|
- * |Creation of an **alarm** in one request|One alarm creation is counted.|One alarm creation is counted via REST.|
- * |Update of an **alarm** (for example, status change)|One alarm update is counted.|One alarm update is counted via REST.|
- * |Creation of **multiple alarms** in one request|Each alarm creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support creating multiple alarms in one call).|
- * |Update of **multiple alarms** (for example, status change) in one request|Each alarm update in a single MQTT request will be counted.|Each alarm that matches the filter is counted as an alarm update (causing multiple updates).|
- * |Creation of an **event** in one request|One event creation is counted.|One event creation is counted.|
- * |Update of an **event** (for example, text change)|One event update is counted.|One event update is counted.|
- * |Creation of **multiple events** in one request|Each event creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support creating multiple events in one call).|
- * |Update of **multiple events** (for example, text change) in one request|Each event update in a single MQTT request will be counted.|Not supported by C8Y (REST does not support updating multiple events in one call).|
- * |Creation of a **measurement** in one request|One measurement creation is counted. |One measurement creation is counted.|
- * |Creation of **multiple measurements** in one request|Each measurement creation in a single MQTT request will be counted. Example: If MQTT is used to report 5 measurements, the measurementCreated counter will be incremented by five.|REST allows multiple measurements to be created by sending multiple measurements in one call. In this case, each measurement sent via REST is counted individually. The call itself is not counted. For example, if somebody sends 5 measurements via REST in one call, the corresponding counter will be increased by 5. Measurements with multiple series are counted as a singular measurement.|
- * |Creation of a **managed object** in one request|One managed object creation is counted.|One managed object creation is counted.|
- * |Update of one **managed object** (for example, status change)|One managed object update is counted.|One managed object update is counted.|
- * |Update of **multiple managed objects** in one request|Each managed object update in a single MQTT request will be counted.|Not supported by C8Y (REST does not support updating multiple managed objects in one call).|
- * |Creation/update of **multiple alarms/measurements/events/inventories** mixed in a single call.|Each MQTT line is processed separately. If it is a creation/update of an event/alarm/measurement/inventory, the corresponding counter is increased by one.|Not supported by the REST API.|
- * |Assign/unassign of **child devices and child assets** in one request|One managed object update is counted.|One managed object update is counted.|
+ * |Type of transfer|MQTT counter information|REST counter information||:---------------|:-----------------------|:-----------------------||Creation of an **alarm** in one request|One alarm creation is counted.|One alarm creation is counted via REST.||Update of an **alarm** (for example, status change)|One alarm update is counted.|One alarm update is counted via REST.||Creation of **multiple alarms** in one request|Each alarm creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support creating multiple alarms in one call).||Update of **multiple alarms** (for example, status change) in one request|Each alarm update in a single MQTT request will be counted.|Each alarm that matches the filter is counted as an alarm update (causing multiple updates).||Creation of an **event** in one request|One event creation is counted.|One event creation is counted.||Update of an **event** (for example, text change)|One event update is counted.|One event update is counted.||Creation of **multiple events** in one request|Each event creation in a single MQTT request will be counted.|Not supported by C8Y (REST does not support creating multiple events in one call).||Update of **multiple events** (for example, text change) in one request|Each event update in a single MQTT request will be counted.|Not supported by C8Y (REST does not support updating multiple events in one call).||Creation of a **measurement** in one request|One measurement creation is counted. |One measurement creation is counted.||Creation of **multiple measurements** in one request|Each measurement creation in a single MQTT request will be counted. Example: If MQTT is used to report 5 measurements, the measurementCreated counter will be incremented by five.|REST allows multiple measurements to be created by sending multiple measurements in one call. In this case, each measurement sent via REST is counted individually. The call itself is not counted. For example, if somebody sends 5 measurements via REST in one call, the corresponding counter will be increased by 5. Measurements with multiple series are counted as a singular measurement.||Creation of a **managed object** in one request|One managed object creation is counted.|One managed object creation is counted.||Update of one **managed object** (for example, status change)|One managed object update is counted.|One managed object update is counted.||Update of **multiple managed objects** in one request|Each managed object update in a single MQTT request will be counted.|Not supported by C8Y (REST does not support updating multiple managed objects in one call).||Creation/update of **multiple alarms/measurements/events/inventories** mixed in a single call.|Each MQTT line is processed separately. If it is a creation/update of an event/alarm/measurement/inventory, the corresponding counter is increased by one.|Not supported by the REST API.||Assign/unassign of **child devices and child assets** in one request|One managed object update is counted.|One managed object update is counted.|
  * 
  * ### Microservice usage statistics
  * 
  * The microservice usage statistics gathers information on the resource usage for tenants for each subscribed application which are collected on a daily base.
  * 
  * The microservice usage's information is stored in the `resources` object.
- *  </br>
- * 
- */ 
+ */
 interface UsageStatisticsApi {
 
 	companion object Factory {
@@ -95,32 +77,49 @@ interface UsageStatisticsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): UsageStatisticsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(UsageStatisticsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve statistics of the current tenant </br>
-	 * Retrieve usage statistics of the current tenant.  <section><h5>Required roles</h5> ROLE_TENANT_STATISTICS_READ </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the tenant statistics are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * </ul>
-	 *
-	 * @param currentPage The current page of the paginated results.
-	 * @param dateFrom Start date or date and time of the statistics.
-	 * @param dateTo End date or date and time of the statistics.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalElements When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * Retrieve statistics of the current tenant
+	 * 
+	 * Retrieve usage statistics of the current tenant.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_STATISTICS_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the tenant statistics are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param dateFrom
+	 * Start date or date and time of the statistics.
+	 * @param dateTo
+	 * End date or date and time of the statistics.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalElements
+	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantusagestatisticscollection+json")
 	@GET("/tenant/statistics")
@@ -134,18 +133,31 @@ interface UsageStatisticsApi {
 	): Call<TenantUsageStatisticsCollection>
 	
 	/**
-	 * Retrieve a usage statistics summary </br>
+	 * Retrieve a usage statistics summary
+	 * 
 	 * Retrieve a usage statistics summary of a tenant.
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the usage statistics summary is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * </ul>
-	 *
-	 * @param dateFrom Start date or date and time of the statistics.
-	 * @param dateTo End date or date and time of the statistics.
-	 * @param tenant Unique identifier of a Cumulocity IoT tenant.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_STATISTICS_READ *OR* ROLE_INVENTORY_READ 
+	 *  If the `tenant` request parameter is specified, then the current tenant must be the management tenant *OR* the parent of the requested `tenant`. 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the usage statistics summary is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Tenant not found.
+	 * 
+	 * @param dateFrom
+	 * Start date or date and time of the statistics.
+	 * @param dateTo
+	 * End date or date and time of the statistics.
+	 * @param tenant
+	 * Unique identifier of a Cumulocity IoT tenant.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantusagestatisticssummary+json")
 	@GET("/tenant/statistics/summary")
@@ -156,17 +168,26 @@ interface UsageStatisticsApi {
 	): Call<SummaryTenantUsageStatistics>
 	
 	/**
-	 * Retrieve a summary of all usage statistics </br>
-	 * Retrieve a summary of all tenants usage statistics.  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_READ </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the usage statistics summary is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * </ul>
-	 *
-	 * @param dateFrom Start date or date and time of the statistics.
-	 * @param dateTo End date or date and time of the statistics.
+	 * Retrieve a summary of all usage statistics
+	 * 
+	 * Retrieve a summary of all tenants usage statistics.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_MANAGEMENT_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the usage statistics summary is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param dateFrom
+	 * Start date or date and time of the statistics.
+	 * @param dateTo
+	 * End date or date and time of the statistics.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/tenant/statistics/allTenantsSummary")
@@ -176,20 +197,32 @@ interface UsageStatisticsApi {
 	): Call<Array<SummaryAllTenantsUsageStatistics>>
 	
 	/**
-	 * Retrieve usage statistics files metadata </br>
-	 * Retrieve usage statistics summary files report metadata.  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the tenant statistics are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * </ul>
-	 *
-	 * @param currentPage The current page of the paginated results.
-	 * @param dateFrom Start date or date and time of the statistics file generation.
-	 * @param dateTo End date or date and time of the statistics file generation.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * Retrieve usage statistics files metadata
+	 * 
+	 * Retrieve usage statistics summary files report metadata.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the tenant statistics are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param dateFrom
+	 * Start date or date and time of the statistics file generation.
+	 * @param dateTo
+	 * End date or date and time of the statistics file generation.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantStatisticsfilecollection+json")
 	@GET("/tenant/statistics/files")
@@ -202,17 +235,29 @@ interface UsageStatisticsApi {
 	): Call<TenantUsageStatisticsFileCollection>
 	
 	/**
-	 * Generate a statistics file report </br>
-	 * Generate a TEST statistics file report for a given time range.  There are two types of statistics files: * REAL - generated by the system on the first day of the month and including statistics from the previous month. * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`). <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_CREATE </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>201 A statistics file was generated.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 *
-	 * @param body 
+	 * Generate a statistics file report
+	 * 
+	 * Generate a TEST statistics file report for a given time range.
+	 * 
+	 * There are two types of statistics files:
+	 * 
+	 * * REAL - generated by the system on the first day of the month and including statistics from the previous month.
+	 * * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`).
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_CREATE 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 201 A statistics file was generated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.tenantstatisticsdate+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantstatisticsfile+json"]) 
 	@POST("/tenant/statistics/files")
@@ -221,17 +266,25 @@ interface UsageStatisticsApi {
 	): Call<StatisticsFile>
 	
 	/**
-	 * Retrieve a usage statistics file </br>
-	 * Retrieve a specific usage statistics file (by a given ID).  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the file is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>404 Statistics file not found.</li>
-	 * </ul>
-	 *
-	 * @param id Unique identifier of the statistics file.
+	 * Retrieve a usage statistics file
+	 * 
+	 * Retrieve a specific usage statistics file (by a given ID).
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the file is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 404 Statistics file not found.
+	 * 
+	 * @param id
+	 * Unique identifier of the statistics file.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/octet-stream")
 	@GET("/tenant/statistics/files/{id}")
@@ -240,16 +293,29 @@ interface UsageStatisticsApi {
 	): Call<ResponseBody>
 	
 	/**
-	 * Retrieve the latest usage statistics file </br>
-	 * Retrieve the latest usage statistics file with REAL data for a given month.  There are two types of statistics files: * REAL - generated by the system on the first day of the month and includes statistics for the previous month. * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`).  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the file is sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * </ul>
-	 *
-	 * @param month Date (format YYYY-MM-dd) specifying the month for which the statistics file will be downloaded (the day value is ignored).
+	 * Retrieve the latest usage statistics file
+	 * 
+	 * Retrieve the latest usage statistics file with REAL data for a given month.
+	 * 
+	 * There are two types of statistics files:
+	 * 
+	 * * REAL - generated by the system on the first day of the month and includes statistics for the previous month.
+	 * * TEST - generated by the user with a time range specified in the query parameters (`dateFrom`, `dateTo`).
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the file is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * 
+	 * @param month
+	 * Date (format YYYY-MM-dd) specifying the month for which the statistics file will be downloaded (the day value is ignored).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/octet-stream")
 	@GET("/tenant/statistics/files/latest/{month}")

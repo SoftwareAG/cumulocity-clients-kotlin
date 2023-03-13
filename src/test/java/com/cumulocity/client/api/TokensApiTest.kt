@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
@@ -15,7 +15,7 @@ import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import com.cumulocity.client.model.NotificationTokenClaims
 import com.cumulocity.client.model.NotificationToken
-import com.cumulocity.client.model.Response1
+import com.cumulocity.client.model.NotificationSubscriptionResult
 
 // TODO parameterise servers
 class TokensApiTest {

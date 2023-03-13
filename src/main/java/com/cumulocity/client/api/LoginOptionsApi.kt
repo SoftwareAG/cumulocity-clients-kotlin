@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
@@ -23,10 +23,9 @@ import com.cumulocity.client.model.LoginOptionCollection
  * API methods to retrieve the login options configured in the tenant.
  * 
  * More detailed information about the parameters and their meaning can be found in [Administration > Changing settings](https://cumulocity.com/guides/users-guide/administration/#changing-settings) in the *Users guide*.
- * > **&#9432; Info:** If OAuth external is the only login option shown in the response, the user will be automatically redirected to the SSO login screen.
- *  </br>
  * 
- */ 
+ * > **ⓘ Info:** If OAuth external is the only login option shown in the response, the user will be automatically redirected to the SSO login screen.
+ */
 interface LoginOptionsApi {
 
 	companion object Factory {
@@ -35,28 +34,38 @@ interface LoginOptionsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): LoginOptionsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(LoginOptionsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve the login options </br>
+	 * Retrieve the login options
+	 * 
 	 * Retrieve the login options available in the tenant.
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the login options are sent in the response.</li>
-	 * <li>400 Bad request – invalid parameters.</li>
-	 * </ul>
-	 *
-	 * @param management If this is set to `true`, the management tenant login options will be returned.  > **&#9432; Info:** The `tenantId` parameter must not be present in the request when using the `management` parameter, otherwise it will cause an error. 
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the login options are sent in the response.
+	 * * HTTP 400 Bad request – invalid parameters.
+	 * 
+	 * @param management
+	 * If this is set to `true`, the management tenant login options will be returned.
+	 * 
+	 * **ⓘ Info:** The `tenantId` parameter must not be present in the request when using the `management` parameter, otherwise it will cause an error.
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.loginoptioncollection+json")
 	@GET("/tenant/loginOptions")
@@ -66,18 +75,25 @@ interface LoginOptionsApi {
 	): Call<LoginOptionCollection>
 	
 	/**
-	 * Create a login option </br>
-	 * Create an authentication configuration on your tenant.  <section><h5>Required roles</h5> ROLE_TENANT_ADMIN <b>OR</b> ROLE_TENANT_MANAGEMENT_ADMIN </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 A login option was created.</li>
-	 * <li>400 Duplicated – The login option already exists.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>422 Unprocessable Entity – invalid payload.</li>
-	 * </ul>
-	 *
-	 * @param body 
+	 * Create a login option
+	 * 
+	 * Create an authentication configuration on your tenant.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_ADMIN 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 A login option was created.
+	 * * HTTP 400 Duplicated – The login option already exists.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.authconfig+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
 	@POST("/tenant/loginOptions")
@@ -87,19 +103,28 @@ interface LoginOptionsApi {
 	): Call<AuthConfig>
 	
 	/**
-	 * Update a tenant's access to the login option </br>
-	 * Update the tenant's access to the authentication configuration.  <section><h5>Required roles</h5> ROLE_TENANT_MANAGEMENT_ADMIN <b>AND</b> is the management tenant </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The login option was updated.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * <li>404 Tenant not found.</li>
-	 * </ul>
-	 *
-	 * @param body 
-	 * @param typeOrId The type or ID of the login option. The type's value is case insensitive and can be `OAUTH2`, `OAUTH2_INTERNAL` or `BASIC`.
-	 * @param targetTenant Unique identifier of a Cumulocity IoT tenant.
+	 * Update a tenant's access to the login option
+	 * 
+	 * Update the tenant's access to the authentication configuration.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_MANAGEMENT_ADMIN *AND* is the management tenant 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The login option was updated.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Tenant not found.
+	 * 
+	 * @param body
+	 * @param typeOrId
+	 * The type or ID of the login option. The type's value is case insensitive and can be `OAUTH2`, `OAUTH2_INTERNAL` or `BASIC`.
+	 * @param targetTenant
+	 * Unique identifier of a Cumulocity IoT tenant.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
 	@PUT("/tenant/loginOptions/{type_or_id}/restrict")

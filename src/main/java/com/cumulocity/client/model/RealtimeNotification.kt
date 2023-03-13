@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -65,13 +65,11 @@ data class RealtimeNotification(var channel: Channel?) {
 
 	/**
 	 * [Bayeux protocol](https://docs.cometd.org/current/reference/#_concepts_bayeux_protocol) version used by the client (in a request) or server (in a response).
-	 * 
 	 */
 	var version: String? = null
 
 	/**
 	 * The channel name as a URI.
-	 * [/meta/handshake, /meta/subscribe, /meta/unsubscribe, /meta/connect, /meta/disconnect]
 	 */
 	enum class Channel(val value: String) {
 		@SerializedName(value = "/meta/handshake")
@@ -132,7 +130,6 @@ data class RealtimeNotification(var channel: Channel?) {
 	
 		/**
 		 * The system of units to use.
-		 * [imperial, metric]
 		 */
 		enum class SystemOfUnits(val value: String) {
 			@SerializedName(value = "imperial")

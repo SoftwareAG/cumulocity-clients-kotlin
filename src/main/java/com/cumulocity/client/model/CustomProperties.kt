@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -34,7 +34,6 @@ class CustomProperties {
 
 	/**
 	 * It is possible to add an arbitrary number of custom properties as a list of key-value pairs, for example, `"property": "value"`.
-	 * 
 	 */
 	var customProperties: MutableMap<String, Any> = hashMapOf()
 	

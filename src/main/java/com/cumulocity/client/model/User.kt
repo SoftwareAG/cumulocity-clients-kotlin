@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -71,7 +71,6 @@ class User {
 	 * The user's password. Only Latin1 characters are allowed.
 	 * 
 	 * If you do not specify a password when creating a new user with a POST request, it must contain the property `sendPasswordResetEmail` with a value of `true`.
-	 * 
 	 */
 	var password: String? = null
 
@@ -99,7 +98,6 @@ class User {
 	 * When set to `true`, this field will cause Cumulocity IoT to send a password reset email to the email address specified.
 	 * 
 	 * If there is no password specified when creating a new user with a POST request, this must be specified and it must be set to `true`.
-	 * 
 	 */
 	var sendPasswordResetEmail: Boolean? = null
 
@@ -126,7 +124,6 @@ class User {
 
 	/**
 	 * Indicates the password strength. The value can be GREEN, YELLOW or RED for decreasing password strengths.
-	 * [GREEN, YELLOW, RED]
 	 */
 	enum class PasswordStrength(val value: String) {
 		@SerializedName(value = "GREEN")

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -69,7 +69,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 
 	/**
 	 * It is possible to add an arbitrary number of additional properties as a list of key-value pairs, for example, `"property1": {}`, `"property2": "value"`. These properties can be of any type, for example, object or string.
-	 * 
 	 */
 	var customProperties: MutableMap<String, Any> = hashMapOf()
 	
@@ -78,7 +77,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 
 	/**
 	 * The severity of the audit action.
-	 * [CRITICAL, MAJOR, MINOR, WARNING, INFORMATION]
 	 */
 	enum class Severity(val value: String) {
 		@SerializedName(value = "CRITICAL")
@@ -95,7 +93,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 
 	/**
 	 * Identifies the platform component of the audit.
-	 * [Alarm, Application, BulkOperation, CepModule, Connector, Event, Group, Inventory, InventoryRole, Operation, Option, Report, SingleSignOn, SmartRule, SYSTEM, Tenant, TenantAuthConfig, TrustedCertificates, User, UserAuthentication]
 	 */
 	enum class Type(val value: String) {
 		@SerializedName(value = "Alarm")
@@ -152,7 +149,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 	
 		/**
 		 * The action that was carried out.
-		 * [SUBSCRIBE, DEPLOY, SCALE, DELETE]
 		 */
 		enum class Action(val value: String) {
 			@SerializedName(value = "SUBSCRIBE")
@@ -200,7 +196,6 @@ data class AuditRecord(var activity: String?, var source: Source?, var text: Str
 	
 		/**
 		 * The type of change that was carried out.
-		 * [ADDED, REPLACED]
 		 */
 		enum class ChangeType(val value: String) {
 			@SerializedName(value = "ADDED")

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -39,7 +39,6 @@ class RequestRepresentation {
 
 	/**
 	 * HTTP request method.
-	 * [GET, POST]
 	 */
 	enum class Method(val value: String) {
 		@SerializedName(value = "GET")
@@ -50,7 +49,6 @@ class RequestRepresentation {
 
 	/**
 	 * Requested operation.
-	 * [EXECUTE, REDIRECT]
 	 */
 	enum class Operation(val value: String) {
 		@SerializedName(value = "EXECUTE")
@@ -66,7 +64,6 @@ class RequestRepresentation {
 	
 		/**
 		 * It is possible to add an arbitrary number of headers as a list of key-value string pairs, for example, `"header": "value"`.
-		 * 
 		 */
 		var requestHeaders: MutableMap<String, String> = hashMapOf()
 		
@@ -87,7 +84,6 @@ class RequestRepresentation {
 	
 		/**
 		 * It is possible to add an arbitrary number of parameters as a list of key-value string pairs, for example, `"parameter": "value"`.
-		 * 
 		 */
 		var requestParameters: MutableMap<String, String> = hashMapOf()
 		

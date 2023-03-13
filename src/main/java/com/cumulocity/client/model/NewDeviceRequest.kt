@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -24,7 +24,6 @@ class NewDeviceRequest {
 
 	/**
 	 * Status of this new device request.
-	 * [WAITING_FOR_CONNECTION, PENDING_ACCEPTANCE, ACCEPTED]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "WAITING_FOR_CONNECTION")

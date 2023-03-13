@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter
 import java.io.Writer
 import java.nio.charset.Charset
 
-class ExtendedGsonRequestBodyConverter<T>(val gson: Gson, val adapter: TypeAdapter<T>, val readOnlyProperties: Array<out String> = arrayOf()): Converter<T, RequestBody> {
+class ExtendedGsonRequestBodyConverter<T>(val gson: Gson, private val adapter: TypeAdapter<T>, val readOnlyProperties: Array<out String> = arrayOf()): Converter<T, RequestBody> {
 
     companion object {
         private val MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8")
@@ -27,7 +27,7 @@ class ExtendedGsonRequestBodyConverter<T>(val gson: Gson, val adapter: TypeAdapt
 		adapter.write(jsonWriter, value)
 		jsonWriter.close()
 
-     	var jsonString: String = buffer.readByteString().string(UTF_8)
+     	val jsonString: String = buffer.readByteString().string(UTF_8)
      	val jsonTree = JsonParser().parse(jsonString)
 
 		readOnlyProperties.forEach { p ->

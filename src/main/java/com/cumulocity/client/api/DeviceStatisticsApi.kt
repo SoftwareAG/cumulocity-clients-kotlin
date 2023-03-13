@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.api
@@ -48,9 +48,7 @@ import com.cumulocity.client.model.DeviceStatisticsCollection
  * #### When I have a device with children are the requests counted always to the root device or separately for each child?
  * 
  * Separately for each child.
- *  </br>
- * 
- */ 
+ */
 interface DeviceStatisticsApi {
 
 	companion object Factory {
@@ -59,33 +57,50 @@ interface DeviceStatisticsApi {
 		}
 
 		fun create(baseUrl: String, clientBuilder: OkHttpClient.Builder?): DeviceStatisticsApi {
-			val retrofitBuilder = Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(ExtendedGsonConverterFactory())
-				.addConverterFactory(ScalarsConverterFactory.create())
+			val retrofitBuilder = retrofit().baseUrl(baseUrl)
 			if (clientBuilder != null) {
 				retrofitBuilder.client(clientBuilder.build())
 			}
 			return retrofitBuilder.build().create(DeviceStatisticsApi::class.java)
 		}
+
+		fun retrofit(): Retrofit.Builder{
+			return Retrofit.Builder()
+				.addConverterFactory(ExtendedGsonConverterFactory())
+				.addConverterFactory(ScalarsConverterFactory.create())
+		}
 	}
 
 	/**
-	 * Retrieve monthly device statistics </br>
-	 * Retrieve monthly device statistics from a specific tenant (by a given ID).  <section><h5>Required roles</h5> ROLE_TENANT_STATISTICS_READ </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the devices statistics are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * </ul>
-	 *
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param date Date (format YYYY-MM-dd) of the queried month (the day value is ignored).
-	 * @param currentPage The current page of the paginated results.
-	 * @param deviceId The ID of the device to search for.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * Retrieve monthly device statistics
+	 * 
+	 * Retrieve monthly device statistics from a specific tenant (by a given ID).
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_STATISTICS_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the devices statistics are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param date
+	 * Date (format YYYY-MM-dd) of the queried month (the day value is ignored).
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param deviceId
+	 * The ID of the device to search for.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/tenant/statistics/device/{tenantId}/monthly/{date}")
@@ -99,22 +114,35 @@ interface DeviceStatisticsApi {
 	): Call<DeviceStatisticsCollection>
 	
 	/**
-	 * Retrieve daily device statistics </br>
-	 * Retrieve daily device statistics from a specific tenant (by a given ID).  <section><h5>Required roles</h5> ROLE_TENANT_STATISTICS_READ </section> 
-	 *
-	 * <br>The following table gives an overview of the possible response codes and their meanings:</br>
-	 * <ul>
-	 * <li>200 The request has succeeded and the devices statistics are sent in the response.</li>
-	 * <li>401 Authentication information is missing or invalid.</li>
-	 * <li>403 Not authorized to perform this operation.</li>
-	 * </ul>
-	 *
-	 * @param tenantId Unique identifier of a Cumulocity IoT tenant.
-	 * @param date Date (format YYYY-MM-dd) of the queried day.
-	 * @param currentPage The current page of the paginated results.
-	 * @param deviceId The ID of the device to search for.
-	 * @param pageSize Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
-	 * @param withTotalPages When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * Retrieve daily device statistics
+	 * 
+	 * Retrieve daily device statistics from a specific tenant (by a given ID).
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_TENANT_STATISTICS_READ 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the devices statistics are sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param date
+	 * Date (format YYYY-MM-dd) of the queried day.
+	 * @param currentPage
+	 * The current page of the paginated results.
+	 * @param deviceId
+	 * The ID of the device to search for.
+	 * @param pageSize
+	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
+	 * @param withTotalPages
+	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
 	@GET("/tenant/statistics/device/{tenantId}/daily/{date}")

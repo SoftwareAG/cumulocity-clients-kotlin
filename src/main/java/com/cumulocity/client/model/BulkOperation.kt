@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+// Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
 // Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
 
 package com.cumulocity.client.model
@@ -19,15 +19,15 @@ class BulkOperation {
 
 	/**
 	 * Identifies the target group on which this operation should be performed.
-	 * >**&#9432; Info:** `groupId` and `failedParentId` are mutually exclusive. Use only one of them in your request.
 	 * 
+	 * > **ⓘ Info:** `groupId` and `failedParentId` are mutually exclusive. Use only one of them in your request.
 	 */
 	var groupId: String? = null
 
 	/**
 	 * Identifies the failed bulk operation from which the failed operations should be rescheduled.
-	 * >**&#9432; Info:** `groupId` and `failedParentId` are mutually exclusive. Use only one of them in your request. 
 	 * 
+	 * > **ⓘ Info:** `groupId` and `failedParentId` are mutually exclusive. Use only one of them in your request.
 	 */
 	var failedParentId: String? = null
 
@@ -63,7 +63,6 @@ class BulkOperation {
 
 	/**
 	 * The status of this bulk operation, in context of the execution of all its single operations.
-	 * [ACTIVE, IN_PROGRESS, COMPLETED, DELETED]
 	 */
 	enum class Status(val value: String) {
 		@SerializedName(value = "ACTIVE")
@@ -78,7 +77,6 @@ class BulkOperation {
 
 	/**
 	 * The general status of this bulk operation. The general status is visible for end users and they can filter and evaluate bulk operations by this status.
-	 * [SCHEDULED, EXECUTING, EXECUTING_WITH_ERRORS, SUCCESSFUL, FAILED, CANCELED]
 	 */
 	enum class GeneralStatus(val value: String) {
 		@SerializedName(value = "SCHEDULED")
