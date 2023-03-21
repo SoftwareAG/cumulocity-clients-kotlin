@@ -11,7 +11,7 @@ package com.cumulocity.client.supplementary
  * separatedQueryParameterOf(1, 2, 3)
  * ```
  */
-fun <T : Any> separatedQueryParameterOf(vararg elements: T): SeparatedQueryParameter<T> {
+fun <T : Any> separatedQueryParameterOf(vararg elements: T?): SeparatedQueryParameter<T?> {
 	return SeparatedQueryParameter(elements)
 }
 
