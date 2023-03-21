@@ -22,9 +22,12 @@ fun <T : Any> separatedQueryParameterOf(vararg elements: T): SeparatedQueryParam
  *
  * @param elements
  */
-class SeparatedQueryParameter<T>(var elements: Array<out T>) {
+class SeparatedQueryParameter<T>(var elements: Array<out T>?) {
 
 	override fun toString(): String {
-		return elements.filterNotNull().joinToString(",")
+		elements?.let {
+			return it.filterNotNull().joinToString(",")
+		}
+		return String()
 	}
 }
