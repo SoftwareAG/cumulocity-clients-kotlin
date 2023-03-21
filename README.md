@@ -58,8 +58,8 @@ override fun onResponse(call: Call<T>?, response: Response<T>?) {
     // response?.message()
     // response?.code()
     response?.errorBody()?.let {
-        val retrofitBuilder: Retrofit.Builder = ...
-	    val converter = retrofitBuilder.build().responseBodyConverter<Error>(Error::class.java, arrayOf())
+		val retrofitBuilder: Retrofit.Builder = ...
+		val converter = retrofitBuilder.build().responseBodyConverter<Error>(Error::class.java, arrayOf())
 		converter.convert(it)
 }
 ```
