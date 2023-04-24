@@ -5,9 +5,13 @@ package com.cumulocity.client.model
 import com.google.gson.Gson
 
 /**
- * An object with a list of the user's device permissions.
+ * A list of device permissions.
  */
 class DevicePermissions {
+
+	var users: Array<User>? = null
+
+	var groups: Array<Group>? = null
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

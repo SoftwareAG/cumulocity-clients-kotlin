@@ -84,7 +84,7 @@ clientBuilder.addInterceptor(headerAuthorizationInterceptor)
 The customised `clientBuilder` can than be passed to any service instance using it's `companion` `Factory` object, i.e.:
 
 ```kotlin
-SystemOptionsApi.Factory.create("endpoint", clientBuilder)
+CurrentUserApi.Factory.create("endpoint", clientBuilder)
 ```
 
 ## Contribution
