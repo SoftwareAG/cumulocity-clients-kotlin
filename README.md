@@ -45,7 +45,7 @@ Those classes allow to add an arbitrary number of additional properties as a lis
 Alarm.Serialization.registerAdditionalProperty(typeName: String, type: Class<*>)
 ```
 
-Each of the extensible objects contains a dictionary object holding instances of custom fragments. Use the custom fragment's key to access it's value.
+Each of the extensible objects contains a dictionary object holding instances of custom fragments. Use the custom fragment's key to access its value.
 
 ### Working with errors
 
