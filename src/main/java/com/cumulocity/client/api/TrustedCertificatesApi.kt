@@ -13,13 +13,16 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
+import com.cumulocity.client.model.UploadedTrustedCertificate
+import com.cumulocity.client.model.UploadedTrustedCertificateCollection
 import com.cumulocity.client.model.TrustedCertificate
-import com.cumulocity.client.model.TrustedCertificateCollection
 import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
+import com.cumulocity.client.model.TrustedCertificateCollection
 
 /**
  * API methods for managing trusted certificates used to establish device connections via MQTT.
@@ -113,13 +116,20 @@ interface TrustedCertificatesApi {
 	 * @param body
 	 * @param tenantId
 	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode
+	 * Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @param addToTrustStore
+	 * If set to `true` the certificate is added to the truststore.
+	 * 
+	 * The truststore contains all trusted certificates. A connection to a device is only established if it connects to Cumulocity IoT with a certificate in the truststore.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates")
-	@ReadOnlyProperties("notAfter", "serialNumber", "subject", "fingerprint", "self", "algorithmName", "version", "issuer", "notBefore")
 	fun addTrustedCertificate(
-		@Body body: TrustedCertificate, 
-		@Path("tenantId") tenantId: String
+		@Body body: UploadedTrustedCertificate, 
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
+		@Query("addToTrustStore") addToTrustStore: Boolean? = null
 	): Call<TrustedCertificate>
 	
 	/**
@@ -145,13 +155,18 @@ interface TrustedCertificatesApi {
 	 * @param body
 	 * @param tenantId
 	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param addToTrustStore
+	 * If set to `true` the certificate is added to the truststore.
+	 * 
+	 * The truststore contains all trusted certificates. A connection to a device is only established if it connects to Cumulocity IoT with a certificate in the truststore.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates/bulk")
 	@ReadOnlyProperties("next", "prev", "self", "statistics")
 	fun addTrustedCertificates(
-		@Body body: TrustedCertificateCollection, 
-		@Path("tenantId") tenantId: String
+		@Body body: UploadedTrustedCertificateCollection, 
+		@Path("tenantId") tenantId: String, 
+		@Query("addToTrustStore") addToTrustStore: Boolean? = null
 	): Call<TrustedCertificateCollection>
 	
 	/**
@@ -210,7 +225,7 @@ interface TrustedCertificatesApi {
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@PUT("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
-	@ReadOnlyProperties("notAfter", "serialNumber", "subject", "fingerprint", "self", "certInPemFormat", "algorithmName", "version", "issuer", "notBefore")
+	@ReadOnlyProperties("proofOfPossessionValid", "notAfter", "serialNumber", "proofOfPossessionVerificationCodeUsableUntil", "subject", "algorithmName", "version", "issuer", "notBefore", "proofOfPossessionUnsignedVerificationCode", "fingerprint", "self", "certInPemFormat")
 	fun updateTrustedCertificate(
 		@Body body: TrustedCertificate, 
 		@Path("tenantId") tenantId: String, 

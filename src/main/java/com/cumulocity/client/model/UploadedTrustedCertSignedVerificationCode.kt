@@ -7,12 +7,8 @@ import com.google.gson.Gson
 /**
  * The signed verification code to prove the user's possession of the certificate.
  */
-class UploadedTrustedCertSignedVerificationCode {
-
-	/**
-	 * A signed verification code that proves the right to use the certificate.
-	 */
-	var proofOfPossessionSignedVerificationCode: String? = null
+data class UploadedTrustedCertSignedVerificationCode(var proofOfPossessionSignedVerificationCode: String?) {
+	constructor() : this(proofOfPossessionSignedVerificationCode = null)
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

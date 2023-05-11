@@ -14,9 +14,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
+import com.cumulocity.client.model.UploadedTrustedCertificate
+import com.cumulocity.client.model.UploadedTrustedCertificateCollection
 import com.cumulocity.client.model.TrustedCertificate
-import com.cumulocity.client.model.TrustedCertificateCollection
 import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
+import com.cumulocity.client.model.TrustedCertificateCollection
 
 // TODO parameterise servers
 class TrustedCertificatesApiTest {

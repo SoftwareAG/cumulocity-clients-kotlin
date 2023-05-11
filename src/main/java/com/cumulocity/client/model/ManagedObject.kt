@@ -97,6 +97,12 @@ class ManagedObject {
 	var c8yIsDevice: C8yIsDevice? = null
 
 	/**
+	 * A fragment which identifies this managed object as a device group.
+	 */
+	@SerializedName(value = "c8y_IsDeviceGroup")
+	var c8yIsDeviceGroup: C8yIsDeviceGroup? = null
+
+	/**
 	 * This fragment must be added in order to publish sample commands for a subset of devices sharing the same device type. If the fragment is present, the list of sample commands for a device type will be extended with the sample commands for the `c8y_DeviceTypes`. New sample commands created from the user interface will be created in the context of the `c8y_DeviceTypes`.
 	 */
 	@SerializedName(value = "c8y_DeviceTypes")
@@ -122,6 +128,16 @@ class ManagedObject {
 	 * A fragment which identifies this managed object as a device.
 	 */
 	class C8yIsDevice {
+	
+		override fun toString(): String {
+			return Gson().toJson(this).toString()
+		}
+	}
+
+	/**
+	 * A fragment which identifies this managed object as a device group.
+	 */
+	class C8yIsDeviceGroup {
 	
 		override fun toString(): String {
 			return Gson().toJson(this).toString()
@@ -170,6 +186,7 @@ class ManagedObject {
 			src?.assetParents?.let { it -> jsonTree.add("assetParents", context?.serialize(it)) }
 			src?.deviceParents?.let { it -> jsonTree.add("deviceParents", context?.serialize(it)) }
 			src?.c8yIsDevice?.let { it -> jsonTree.add("c8y_IsDevice", context?.serialize(it)) }
+			src?.c8yIsDeviceGroup?.let { it -> jsonTree.add("c8y_IsDeviceGroup", context?.serialize(it)) }
 			src?.c8yDeviceTypes?.let { it -> jsonTree.add("c8y_DeviceTypes", context?.serialize(it)) }
 			src?.c8ySupportedOperations?.let { it -> jsonTree.add("c8y_SupportedOperations", context?.serialize(it)) }
 			src?.customFragments?.let { it ->

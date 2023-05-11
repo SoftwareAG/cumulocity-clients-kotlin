@@ -48,6 +48,21 @@ class TrustedCertificate {
 	var notBefore: String? = null
 
 	/**
+	 * Indicates whether the proof of possession for the certificate was provided.
+	 */
+	var proofOfPossessionValid: Boolean? = null
+
+	/**
+	 * An unsigned verification code that provides proof of possession for the certificate after signing.
+	 */
+	var proofOfPossessionUnsignedVerificationCode: String? = null
+
+	/**
+	 * Validity of the verification code.
+	 */
+	var proofOfPossessionVerificationCodeUsableUntil: String? = null
+
+	/**
 	 * A URL linking to this resource.
 	 */
 	var self: String? = null

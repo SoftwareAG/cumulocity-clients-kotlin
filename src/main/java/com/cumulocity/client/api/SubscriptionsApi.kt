@@ -71,6 +71,14 @@ interface SubscriptionsApi {
 	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param source
 	 * The managed object ID to which the subscription is associated.
+	 * @param subscription
+	 * The subscription name by which filtering will be done.
+	 * @param typeFilter
+	 * The type used to filter subscriptions. This will check the subscription's `subscriptionFilter.typeFilter` field.
+	 * 
+	 * **ⓘ Info:** Filtering by `typeFilter` may affect paging. Additional post filtering may be performed if OData-like expressions are used in the subscriptions.
+	 * @param withTotalElements
+	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages
 	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 */
@@ -81,6 +89,9 @@ interface SubscriptionsApi {
 		@Query("currentPage") currentPage: Int? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
 		@Query("source") source: String? = null, 
+		@Query("subscription") subscription: String? = null, 
+		@Query("typeFilter") typeFilter: String? = null, 
+		@Query("withTotalElements") withTotalElements: Boolean? = null, 
 		@Query("withTotalPages") withTotalPages: Boolean? = null
 	): Call<NotificationSubscriptionCollection>
 	
@@ -96,6 +107,7 @@ interface SubscriptionsApi {
 	 * * The name of the subscription.
 	 * * The applicable filter criteria.
 	 * * The option to only include specific custom fragments in the forwarded data.
+	 * * The option to use persistent or non-persistent message storage.
 	 * 
 	 * 
 	 * ##### Required roles

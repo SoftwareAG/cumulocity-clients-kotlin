@@ -52,9 +52,9 @@ interface BinariesApi {
 	}
 
 	/**
-	 * Retrieve the stored files
+	 * Search for stored files
 	 * 
-	 * Retrieve the stored files as a collections of managed objects.
+	 * Retrieve metadata information about stored files. Search for files by query parameters. This will not download the files.
 	 * 
 	 * ##### Response Codes
 	 * 

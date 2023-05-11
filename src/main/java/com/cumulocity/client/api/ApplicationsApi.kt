@@ -226,10 +226,10 @@ interface ApplicationsApi {
 	 * 
 	 * @param id
 	 * Unique identifier of the application.
-	 * @param force
-	 * Force deletion by unsubscribing all tenants from the application first and then deleting the application itself.
 	 * @param xCumulocityProcessingMode
 	 * Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @param force
+	 * Force deletion by unsubscribing all tenants from the application first and then deleting the application itself.
 	 */
 	@Headers("Accept:application/json")
 	@DELETE("/application/applications/{id}")

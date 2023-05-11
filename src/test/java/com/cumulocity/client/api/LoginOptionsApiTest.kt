@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
+import okhttp3.ResponseBody
 import com.cumulocity.client.model.AuthConfig
 import com.cumulocity.client.model.AuthConfigAccess
 import com.cumulocity.client.model.LoginOptionCollection

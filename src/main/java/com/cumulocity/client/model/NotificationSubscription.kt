@@ -34,6 +34,11 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 	var subscriptionFilter: SubscriptionFilter? = null
 
 	/**
+	 * Indicates whether the messages for this subscription are persistent or non-persistent, meaning they can be lost if consumer is not connected.
+	 */
+	var nonPersistent: Boolean? = null
+
+	/**
 	 * The context within which the subscription is to be processed.
 	 * 
 	 * > **ⓘ Info:** If the value is `mo`, then `source` must also be provided in the request body.
@@ -77,14 +82,18 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 	class SubscriptionFilter {
 	
 		/**
-		 * The Notifications are available for Alarms, Alarms with children, Device control, Events, Events with children, Inventory and Measurements for the `mo` context and for Alarms and Inventory for the `tenant` context. Alternatively, the wildcard `*` can be used to match all the permissible APIs within the bound context.
+		 * The Notifications are available for Alarms, Alarms with children, Device control, Events, Events with children, Inventory and Measurements for the `mo` context and for Alarms, Events and Inventory for the `tenant` context. Alternatively, the wildcard `*` can be used to match all the permissible APIs within the bound context.
 		 * 
-		 * > **ⓘ Info:** the wildcard `*` cannot be used in conjunction with other values.
+		 * > **ⓘ Info:** The wildcard `*` cannot be used in conjunction with other values.
+		 * > **ⓘ Info:** When filtering Events in the `tenant` context it is required to also specify the `typeFilter`.
 		 */
 		var apis: Array<String>? = null
 	
 		/**
-		 * The data needs to have the specified value in its `type` property to meet the filter criteria.
+		 * Used to match the `type` property of the data. An OData expression must be provided.
+		 * 
+		 * > **ⓘ Info:** The use of a `type` attribute is assumed, for example when using only a string literal `'c8y_Temperature'` it is equivalent to a `type eq 'c8y_Temperature'` OData expression.
+		 * > **ⓘ Info:** Currently only the `or` operator is allowed in the expression mode. Example usage is `'c8y_Temperature' or 'c8y_Pressure'` which will match all the data with types `c8y_Temperature` or `c8y_Pressure`.
 		 */
 		var typeFilter: String? = null
 	
