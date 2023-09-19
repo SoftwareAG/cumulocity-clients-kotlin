@@ -91,7 +91,7 @@ interface CurrentUserApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.currentuser+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.currentuser+json"]) 
 	@PUT("/user/currentUser")
-	@ReadOnlyProperties("self", "effectiveRoles", "shouldResetPassword", "id", "lastPasswordChange", "twoFactorAuthenticationEnabled", "devicePermissions")
+	@ReadOnlyProperties("self", "effectiveRoles", "shouldResetPassword", "id", "lastPasswordChange", "twoFactorAuthenticationEnabled")
 	fun updateCurrentUser(
 		@Body body: CurrentUser
 	): Call<CurrentUser>

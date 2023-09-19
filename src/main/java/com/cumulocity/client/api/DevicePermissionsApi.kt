@@ -14,7 +14,8 @@ import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
-import com.cumulocity.client.model.DevicePermissions
+import com.cumulocity.client.model.UpdatedDevicePermissions
+import com.cumulocity.client.model.DevicePermissionOwners
 
 /**
  * API methods to retrieve and update device permissions assignments.
@@ -83,7 +84,7 @@ interface DevicePermissionsApi {
 	@GET("/user/devicePermissions/{id}")
 	fun getDevicePermissionAssignments(
 		@Path("id") id: String
-	): Call<DevicePermissions>
+	): Call<DevicePermissionOwners>
 	
 	/**
 	 * Updates the device permissions assignments
@@ -110,7 +111,7 @@ interface DevicePermissionsApi {
 	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
 	@PUT("/user/devicePermissions/{id}")
 	fun updateDevicePermissionAssignments(
-		@Body body: DevicePermissions, 
+		@Body body: UpdatedDevicePermissions, 
 		@Path("id") id: String
 	): Call<ResponseBody>
 }

@@ -27,7 +27,7 @@ import com.cumulocity.client.model.Binary
 /**
  * Managed objects can perform operations to store, retrieve and delete binaries. One binary can store only one file. Together with the binary, a managed object is created which acts as a metadata information for the binary.
  * 
- * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
+ * > **ⓘ Info:** Supports only HTTP 1.1 clients.**ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface BinariesApi {
 
@@ -140,7 +140,7 @@ interface BinariesApi {
 	/**
 	 * Retrieve a stored file
 	 * 
-	 * Retrieve a stored file (managed object) by a given ID.
+	 * Retrieve a stored file (managed object) by a given ID.Supports chunk download and resuming an interrupted download using the [`Range` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range).
 	 * 
 	 * 
 	 * ##### Required roles

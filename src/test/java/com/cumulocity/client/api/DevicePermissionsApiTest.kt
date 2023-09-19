@@ -14,7 +14,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
-import com.cumulocity.client.model.DevicePermissions
+import com.cumulocity.client.model.UpdatedDevicePermissions
+import com.cumulocity.client.model.DevicePermissionOwners
 
 // TODO parameterise servers
 class DevicePermissionsApiTest {

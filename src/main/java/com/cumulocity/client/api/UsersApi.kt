@@ -482,4 +482,33 @@ interface UsersApi {
 		@Header("Cookie") cookie: String? = null, 
 		@Header("X-XSRF-TOKEN") xXSRFTOKEN: String? = null
 	): Call<ResponseBody>
+	
+	/**
+	 * Terminate all tenant users' sessions and invalidate tokens
+	 * 
+	 * The user with the role ROLE_USER_MANAGEMENT_ADMIN is authorized to log out all tenant users with a toked based access.
+	 * 
+	 * The request is responsible for terminating all tenant users' toked based sessions and invalidating internal platform access tokens.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN *AND* is the current tenant 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the users (with a token based access) are logged out.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * 
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 */
+	@Headers("Accept:application/json")
+	@POST("/user/logout/{tenantId}/allUsers")
+	fun logoutAllUsers(
+		@Path("tenantId") tenantId: String
+	): Call<ResponseBody>
 }

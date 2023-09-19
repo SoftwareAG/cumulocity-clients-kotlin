@@ -235,7 +235,7 @@ interface TrustedCertificatesApi {
 	/**
 	 * Remove a stored certificate
 	 * 
-	 * Remove a stored trusted certificate (by a given fingerprint) from a specific tenant (by a given ID).
+	 * Remove a stored trusted certificate (by a given fingerprint) from a specific tenant (by a given ID).When a trusted certificate is deleted, the established MQTT connection to all devices that are using the corresponding certificate are closed.
 	 * 
 	 * 
 	 * ##### Required roles

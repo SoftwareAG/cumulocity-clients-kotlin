@@ -62,24 +62,4 @@ class ManagedObjectsApiTest {
     	})
     	latch.await()
     }
-    
-    @Test
-    fun testGetNumberOfManagedObjects() {
-    	val latch = CountDownLatch(1)
-        val api = ManagedObjectsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
-    	api.getNumberOfManagedObjects().enqueue(object : Callback<Int> {
-    
-    		override fun onResponse(call: Call<Int>?, response: Response<Int>?) {
-    			println(response?.message())
-    			println(response?.body())
-    			latch.countDown()
-    		}
-    
-    		override fun onFailure(call: Call<Int>?, t: Throwable?) {
-    			println(t)
-    			latch.countDown()
-    		}
-    	})
-    	latch.await()
-    }
 }

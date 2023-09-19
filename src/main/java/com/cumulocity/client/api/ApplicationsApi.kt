@@ -28,7 +28,7 @@ import com.cumulocity.client.model.ApplicationCollection
  * 
  * For each tenant, Cumulocity IoT manages the subscribed applications and provides a number of applications of various types.In case you want to subscribe a tenant to an application using an API, you must use the application name in the argument (as name).
  * 
- * Refer to the tables in [Administration > Managing applications](https://cumulocity.com/guides/10.7.0/users-guide/administration#managing-applications) in the User guide for the respective application name to be used.
+ * Refer to the tables in [Administration > Managing applications](https://cumulocity.com/guides/users-guide/administration#managing-applications) in the *User guide* for the respective application name to be used.
  * 
  * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
@@ -252,6 +252,8 @@ interface ApplicationsApi {
 	 * 
 	 * If the target application is hosted and has an active version, the new application will have the active version with the same content.
 	 * 
+	 * If the original application is hosted with versions, then only one binary version is cloned. By default it is a version with the "latest" tag. You can also specify a target version directly by using exactly one of the query parameters `version` or `tag`.
+	 * 
 	 * 
 	 * ##### Required roles
 	 * 
@@ -269,11 +271,17 @@ interface ApplicationsApi {
 	 * Unique identifier of the application.
 	 * @param xCumulocityProcessingMode
 	 * Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @param version
+	 * The version field of the application version.
+	 * @param tag
+	 * The tag of the application version.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.application+json")
 	@POST("/application/applications/{id}/clone")
 	fun copyApplication(
 		@Path("id") id: String, 
+		@Query("version") version: String? = null, 
+		@Query("tag") tag: String? = null, 
 		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
 	): Call<Application>
 	
