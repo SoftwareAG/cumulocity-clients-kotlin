@@ -41,9 +41,7 @@ class LoginForm {
 		@SerializedName(value = "PASSWORD")
 		PASSWORD("PASSWORD"),
 		@SerializedName(value = "AUTHORIZATION_CODE")
-		AUTHORIZATIONCODE("AUTHORIZATION_CODE"),
-		@SerializedName(value = "REFRESH_TOKEN")
-		REFRESHTOKEN("REFRESH_TOKEN")
+		AUTHORIZATIONCODE("AUTHORIZATION_CODE")
 	}
 
 
