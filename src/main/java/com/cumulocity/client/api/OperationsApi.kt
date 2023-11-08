@@ -243,7 +243,7 @@ interface OperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.operation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.operation+json"]) 
 	@PUT("/devicecontrol/operations/{id}")
-	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id", "deviceId")
+	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "self", "id", "deviceId")
 	fun updateOperation(
 		@Body body: Operation, 
 		@Path("id") id: String, 
