@@ -114,7 +114,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE *OR* ROLE_BINARY_ADMIN *OR* ROLE_BINARY_CREATE 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -145,7 +145,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the resource *OR* MANAGE_OBJECT_READ permission on the resource 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_BINARY_READ *OR* owner of the resource *OR* MANAGE_OBJECT_READ permission on the resource 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -171,7 +171,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_BINARY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -199,7 +199,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_BINARY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
 	 * 
 	 * ##### Response Codes
 	 * 

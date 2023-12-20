@@ -14,6 +14,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
 import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
@@ -23,6 +25,7 @@ import com.cumulocity.client.model.UploadedTrustedCertificateCollection
 import com.cumulocity.client.model.TrustedCertificate
 import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
 import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.VerifyCertificateChain
 
 /**
  * API methods for managing trusted certificates used to establish device connections via MQTT.
@@ -356,4 +359,66 @@ interface TrustedCertificatesApi {
 		@Path("tenantId") tenantId: String, 
 		@Path("fingerprint") fingerprint: String
 	): Call<TrustedCertificate>
+	
+	/**
+	 * Verify a certificate chain via file upload
+	 * 
+	 * Verify a device certificate chain against a specific tenant. Max chain length support is <b>10</b>.The tenant ID is `optional` and this api will be further enhanced to resolve the tenant from the chain in future release.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN) *AND* (is the current tenant *OR* is current management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the validation result is sent in the response.
+	 * * HTTP 400 Unable to parse certificate chain.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 The tenant ID does not exist.
+	 * 
+	 * @param tenantId
+	 * @param file
+	 * File to be uploaded.
+	 */
+	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
+	@POST("/tenant/tenants/verify-cert-chain/fileUpload")
+	@Multipart
+	fun validateChainByFileUpload(
+		@Part("tenantId") tenantId: String, 
+		@Part("file") file: UByteArray
+	): Call<VerifyCertificateChain>
+	
+	/**
+	 * Verify a certificate chain via HTTP header
+	 * 
+	 * Verify a device certificate chain against a specific tenant. Max chain length support is <b>6</b>.The tenant ID is `optional` and this api will be further enhanced to resolve the tenant from the chain in future release.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN) *AND* (is the current tenant *OR* is current management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the validation result is sent in the response.
+	 * * HTTP 400 Unable to parse certificate chain.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 The tenant ID does not exist.
+	 * 
+	 * @param xCumulocityTenantId
+	 * Used to send a tenant ID.
+	 * @param xCumulocityClientCertChain
+	 * Used to send a certificate chain in the header. Separate the chain with `,` and also each 64 bit block with ` ` (a space character).
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@POST("/tenant/tenants/verify-cert-chain")
+	fun validateChainByHeader(
+		@Header("X-Cumulocity-TenantId") xCumulocityTenantId: String? = null, 
+		@Header("X-Cumulocity-Client-Cert-Chain") xCumulocityClientCertChain: String
+	): Call<VerifyCertificateChain>
 }

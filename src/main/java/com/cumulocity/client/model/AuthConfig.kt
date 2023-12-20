@@ -110,6 +110,11 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 	var visibleOnLoginPage: Boolean? = null
 
 	/**
+	 * A configuration for authentication with an access token from the authorization server.
+	 */
+	var externalTokenConfig: ExternalTokenConfig? = null
+
+	/**
 	 * The authentication configuration grant type identifier.
 	 */
 	enum class GrantType(val value: String) {
@@ -198,6 +203,11 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 			var mappings: Array<Mappings>? = null
 		
 			/**
+			 * Represents rules used to assign inventory roles.
+			 */
+			var inventoryMappings: Array<InventoryMappings>? = null
+		
+			/**
 			 * Configuration of the mapping.
 			 */
 			class Configuration {
@@ -206,6 +216,11 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 				 * Indicates whether the mapping should be evaluated always or only during the first external login when the internal user is created.
 				 */
 				var mapRolesOnlyForNewUser: Boolean? = null
+			
+				/**
+				 * If set to `true`, dynamic access mapping is only managed for global roles, applications and inventory roles which are listed in the configuration. Others remain unchanged.
+				 */
+				var manageRolesOnlyFromAccessMapping: Boolean? = null
 			
 				override fun toString(): String {
 					return Gson().toJson(this).toString()
@@ -218,7 +233,7 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 			class Mappings {
 			
 				/**
-				 * Represents a predicate for verification. It acts as a condition which is necessary to assign a user to the given groups and permit access to the specified applications.
+				 * Represents a predicate for verification. It acts as a condition which is necessary to assign a user to the given groups, permit access to the specified applications or to assign specific inventory roles to device groups.
 				 */
 				@SerializedName(value = "when")
 				var pWhen: JSONPredicateRepresentation? = null
@@ -232,6 +247,47 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 				 * List of the groups' identifiers.
 				 */
 				var thenGroups: Array<Int>? = null
+			
+				override fun toString(): String {
+					return Gson().toJson(this).toString()
+				}
+			}
+		
+			/**
+			 * Represents information of mapping access to inventory roles.
+			 */
+			class InventoryMappings {
+			
+				/**
+				 * Represents a predicate for verification. It acts as a condition which is necessary to assign a user to the given groups, permit access to the specified applications or to assign specific inventory roles to device groups.
+				 */
+				@SerializedName(value = "when")
+				var pWhen: JSONPredicateRepresentation? = null
+			
+				/**
+				 * List of the OAuth inventory assignments.
+				 */
+				var thenInventoryRoles: Array<ThenInventoryRoles>? = null
+			
+				/**
+				 * Represents inventory roles for a specific device group.
+				 */
+				class ThenInventoryRoles {
+				
+					/**
+					 * A unique identifier for the managed object for which the roles are assigned.
+					 */
+					var managedObject: String? = null
+				
+					/**
+					 * List of the inventory roles' identifiers.
+					 */
+					var roleIds: Array<Int>? = null
+				
+					override fun toString(): String {
+						return Gson().toJson(this).toString()
+					}
+				}
 			
 				override fun toString(): String {
 					return Gson().toJson(this).toString()
@@ -415,6 +471,79 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 		}
 	}
 
+
+	/**
+	 * A configuration for authentication with an access token from the authorization server.
+	 */
+	class ExternalTokenConfig {
+	
+		/**
+		 * Indicates whether authentication is enabled or disabled.
+		 */
+		var enabled: Boolean? = null
+	
+		/**
+		 * Points to the claim of the access token from the authorization server that must be used as the username in the Cumulocity IoT platform.
+		 */
+		var userOrAppIdConfig: UserOrAppIdConfig? = null
+	
+		/**
+		 * If set to `true`, the access token is validated against the authorization server by way of introspection or user info request.
+		 */
+		var validationRequired: Boolean? = null
+	
+		/**
+		 * The method of validation of the access token.
+		 */
+		var validationMethod: ValidationMethod? = null
+	
+		var tokenValidationRequest: RequestRepresentation? = null
+	
+		/**
+		 * The frequency (in Minutes) in which Cumulocity sends a validation request to authorization server. The recommended frequency is 1 minute.
+		 */
+		var accessTokenValidityCheckIntervalInMinutes: Int? = null
+	
+		/**
+		 * The method of validation of the access token.
+		 */
+		enum class ValidationMethod(val value: String) {
+			@SerializedName(value = "INTROSPECTION")
+			INTROSPECTION("INTROSPECTION"),
+			@SerializedName(value = "USERINFO")
+			USERINFO("USERINFO")
+		}
+	
+		/**
+		 * Points to the claim of the access token from the authorization server that must be used as the username in the Cumulocity IoT platform.
+		 */
+		class UserOrAppIdConfig {
+		
+			/**
+			 * Used only if `useConstantValue` is set to `true`.
+			 */
+			var constantValue: String? = null
+		
+			/**
+			 * The name of the field containing the JWT.
+			 */
+			var jwtField: String? = null
+		
+			/**
+			 * Not recommended. If set to `true`, all users share a single account in the Cumulocity IoT platform.
+			 */
+			var useConstantValue: Boolean? = null
+		
+			override fun toString(): String {
+				return Gson().toJson(this).toString()
+			}
+		}
+	
+	
+		override fun toString(): String {
+			return Gson().toJson(this).toString()
+		}
+	}
 
 	override fun toString(): String {
 		return Gson().toJson(this).toString()

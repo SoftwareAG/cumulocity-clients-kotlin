@@ -152,7 +152,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* ROLE_MANAGED_OBJECT_CREATE 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -182,7 +182,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -225,7 +225,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -260,7 +260,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -300,7 +300,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -327,7 +327,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -354,7 +354,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -381,7 +381,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -408,7 +408,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 

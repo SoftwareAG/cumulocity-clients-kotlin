@@ -19,6 +19,7 @@ import com.cumulocity.client.model.UploadedTrustedCertificateCollection
 import com.cumulocity.client.model.TrustedCertificate
 import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
 import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.VerifyCertificateChain
 
 // TODO parameterise servers
 class TrustedCertificatesApiTest {
