@@ -7,27 +7,12 @@ on:
 jobs:
   build:
     if: github.event.pull_request.draft == false
-    runs-on: [ self-hosted, onprem_dae, docker ]
-
-    container:
-      image: docker.github.softwareag.com/iota/c8y-sensorapp-docker-images/android-builder:1.0
-      credentials:
-        username: mare
-        password: ${{ secrets.DOCKER_READ_TOKEN }}
+    runs-on: [ ubuntu-latest ]
 
     steps:
-      - name: Get Readonly Token
-        id: app-token
-        uses: SAG/github-app-token@v1
-        with:
-          app_id: ${{ secrets.GH_APP_READONLY_ID }}
-          installation_id: ${{ secrets.GH_APP_READONLY_INST_ID }}
-          private_key: ${{ secrets.GH_APP_READONLY_KEY }}
-
-      - uses: SAG/checkout@v3
+      - uses: checkout@v3
         with:
           submodules: 'true'
-          token: '${{ steps.app-token.outputs.token }}'
 
       - name: Decide Build Number
         id: decide_build_number
@@ -56,10 +41,10 @@ jobs:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
         run: |
           chmod +x gradlew 
-          ./gradlew --console plain clean build assemble -x test -PmavenUsername=${{ secrets.MAVEN_USERNAME }} -PmavenPassword=${{ secrets.MAVEN_PASSWORD }} 
+          ./gradlew --console plain clean build assemble -x test
       
       - name: Archive aar file
-        uses: SAG/upload-artifact@v3
+        uses: upload-artifact@v3
         env:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
@@ -72,10 +57,10 @@ jobs:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
         run: |
           chmod +x gradlew 
-          ./gradlew --console -b .\buildJavaJar.gradle clean build -x test -PmavenUsername=${{ secrets.MAVEN_USERNAME }} -PmavenPassword=${{ secrets.MAVEN_PASSWORD }} 
+          ./gradlew --console -b .\buildJavaJar.gradle clean build -x test
       
       - name: Archive jar file
-        uses: SAG/upload-artifact@v3
+        uses: upload-artifact@v3
         env:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
