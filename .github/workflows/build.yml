@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: 'true'
 
@@ -44,7 +44,7 @@ jobs:
           ./gradlew --console plain clean build assemble -x test
       
       - name: Archive aar file
-        uses: upload-artifact@v3
+        uses: actions/upload-artifact@v3
         env:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
@@ -60,7 +60,7 @@ jobs:
           ./gradlew --console -b .\buildJavaJar.gradle clean build -x test
       
       - name: Archive jar file
-        uses: upload-artifact@v3
+        uses: actions/upload-artifact@v3
         env:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
