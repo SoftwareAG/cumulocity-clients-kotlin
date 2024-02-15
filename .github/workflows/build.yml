@@ -18,7 +18,6 @@ jobs:
         run: | 
           echo "The build number is: ${GITHUB_RUN_NUMBER}"
           echo "calculated_build_number=${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
-          //marketingVersion=${buildMajor}.${buildMinor}.${buildMicro}
           marketingVersion=${GITHUB_RUN_NUMBER}
           echo "The marketing version is: TODO! $marketingVersion"
           echo "marketing_build_version=$marketingVersion" >> $GITHUB_OUTPUT
