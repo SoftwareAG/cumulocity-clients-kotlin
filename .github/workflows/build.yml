@@ -12,6 +12,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: 'true'
+      
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Decide Build Number
         id: decide_build_number
