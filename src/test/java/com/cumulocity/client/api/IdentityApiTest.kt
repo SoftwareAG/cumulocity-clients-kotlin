@@ -40,7 +40,7 @@ class IdentityApiTest {
     @Test
     fun testGetIdentityApiResource() {
     	val latch = CountDownLatch(1)
-        val api = IdentityApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = IdentityApi.Factory.create("tenant", this.clientBuilder)
     	api.getIdentityApiResource().enqueue(object : Callback<IdentityApiResource> {
     
     		override fun onResponse(call: Call<IdentityApiResource>?, response: Response<IdentityApiResource>?) {

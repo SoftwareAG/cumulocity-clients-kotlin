@@ -44,7 +44,7 @@ class OptionsApiTest {
     @Test
     fun testGetOptions() {
     	val latch = CountDownLatch(1)
-        val api = OptionsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = OptionsApi.Factory.create("tenant", this.clientBuilder)
     	api.getOptions().enqueue(object : Callback<OptionCollection> {
     
     		override fun onResponse(call: Call<OptionCollection>?, response: Response<OptionCollection>?) {

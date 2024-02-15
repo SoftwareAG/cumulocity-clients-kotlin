@@ -42,7 +42,7 @@ class ApplicationsApiTest {
     @Test
     fun testGetApplications() {
     	val latch = CountDownLatch(1)
-        val api = ApplicationsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = ApplicationsApi.Factory.create("tenant", this.clientBuilder)
     	api.getApplications().enqueue(object : Callback<ApplicationCollection> {
     
     		override fun onResponse(call: Call<ApplicationCollection>?, response: Response<ApplicationCollection>?) {

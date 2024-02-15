@@ -45,7 +45,7 @@ class RolesApiTest {
     @Test
     fun testGetUserRoles() {
     	val latch = CountDownLatch(1)
-        val api = RolesApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = RolesApi.Factory.create("tenant", this.clientBuilder)
     	api.getUserRoles().enqueue(object : Callback<UserRoleCollection> {
     
     		override fun onResponse(call: Call<UserRoleCollection>?, response: Response<UserRoleCollection>?) {

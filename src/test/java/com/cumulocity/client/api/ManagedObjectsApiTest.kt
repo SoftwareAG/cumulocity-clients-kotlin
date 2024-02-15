@@ -46,7 +46,7 @@ class ManagedObjectsApiTest {
     @Test
     fun testGetManagedObjects() {
     	val latch = CountDownLatch(1)
-        val api = ManagedObjectsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = ManagedObjectsApi.Factory.create("tenant", this.clientBuilder)
     	api.getManagedObjects().enqueue(object : Callback<ManagedObjectCollection> {
     
     		override fun onResponse(call: Call<ManagedObjectCollection>?, response: Response<ManagedObjectCollection>?) {

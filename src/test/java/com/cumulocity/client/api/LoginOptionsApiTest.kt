@@ -43,7 +43,7 @@ class LoginOptionsApiTest {
     @Test
     fun testGetLoginOptions() {
     	val latch = CountDownLatch(1)
-        val api = LoginOptionsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = LoginOptionsApi.Factory.create("tenant", this.clientBuilder)
     	api.getLoginOptions().enqueue(object : Callback<LoginOptionCollection> {
     
     		override fun onResponse(call: Call<LoginOptionCollection>?, response: Response<LoginOptionCollection>?) {

@@ -44,7 +44,7 @@ class MeasurementsApiTest {
     @Test
     fun testGetMeasurements() {
     	val latch = CountDownLatch(1)
-        val api = MeasurementsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = MeasurementsApi.Factory.create("tenant", this.clientBuilder)
     	api.getMeasurements().enqueue(object : Callback<MeasurementCollection> {
     
     		override fun onResponse(call: Call<MeasurementCollection>?, response: Response<MeasurementCollection>?) {

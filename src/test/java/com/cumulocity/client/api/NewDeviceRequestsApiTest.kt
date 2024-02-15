@@ -42,7 +42,7 @@ class NewDeviceRequestsApiTest {
     @Test
     fun testGetNewDeviceRequests() {
     	val latch = CountDownLatch(1)
-        val api = NewDeviceRequestsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = NewDeviceRequestsApi.Factory.create("tenant", this.clientBuilder)
     	api.getNewDeviceRequests().enqueue(object : Callback<NewDeviceRequestCollection> {
     
     		override fun onResponse(call: Call<NewDeviceRequestCollection>?, response: Response<NewDeviceRequestCollection>?) {

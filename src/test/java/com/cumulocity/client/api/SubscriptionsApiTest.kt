@@ -42,7 +42,7 @@ class SubscriptionsApiTest {
     @Test
     fun testGetSubscriptions() {
     	val latch = CountDownLatch(1)
-        val api = SubscriptionsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = SubscriptionsApi.Factory.create("tenant", this.clientBuilder)
     	api.getSubscriptions().enqueue(object : Callback<NotificationSubscriptionCollection> {
     
     		override fun onResponse(call: Call<NotificationSubscriptionCollection>?, response: Response<NotificationSubscriptionCollection>?) {

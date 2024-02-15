@@ -45,7 +45,7 @@ class InventoryRolesApiTest {
     @Test
     fun testGetInventoryRoles() {
     	val latch = CountDownLatch(1)
-        val api = InventoryRolesApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = InventoryRolesApi.Factory.create("tenant", this.clientBuilder)
     	api.getInventoryRoles().enqueue(object : Callback<InventoryRoleCollection> {
     
     		override fun onResponse(call: Call<InventoryRoleCollection>?, response: Response<InventoryRoleCollection>?) {

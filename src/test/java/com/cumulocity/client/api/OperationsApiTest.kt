@@ -42,7 +42,7 @@ class OperationsApiTest {
     @Test
     fun testGetOperations() {
     	val latch = CountDownLatch(1)
-        val api = OperationsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = OperationsApi.Factory.create("tenant", this.clientBuilder)
     	api.getOperations().enqueue(object : Callback<OperationCollection> {
     
     		override fun onResponse(call: Call<OperationCollection>?, response: Response<OperationCollection>?) {

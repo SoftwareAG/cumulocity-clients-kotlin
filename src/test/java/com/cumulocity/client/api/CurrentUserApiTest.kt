@@ -45,7 +45,7 @@ class CurrentUserApiTest {
     @Test
     fun testGetCurrentUser() {
     	val latch = CountDownLatch(1)
-        val api = CurrentUserApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentUserApi.Factory.create("tenant", this.clientBuilder)
     	api.getCurrentUser().enqueue(object : Callback<CurrentUser> {
     
     		override fun onResponse(call: Call<CurrentUser>?, response: Response<CurrentUser>?) {
@@ -65,7 +65,7 @@ class CurrentUserApiTest {
     @Test
     fun testGetTfaState() {
     	val latch = CountDownLatch(1)
-        val api = CurrentUserApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentUserApi.Factory.create("tenant", this.clientBuilder)
     	api.getTfaState().enqueue(object : Callback<CurrentUserTotpSecretActivity> {
     
     		override fun onResponse(call: Call<CurrentUserTotpSecretActivity>?, response: Response<CurrentUserTotpSecretActivity>?) {

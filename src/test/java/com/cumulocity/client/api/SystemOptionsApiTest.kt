@@ -41,7 +41,7 @@ class SystemOptionsApiTest {
     @Test
     fun testGetSystemOptions() {
     	val latch = CountDownLatch(1)
-        val api = SystemOptionsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = SystemOptionsApi.Factory.create("tenant", this.clientBuilder)
     	api.getSystemOptions().enqueue(object : Callback<SystemOptionCollection> {
     
     		override fun onResponse(call: Call<SystemOptionCollection>?, response: Response<SystemOptionCollection>?) {

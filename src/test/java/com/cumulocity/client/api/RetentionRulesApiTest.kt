@@ -42,7 +42,7 @@ class RetentionRulesApiTest {
     @Test
     fun testGetRetentionRules() {
     	val latch = CountDownLatch(1)
-        val api = RetentionRulesApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = RetentionRulesApi.Factory.create("tenant", this.clientBuilder)
     	api.getRetentionRules().enqueue(object : Callback<RetentionRuleCollection> {
     
     		override fun onResponse(call: Call<RetentionRuleCollection>?, response: Response<RetentionRuleCollection>?) {

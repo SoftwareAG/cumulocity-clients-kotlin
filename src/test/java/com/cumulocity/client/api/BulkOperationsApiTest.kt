@@ -42,7 +42,7 @@ class BulkOperationsApiTest {
     @Test
     fun testGetBulkOperations() {
     	val latch = CountDownLatch(1)
-        val api = BulkOperationsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = BulkOperationsApi.Factory.create("tenant", this.clientBuilder)
     	api.getBulkOperations().enqueue(object : Callback<BulkOperationCollection> {
     
     		override fun onResponse(call: Call<BulkOperationCollection>?, response: Response<BulkOperationCollection>?) {

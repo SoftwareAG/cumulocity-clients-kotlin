@@ -44,7 +44,7 @@ class BinariesApiTest {
     @Test
     fun testGetBinaries() {
     	val latch = CountDownLatch(1)
-        val api = BinariesApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = BinariesApi.Factory.create("tenant", this.clientBuilder)
     	api.getBinaries().enqueue(object : Callback<BinaryCollection> {
     
     		override fun onResponse(call: Call<BinaryCollection>?, response: Response<BinaryCollection>?) {

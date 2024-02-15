@@ -43,7 +43,7 @@ class AlarmsApiTest {
     @Test
     fun testGetAlarms() {
     	val latch = CountDownLatch(1)
-        val api = AlarmsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = AlarmsApi.Factory.create("tenant", this.clientBuilder)
     	api.getAlarms().enqueue(object : Callback<AlarmCollection> {
     
     		override fun onResponse(call: Call<AlarmCollection>?, response: Response<AlarmCollection>?) {
@@ -63,7 +63,7 @@ class AlarmsApiTest {
     @Test
     fun testGetNumberOfAlarms() {
     	val latch = CountDownLatch(1)
-        val api = AlarmsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = AlarmsApi.Factory.create("tenant", this.clientBuilder)
     	api.getNumberOfAlarms().enqueue(object : Callback<Int> {
     
     		override fun onResponse(call: Call<Int>?, response: Response<Int>?) {

@@ -42,7 +42,7 @@ class EventsApiTest {
     @Test
     fun testGetEvents() {
     	val latch = CountDownLatch(1)
-        val api = EventsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = EventsApi.Factory.create("tenant", this.clientBuilder)
     	api.getEvents().enqueue(object : Callback<EventCollection> {
     
     		override fun onResponse(call: Call<EventCollection>?, response: Response<EventCollection>?) {

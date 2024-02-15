@@ -41,7 +41,7 @@ class AuditsApiTest {
     @Test
     fun testGetAuditRecords() {
     	val latch = CountDownLatch(1)
-        val api = AuditsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = AuditsApi.Factory.create("tenant", this.clientBuilder)
     	api.getAuditRecords().enqueue(object : Callback<AuditRecordCollection> {
     
     		override fun onResponse(call: Call<AuditRecordCollection>?, response: Response<AuditRecordCollection>?) {

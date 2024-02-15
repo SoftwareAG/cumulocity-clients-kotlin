@@ -46,7 +46,7 @@ class UsageStatisticsApiTest {
     @Test
     fun testGetTenantUsageStatisticsCollectionResource() {
     	val latch = CountDownLatch(1)
-        val api = UsageStatisticsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = UsageStatisticsApi.Factory.create("tenant", this.clientBuilder)
     	api.getTenantUsageStatisticsCollectionResource().enqueue(object : Callback<TenantUsageStatisticsCollection> {
     
     		override fun onResponse(call: Call<TenantUsageStatisticsCollection>?, response: Response<TenantUsageStatisticsCollection>?) {
@@ -66,7 +66,7 @@ class UsageStatisticsApiTest {
     @Test
     fun testGetTenantUsageStatistics() {
     	val latch = CountDownLatch(1)
-        val api = UsageStatisticsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = UsageStatisticsApi.Factory.create("tenant", this.clientBuilder)
     	api.getTenantUsageStatistics().enqueue(object : Callback<SummaryTenantUsageStatistics> {
     
     		override fun onResponse(call: Call<SummaryTenantUsageStatistics>?, response: Response<SummaryTenantUsageStatistics>?) {
@@ -86,7 +86,7 @@ class UsageStatisticsApiTest {
     @Test
     fun testGetTenantsUsageStatistics() {
     	val latch = CountDownLatch(1)
-        val api = UsageStatisticsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = UsageStatisticsApi.Factory.create("tenant", this.clientBuilder)
     	api.getTenantsUsageStatistics().enqueue(object : Callback<Array<SummaryAllTenantsUsageStatistics>> {
     
     		override fun onResponse(call: Call<Array<SummaryAllTenantsUsageStatistics>>?, response: Response<Array<SummaryAllTenantsUsageStatistics>>?) {
@@ -106,7 +106,7 @@ class UsageStatisticsApiTest {
     @Test
     fun testGetMetadata() {
     	val latch = CountDownLatch(1)
-        val api = UsageStatisticsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = UsageStatisticsApi.Factory.create("tenant", this.clientBuilder)
     	api.getMetadata().enqueue(object : Callback<TenantUsageStatisticsFileCollection> {
     
     		override fun onResponse(call: Call<TenantUsageStatisticsFileCollection>?, response: Response<TenantUsageStatisticsFileCollection>?) {
