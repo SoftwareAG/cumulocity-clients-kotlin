@@ -60,7 +60,7 @@ jobs:
           BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
         run: |
           chmod +x gradlew 
-          ./gradlew --console plain -b .\build-jar.gradle clean build -x test
+          ./gradlew --console plain -b build-jar.gradle clean build -x test
       
       - name: Archive jar file
         uses: actions/upload-artifact@v3
