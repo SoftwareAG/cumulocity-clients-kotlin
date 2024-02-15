@@ -1,0 +1,84 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  build:
+    if: github.event.pull_request.draft == false
+    runs-on: [ self-hosted, onprem_dae, docker ]
+
+    container:
+      image: docker.github.softwareag.com/iota/c8y-sensorapp-docker-images/android-builder:1.0
+      credentials:
+        username: mare
+        password: ${{ secrets.DOCKER_READ_TOKEN }}
+
+    steps:
+      - name: Get Readonly Token
+        id: app-token
+        uses: SAG/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_APP_READONLY_ID }}
+          installation_id: ${{ secrets.GH_APP_READONLY_INST_ID }}
+          private_key: ${{ secrets.GH_APP_READONLY_KEY }}
+
+      - uses: SAG/checkout@v3
+        with:
+          submodules: 'true'
+          token: '${{ steps.app-token.outputs.token }}'
+
+      - name: Decide Build Number
+        id: decide_build_number
+        run: | 
+          echo "The build number is: ${GITHUB_RUN_NUMBER}"
+          echo "calculated_build_number=${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
+          //marketingVersion=${buildMajor}.${buildMinor}.${buildMicro}
+		      marketingVersion=${GITHUB_RUN_NUMBER}
+          echo "The marketing version is: TODO! $marketingVersion"
+          echo "marketing_build_version=$marketingVersion" >> $GITHUB_OUTPUT
+
+      - name: Get Branch Name (Manual Build)
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" > branchBuild.properties
+
+      - name: Get Branch Name (Pull Request)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          echo "branch=$(echo ${GITHUB_HEAD_REF})" > branchBuild.properties
+
+      - name: Invoke Gradle for aar
+        env:
+          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
+        run: |
+          chmod +x gradlew 
+          ./gradlew --console plain clean build assemble -x test -PmavenUsername=${{ secrets.MAVEN_USERNAME }} -PmavenPassword=${{ secrets.MAVEN_PASSWORD }} 
+      
+      - name: Archive aar file
+        uses: SAG/upload-artifact@v3
+        env:
+          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
+          MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
+        with:
+          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}-${{ env.BUILD_NUMBER }}'
+          path: 'build/outputs/aar/*.aar'
+
+      - name: Invoke Gradle for jar
+        env:
+          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
+        run: |
+          chmod +x gradlew 
+          ./gradlew --console -b .\buildJavaJar.gradle clean build -x test -PmavenUsername=${{ secrets.MAVEN_USERNAME }} -PmavenPassword=${{ secrets.MAVEN_PASSWORD }} 
+      
+      - name: Archive jar file
+        uses: SAG/upload-artifact@v3
+        env:
+          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
+          MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
+        with:
+          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}-${{ env.BUILD_NUMBER }}'
+          path: 'build/libs/*.jar'
