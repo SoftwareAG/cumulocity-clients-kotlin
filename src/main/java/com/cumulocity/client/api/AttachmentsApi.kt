@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -22,7 +22,7 @@ import com.cumulocity.client.model.BinaryInfo
 import com.cumulocity.client.model.EventBinary
 
 /**
- * It is possible to store, retrieve and delete binaries for events. Each event can have one binary attached.
+ * It is possible to store, retrieve and delete binaries for events. Each event can have only one binary attached.
  */
 interface AttachmentsApi {
 
@@ -96,7 +96,7 @@ interface AttachmentsApi {
 	 * @param id
 	 * Unique identifier of the event.
 	 */
-	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
+	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@PUT("/event/events/{id}/binaries")
 	fun replaceEventAttachment(
 		@Body body: UByteArray, 
@@ -106,10 +106,10 @@ interface AttachmentsApi {
 	/**
 	 * Attach a file to a specific event
 	 * 
-	 * Upload a file (binary) as an attachment of a specific event by a given ID.
-	 * The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
+	 * Upload a file (binary) as an attachment of a specific event by a given ID.The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
 	 * 
-	 * After the file has been uploaded, the corresponding event will contain the fragment `c8y_IsBinary` similar to:
+	 * > **ⓘ Info:** If there is a binary already attached to the event, the POST request results in a 409 error.
+	 * When the file has been uploaded, the corresponding event contains the fragment `c8y_IsBinary` similar to:
 	 * 
 	 * ```json
 	 * "c8y_IsBinary": {
@@ -118,7 +118,7 @@ interface AttachmentsApi {
 	 *     "type": "text/plain"
 	 * }
 	 * ```
-	 * When using `multipart/form-data` each value is sent as a block of data (body part), with a user agent-defined delimiter (`boundary`) separating each part. The keys are given in the `Content-Disposition` header of each part.
+	 * There are two request body schemas you can use for your POST requests.`text/plain` is preselected (see below).If you set it to `multipart/form-data` each value is sent as a block of data (body part), with a user agent-defined delimiter (`boundary`) separating each part.The keys are given in the `Content-Disposition` header of each part.
 	 * 
 	 * ```http
 	 * POST /event/events/{id}/binaries
@@ -156,7 +156,7 @@ interface AttachmentsApi {
 	 * @param id
 	 * Unique identifier of the event.
 	 */
-	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
+	@Headers(*["Content-Type:text/plain", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/event/events/{id}/binaries")
 	fun uploadEventAttachment(
 		@Body body: UByteArray, 
@@ -166,10 +166,10 @@ interface AttachmentsApi {
 	/**
 	 * Attach a file to a specific event
 	 * 
-	 * Upload a file (binary) as an attachment of a specific event by a given ID.
-	 * The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
+	 * Upload a file (binary) as an attachment of a specific event by a given ID.The size of the attachment is configurable, and the default size is 50 MiB. The default chunk size is 5MiB.
 	 * 
-	 * After the file has been uploaded, the corresponding event will contain the fragment `c8y_IsBinary` similar to:
+	 * > **ⓘ Info:** If there is a binary already attached to the event, the POST request results in a 409 error.
+	 * When the file has been uploaded, the corresponding event contains the fragment `c8y_IsBinary` similar to:
 	 * 
 	 * ```json
 	 * "c8y_IsBinary": {
@@ -178,7 +178,7 @@ interface AttachmentsApi {
 	 *     "type": "text/plain"
 	 * }
 	 * ```
-	 * When using `multipart/form-data` each value is sent as a block of data (body part), with a user agent-defined delimiter (`boundary`) separating each part. The keys are given in the `Content-Disposition` header of each part.
+	 * There are two request body schemas you can use for your POST requests.`text/plain` is preselected (see below).If you set it to `multipart/form-data` each value is sent as a block of data (body part), with a user agent-defined delimiter (`boundary`) separating each part.The keys are given in the `Content-Disposition` header of each part.
 	 * 
 	 * ```http
 	 * POST /event/events/{id}/binaries
@@ -218,7 +218,7 @@ interface AttachmentsApi {
 	 * @param id
 	 * Unique identifier of the event.
 	 */
-	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.event+json"]) 
+	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/event/events/{id}/binaries")
 	@Multipart
 	fun uploadEventAttachment(

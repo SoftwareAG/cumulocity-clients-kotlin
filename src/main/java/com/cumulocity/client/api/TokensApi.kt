@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -52,6 +52,10 @@ interface TokensApi {
 	 * * The subscriber name which the client wishes to be identified with.
 	 * * The subscription name. This value must be associated with a subscription that's already been created and in essence, the obtained token will give the ability to read notifications for the subscription that is specified here.
 	 * * The token expiration duration.
+	 * * The option to disable signing of the token by the Cumulocity IoT platform.
+	 * * The subscription type that the token should be associated with.
+	 * * The option to use the token to create shared consumers of the subscription.
+	 * * The option to select the non-persistent variant of the subscription, if one exists.
 	 * 
 	 * 
 	 * ##### Required roles

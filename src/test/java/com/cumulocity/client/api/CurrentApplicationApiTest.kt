@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import okhttp3.Credentials
@@ -42,7 +42,7 @@ class CurrentApplicationApiTest {
     @Test
     fun testGetCurrentApplication() {
     	val latch = CountDownLatch(1)
-        val api = CurrentApplicationApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentApplicationApi.Factory.create("tenant", this.clientBuilder)
     	api.getCurrentApplication().enqueue(object : Callback<Application> {
     
     		override fun onResponse(call: Call<Application>?, response: Response<Application>?) {
@@ -62,7 +62,7 @@ class CurrentApplicationApiTest {
     @Test
     fun testGetCurrentApplicationSettings() {
     	val latch = CountDownLatch(1)
-        val api = CurrentApplicationApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentApplicationApi.Factory.create("tenant", this.clientBuilder)
     	api.getCurrentApplicationSettings().enqueue(object : Callback<Array<ApplicationSettings>> {
     
     		override fun onResponse(call: Call<Array<ApplicationSettings>>?, response: Response<Array<ApplicationSettings>>?) {
@@ -82,7 +82,7 @@ class CurrentApplicationApiTest {
     @Test
     fun testGetSubscribedUsers() {
     	val latch = CountDownLatch(1)
-        val api = CurrentApplicationApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentApplicationApi.Factory.create("tenant", this.clientBuilder)
     	api.getSubscribedUsers().enqueue(object : Callback<ApplicationUserCollection> {
     
     		override fun onResponse(call: Call<ApplicationUserCollection>?, response: Response<ApplicationUserCollection>?) {

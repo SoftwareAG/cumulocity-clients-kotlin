@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import okhttp3.Credentials
@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
+import okhttp3.ResponseBody
 import com.cumulocity.client.model.AuthConfig
 import com.cumulocity.client.model.AuthConfigAccess
 import com.cumulocity.client.model.LoginOptionCollection
@@ -42,7 +43,7 @@ class LoginOptionsApiTest {
     @Test
     fun testGetLoginOptions() {
     	val latch = CountDownLatch(1)
-        val api = LoginOptionsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = LoginOptionsApi.Factory.create("tenant", this.clientBuilder)
     	api.getLoginOptions().enqueue(object : Callback<LoginOptionCollection> {
     
     		override fun onResponse(call: Call<LoginOptionCollection>?, response: Response<LoginOptionCollection>?) {

@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import okhttp3.Credentials
@@ -44,7 +44,7 @@ class TenantsApiTest {
     @Test
     fun testGetTenants() {
     	val latch = CountDownLatch(1)
-        val api = TenantsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = TenantsApi.Factory.create("tenant", this.clientBuilder)
     	api.getTenants().enqueue(object : Callback<TenantCollection> {
     
     		override fun onResponse(call: Call<TenantCollection>?, response: Response<TenantCollection>?) {
@@ -64,7 +64,7 @@ class TenantsApiTest {
     @Test
     fun testGetCurrentTenant() {
     	val latch = CountDownLatch(1)
-        val api = TenantsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = TenantsApi.Factory.create("tenant", this.clientBuilder)
     	api.getCurrentTenant().enqueue(object : Callback<CurrentTenant> {
     
     		override fun onResponse(call: Call<CurrentTenant>?, response: Response<CurrentTenant>?) {

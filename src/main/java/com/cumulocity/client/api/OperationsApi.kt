@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -243,7 +243,7 @@ interface OperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.operation+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.operation+json"]) 
 	@PUT("/devicecontrol/operations/{id}")
-	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "failureReason", "self", "id", "deviceId")
+	@ReadOnlyProperties("creationTime", "self", "bulkOperationId", "self", "id", "deviceId")
 	fun updateOperation(
 		@Body body: Operation, 
 		@Path("id") id: String, 

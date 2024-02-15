@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import okhttp3.Credentials
@@ -41,7 +41,7 @@ class SystemOptionsApiTest {
     @Test
     fun testGetSystemOptions() {
     	val latch = CountDownLatch(1)
-        val api = SystemOptionsApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = SystemOptionsApi.Factory.create("tenant", this.clientBuilder)
     	api.getSystemOptions().enqueue(object : Callback<SystemOptionCollection> {
     
     		override fun onResponse(call: Call<SystemOptionCollection>?, response: Response<SystemOptionCollection>?) {

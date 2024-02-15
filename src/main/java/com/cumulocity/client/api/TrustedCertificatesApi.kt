@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -13,13 +13,19 @@ import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
+import com.cumulocity.client.model.UploadedTrustedCertificate
+import com.cumulocity.client.model.UploadedTrustedCertificateCollection
 import com.cumulocity.client.model.TrustedCertificate
-import com.cumulocity.client.model.TrustedCertificateCollection
 import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
+import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.VerifyCertificateChain
 
 /**
  * API methods for managing trusted certificates used to establish device connections via MQTT.
@@ -113,13 +119,20 @@ interface TrustedCertificatesApi {
 	 * @param body
 	 * @param tenantId
 	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param xCumulocityProcessingMode
+	 * Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 * @param addToTrustStore
+	 * If set to `true` the certificate is added to the truststore.
+	 * 
+	 * The truststore contains all trusted certificates. A connection to a device is only established if it connects to Cumulocity IoT with a certificate in the truststore.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates")
-	@ReadOnlyProperties("notAfter", "serialNumber", "subject", "fingerprint", "self", "algorithmName", "version", "issuer", "notBefore")
 	fun addTrustedCertificate(
-		@Body body: TrustedCertificate, 
-		@Path("tenantId") tenantId: String
+		@Body body: UploadedTrustedCertificate, 
+		@Path("tenantId") tenantId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null, 
+		@Query("addToTrustStore") addToTrustStore: Boolean? = null
 	): Call<TrustedCertificate>
 	
 	/**
@@ -145,13 +158,18 @@ interface TrustedCertificatesApi {
 	 * @param body
 	 * @param tenantId
 	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param addToTrustStore
+	 * If set to `true` the certificate is added to the truststore.
+	 * 
+	 * The truststore contains all trusted certificates. A connection to a device is only established if it connects to Cumulocity IoT with a certificate in the truststore.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@POST("/tenant/tenants/{tenantId}/trusted-certificates/bulk")
 	@ReadOnlyProperties("next", "prev", "self", "statistics")
 	fun addTrustedCertificates(
-		@Body body: TrustedCertificateCollection, 
-		@Path("tenantId") tenantId: String
+		@Body body: UploadedTrustedCertificateCollection, 
+		@Path("tenantId") tenantId: String, 
+		@Query("addToTrustStore") addToTrustStore: Boolean? = null
 	): Call<TrustedCertificateCollection>
 	
 	/**
@@ -210,7 +228,7 @@ interface TrustedCertificatesApi {
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
 	@PUT("/tenant/tenants/{tenantId}/trusted-certificates/{fingerprint}")
-	@ReadOnlyProperties("notAfter", "serialNumber", "subject", "fingerprint", "self", "certInPemFormat", "algorithmName", "version", "issuer", "notBefore")
+	@ReadOnlyProperties("proofOfPossessionValid", "notAfter", "serialNumber", "proofOfPossessionVerificationCodeUsableUntil", "subject", "algorithmName", "version", "issuer", "notBefore", "proofOfPossessionUnsignedVerificationCode", "fingerprint", "self", "certInPemFormat")
 	fun updateTrustedCertificate(
 		@Body body: TrustedCertificate, 
 		@Path("tenantId") tenantId: String, 
@@ -220,7 +238,7 @@ interface TrustedCertificatesApi {
 	/**
 	 * Remove a stored certificate
 	 * 
-	 * Remove a stored trusted certificate (by a given fingerprint) from a specific tenant (by a given ID).
+	 * Remove a stored trusted certificate (by a given fingerprint) from a specific tenant (by a given ID).When a trusted certificate is deleted, the established MQTT connection to all devices that are using the corresponding certificate are closed.
 	 * 
 	 * 
 	 * ##### Required roles
@@ -341,4 +359,66 @@ interface TrustedCertificatesApi {
 		@Path("tenantId") tenantId: String, 
 		@Path("fingerprint") fingerprint: String
 	): Call<TrustedCertificate>
+	
+	/**
+	 * Verify a certificate chain via file upload
+	 * 
+	 * Verify a device certificate chain against a specific tenant. Max chain length support is <b>10</b>.The tenant ID is `optional` and this api will be further enhanced to resolve the tenant from the chain in future release.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN) *AND* (is the current tenant *OR* is current management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the validation result is sent in the response.
+	 * * HTTP 400 Unable to parse certificate chain.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 The tenant ID does not exist.
+	 * 
+	 * @param tenantId
+	 * @param file
+	 * File to be uploaded.
+	 */
+	@Headers(*["Content-Type:multipart/form-data", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/json"]) 
+	@POST("/tenant/tenants/verify-cert-chain/fileUpload")
+	@Multipart
+	fun validateChainByFileUpload(
+		@Part("tenantId") tenantId: String, 
+		@Part("file") file: UByteArray
+	): Call<VerifyCertificateChain>
+	
+	/**
+	 * Verify a certificate chain via HTTP header
+	 * 
+	 * Verify a device certificate chain against a specific tenant. Max chain length support is <b>6</b>.The tenant ID is `optional` and this api will be further enhanced to resolve the tenant from the chain in future release.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN) *AND* (is the current tenant *OR* is current management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the validation result is sent in the response.
+	 * * HTTP 400 Unable to parse certificate chain.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 404 The tenant ID does not exist.
+	 * 
+	 * @param xCumulocityTenantId
+	 * Used to send a tenant ID.
+	 * @param xCumulocityClientCertChain
+	 * Used to send a certificate chain in the header. Separate the chain with `,` and also each 64 bit block with ` ` (a space character).
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/json")
+	@POST("/tenant/tenants/verify-cert-chain")
+	fun validateChainByHeader(
+		@Header("X-Cumulocity-TenantId") xCumulocityTenantId: String? = null, 
+		@Header("X-Cumulocity-Client-Cert-Chain") xCumulocityClientCertChain: String
+	): Call<VerifyCertificateChain>
 }

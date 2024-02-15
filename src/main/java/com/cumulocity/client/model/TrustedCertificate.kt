@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.model
 import com.google.gson.Gson
@@ -46,6 +46,21 @@ class TrustedCertificate {
 	 * The start date and time of the certificate's validity.
 	 */
 	var notBefore: String? = null
+
+	/**
+	 * Indicates whether the proof of possession for the certificate was provided.
+	 */
+	var proofOfPossessionValid: Boolean? = null
+
+	/**
+	 * An unsigned verification code that provides proof of possession for the certificate after signing.
+	 */
+	var proofOfPossessionUnsignedVerificationCode: String? = null
+
+	/**
+	 * Validity of the verification code.
+	 */
+	var proofOfPossessionVerificationCodeUsableUntil: String? = null
 
 	/**
 	 * A URL linking to this resource.
