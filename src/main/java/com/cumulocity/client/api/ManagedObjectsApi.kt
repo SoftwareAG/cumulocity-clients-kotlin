@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -152,7 +152,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* ROLE_MANAGED_OBJECT_CREATE 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -175,55 +175,6 @@ interface ManagedObjectsApi {
 	): Call<ManagedObject>
 	
 	/**
-	 * Retrieve the total number of managed objects
-	 * 
-	 * Retrieve the total number of managed objects (for example, devices, assets, etc.) registered in your tenant, or a subset based on queries.
-	 * 
-	 * 
-	 * ##### Required roles
-	 * 
-	 *  ROLE_INVENTORY_READ is not required, but if the current user doesn't have this role, the response will contain the number of inventory objects accessible for the user. 
-	 * 
-	 * ##### Response Codes
-	 * 
-	 * The following table gives an overview of the possible response codes and their meanings:
-	 * 
-	 * * HTTP 200 The request has succeeded and the number of managed objects is sent in the response.
-	 * * HTTP 401 Authentication information is missing or invalid.
-	 * 
-	 * @param childAdditionId
-	 * Search for a specific child addition and list all the groups to which it belongs.
-	 * @param childAssetId
-	 * Search for a specific child asset and list all the groups to which it belongs.
-	 * @param childDeviceId
-	 * Search for a specific child device and list all the groups to which it belongs.
-	 * @param fragmentType
-	 * A characteristic which identifies a managed object or event, for example, geolocation, electricity sensor, relay state.
-	 * @param ids
-	 * The managed object IDs to search for.
-	 * 
-	 * **ⓘ Info:** If you query for multiple IDs at once, comma-separate the values.
-	 * @param owner
-	 * Username of the owner of the managed objects.
-	 * @param text
-	 * Search for managed objects where any property value is equal to the given one. Only string values are supported.
-	 * @param type
-	 * The type of managed object to search for.
-	 */
-	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, text/plain,application/json")
-	@GET("/inventory/managedObjects/count")
-	fun getNumberOfManagedObjects(
-		@Query("childAdditionId") childAdditionId: String? = null, 
-		@Query("childAssetId") childAssetId: String? = null, 
-		@Query("childDeviceId") childDeviceId: String? = null, 
-		@Query("fragmentType") fragmentType: String? = null, 
-		@Query("ids") ids: SeparatedQueryParameter<String>? = null, 
-		@Query("owner") owner: String? = null, 
-		@Query("text") text: String? = null, 
-		@Query("type") type: String? = null
-	): Call<Int>
-	
-	/**
 	 * Retrieve a specific managed object
 	 * 
 	 * Retrieve a specific managed object (for example, device, group, template) by a given ID.
@@ -231,7 +182,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -274,7 +225,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -305,10 +256,11 @@ interface ManagedObjectsApi {
 	 * Remove a specific managed object (for example, device) by a given ID.
 	 * 
 	 * > **ⓘ Info:** Inventory DELETE requests are not synchronous. The response could be returned before the delete request has been completed. This may happen especially when the deleted managed object has a lot of associated data. After sending the request, the platform starts deleting the associated data in an asynchronous way. Finally, the requested managed object is deleted after all associated data has been deleted.
+	 * > **ⓘ Info:** By default, the delete operation is always propagated to the subgroups, but only if the deleted object is a group.
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -348,7 +300,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -375,7 +327,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -402,7 +354,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -429,7 +381,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_MANAGED_OBJECT_READ *OR* owner of the source *OR* MANAGE_OBJECT_READ permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -456,7 +408,7 @@ interface ManagedObjectsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_MANAGED_OBJECT_ADMIN *OR* owner of the source *OR* MANAGE_OBJECT_ADMIN permission on the source 
 	 * 
 	 * ##### Response Codes
 	 * 

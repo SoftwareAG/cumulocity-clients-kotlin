@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import okhttp3.Credentials
@@ -45,7 +45,7 @@ class CurrentUserApiTest {
     @Test
     fun testGetCurrentUser() {
     	val latch = CountDownLatch(1)
-        val api = CurrentUserApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentUserApi.Factory.create("tenant", this.clientBuilder)
     	api.getCurrentUser().enqueue(object : Callback<CurrentUser> {
     
     		override fun onResponse(call: Call<CurrentUser>?, response: Response<CurrentUser>?) {
@@ -65,7 +65,7 @@ class CurrentUserApiTest {
     @Test
     fun testGetTfaState() {
     	val latch = CountDownLatch(1)
-        val api = CurrentUserApi.Factory.create("https://iotaccstage2.eu-latest.cumulocity.com/", this.clientBuilder)
+        val api = CurrentUserApi.Factory.create("tenant", this.clientBuilder)
     	api.getTfaState().enqueue(object : Callback<CurrentUserTotpSecretActivity> {
     
     		override fun onResponse(call: Call<CurrentUserTotpSecretActivity>?, response: Response<CurrentUserTotpSecretActivity>?) {

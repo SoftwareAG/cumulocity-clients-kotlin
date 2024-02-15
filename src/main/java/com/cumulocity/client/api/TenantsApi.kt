@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -97,6 +97,12 @@ interface TenantsApi {
 	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages
 	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
+	 * @param company
+	 * Company name associated with the Cumulocity IoT tenant.
+	 * @param domain
+	 * Domain name of the Cumulocity IoT tenant.
+	 * @param parent
+	 * Identifier of the Cumulocity IoT tenant's parent.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.tenantcollection+json")
 	@GET("/tenant/tenants")
@@ -104,7 +110,10 @@ interface TenantsApi {
 		@Query("currentPage") currentPage: Int? = null, 
 		@Query("pageSize") pageSize: Int? = null, 
 		@Query("withTotalElements") withTotalElements: Boolean? = null, 
-		@Query("withTotalPages") withTotalPages: Boolean? = null
+		@Query("withTotalPages") withTotalPages: Boolean? = null, 
+		@Query("company") company: String? = null, 
+		@Query("domain") domain: String? = null, 
+		@Query("parent") parent: String? = null
 	): Call<TenantCollection>
 	
 	/**
@@ -170,7 +179,7 @@ interface TenantsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_TENANT_MANAGEMENT_READ *AND* the current tenant is its parent *OR* is the management tenant 
+	 *  ROLE_TENANT_MANAGEMENT_READ *AND* (the current tenant is its parent *OR* is the management tenant) 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -198,7 +207,8 @@ interface TenantsApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_UPDATE) *AND* (the current tenant is its parent *AND* the current tenant is allowed to create subtenants) *OR* is the management tenant 
+	 *  (ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_UPDATE) *AND*
+	 *  ((the current tenant is its parent *AND* the current tenant is allowed to create subtenants) *OR* is the management tenant) 
 	 * 
 	 * ##### Response Codes
 	 * 

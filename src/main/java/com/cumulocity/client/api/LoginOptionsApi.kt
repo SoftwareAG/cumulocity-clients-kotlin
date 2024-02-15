@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -9,12 +9,15 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.Body
 import retrofit2.http.Path
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.ReadOnlyProperties
+import okhttp3.ResponseBody
 import com.cumulocity.client.model.AuthConfig
 import com.cumulocity.client.model.AuthConfigAccess
 import com.cumulocity.client.model.LoginOptionCollection
@@ -49,9 +52,9 @@ interface LoginOptionsApi {
 	}
 
 	/**
-	 * Retrieve the login options
+	 * Retrieve all login options
 	 * 
-	 * Retrieve the login options available in the tenant.
+	 * Retrieve all login options available in the tenant.
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -97,10 +100,100 @@ interface LoginOptionsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.authconfig+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
 	@POST("/tenant/loginOptions")
-	@ReadOnlyProperties("self")
+	@ReadOnlyProperties("self", "id")
 	fun createLoginOption(
 		@Body body: AuthConfig
 	): Call<AuthConfig>
+	
+	/**
+	 * Retrieve a specific login option
+	 * 
+	 * Retrieve a specific login option in the tenant by the given type or ID.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ((ROLE_TENANT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_ADMIN *OR* ROLE_USER_MANAGEMENT_OWN_ADMIN *OR* ROLE_USER_MANAGEMENT_CREATE) *AND* tenant access to login option is not restricted by management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 The request has succeeded and the login option is sent in the response.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Login option not found.
+	 * 
+	 * @param typeOrId
+	 * The type or ID of the login option. The type's value is case insensitive and can be `OAUTH2`, `OAUTH2_INTERNAL` or `BASIC`.
+	 */
+	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authConfig+json")
+	@GET("/tenant/loginOptions/{typeOrId}")
+	fun getLoginOption(
+		@Path("typeOrId") typeOrId: String
+	): Call<AuthConfig>
+	
+	/**
+	 * Update a specific login option
+	 * 
+	 * Update a specific login option in the tenant by a given type or ID.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ((ROLE_TENANT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_ADMIN) *AND* tenant access to login option is not restricted by management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 A login option was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Login option not found.
+	 * 
+	 * @param body
+	 * @param typeOrId
+	 * The type or ID of the login option. The type's value is case insensitive and can be `OAUTH2`, `OAUTH2_INTERNAL` or `BASIC`.
+	 * @param xCumulocityProcessingMode
+	 * Used to explicitly control the processing mode of the request. See [Processing mode](#processing-mode) for more details.
+	 */
+	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.authconfig+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
+	@PUT("/tenant/loginOptions/{typeOrId}")
+	@ReadOnlyProperties("self")
+	fun updateLoginOption(
+		@Body body: AuthConfig, 
+		@Path("typeOrId") typeOrId: String, 
+		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
+	): Call<AuthConfig>
+	
+	/**
+	 * Delete a specific login option
+	 * 
+	 * Delete a specific login option in the tenant by a given type or ID.
+	 * 
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ((ROLE_TENANT_ADMIN *OR* ROLE_TENANT_MANAGEMENT_ADMIN) *AND* tenant access to login option is not restricted by management tenant) 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 204 A login option was removed.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not authorized to perform this operation.
+	 * * HTTP 404 Login option not found.
+	 * 
+	 * @param typeOrId
+	 * The type or ID of the login option. The type's value is case insensitive and can be `OAUTH2`, `OAUTH2_INTERNAL` or `BASIC`.
+	 */
+	@Headers("Accept:application/json")
+	@DELETE("/tenant/loginOptions/{typeOrId}")
+	fun deleteLoginOption(
+		@Path("typeOrId") typeOrId: String
+	): Call<ResponseBody>
 	
 	/**
 	 * Update a tenant's access to the login option
@@ -127,10 +220,10 @@ interface LoginOptionsApi {
 	 * Unique identifier of a Cumulocity IoT tenant.
 	 */
 	@Headers(*["Content-Type:application/json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.authconfig+json"]) 
-	@PUT("/tenant/loginOptions/{type_or_id}/restrict")
-	fun updateLoginOption(
+	@PUT("/tenant/loginOptions/{typeOrId}/restrict")
+	fun updateLoginOptionAccess(
 		@Body body: AuthConfigAccess, 
-		@Path("type_or_id") typeOrId: String, 
+		@Path("typeOrId") typeOrId: String, 
 		@Query("targetTenant") targetTenant: String
 	): Call<AuthConfig>
 }

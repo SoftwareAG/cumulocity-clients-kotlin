@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -27,7 +27,7 @@ import com.cumulocity.client.model.Binary
 /**
  * Managed objects can perform operations to store, retrieve and delete binaries. One binary can store only one file. Together with the binary, a managed object is created which acts as a metadata information for the binary.
  * 
- * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
+ * > **ⓘ Info:** Supports only HTTP 1.1 clients.**ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */
 interface BinariesApi {
 
@@ -52,9 +52,9 @@ interface BinariesApi {
 	}
 
 	/**
-	 * Retrieve the stored files
+	 * Search for stored files
 	 * 
-	 * Retrieve the stored files as a collections of managed objects.
+	 * Retrieve metadata information about stored files. Search for files by query parameters. This will not download the files.
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -114,7 +114,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_INVENTORY_CREATE *OR* ROLE_BINARY_ADMIN *OR* ROLE_BINARY_CREATE 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -140,12 +140,12 @@ interface BinariesApi {
 	/**
 	 * Retrieve a stored file
 	 * 
-	 * Retrieve a stored file (managed object) by a given ID.
+	 * Retrieve a stored file (managed object) by a given ID.Supports chunk download and resuming an interrupted download using the [`Range` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range).
 	 * 
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_READ *OR* owner of the resource *OR* MANAGE_OBJECT_READ permission on the resource 
+	 *  ROLE_INVENTORY_READ *OR* ROLE_BINARY_READ *OR* owner of the resource *OR* MANAGE_OBJECT_READ permission on the resource 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -171,7 +171,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_BINARY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
 	 * 
 	 * ##### Response Codes
 	 * 
@@ -199,7 +199,7 @@ interface BinariesApi {
 	 * 
 	 * ##### Required roles
 	 * 
-	 *  ROLE_INVENTORY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
+	 *  ROLE_INVENTORY_ADMIN *OR* ROLE_BINARY_ADMIN *OR* owner of the resource *OR* MANAGE_OBJECT_ADMIN permission on the resource 
 	 * 
 	 * ##### Response Codes
 	 * 

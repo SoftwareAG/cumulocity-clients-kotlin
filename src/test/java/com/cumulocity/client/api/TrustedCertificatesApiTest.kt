@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.api
 import okhttp3.Credentials
@@ -14,9 +14,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
+import com.cumulocity.client.model.UploadedTrustedCertificate
+import com.cumulocity.client.model.UploadedTrustedCertificateCollection
 import com.cumulocity.client.model.TrustedCertificate
-import com.cumulocity.client.model.TrustedCertificateCollection
 import com.cumulocity.client.model.UploadedTrustedCertSignedVerificationCode
+import com.cumulocity.client.model.TrustedCertificateCollection
+import com.cumulocity.client.model.VerifyCertificateChain
 
 // TODO parameterise servers
 class TrustedCertificatesApiTest {

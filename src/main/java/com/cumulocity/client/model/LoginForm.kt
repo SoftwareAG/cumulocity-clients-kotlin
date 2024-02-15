@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2023 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
-// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.	
+// Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG.
 
 package com.cumulocity.client.model
 import com.google.gson.Gson
@@ -41,9 +41,7 @@ class LoginForm {
 		@SerializedName(value = "PASSWORD")
 		PASSWORD("PASSWORD"),
 		@SerializedName(value = "AUTHORIZATION_CODE")
-		AUTHORIZATIONCODE("AUTHORIZATION_CODE"),
-		@SerializedName(value = "REFRESH_TOKEN")
-		REFRESHTOKEN("REFRESH_TOKEN")
+		AUTHORIZATIONCODE("AUTHORIZATION_CODE")
 	}
 
 
