@@ -21,11 +21,9 @@ jobs:
       - name: Decide Build Number
         id: decide_build_number
         run: | 
-          echo "The build number is: ${GITHUB_RUN_NUMBER}"
-          echo "calculated_build_number=${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
-          marketingVersion=${GITHUB_RUN_NUMBER}
-          echo "The marketing version is: TODO! $marketingVersion"
-          echo "marketing_build_version=$marketingVersion" >> $GITHUB_OUTPUT
+          VERSION=$(grep -oP '(?<=archiveVersion = )'\''\S+'\'' *build-jar.gradle' | tr -d "'")
+          echo "Found version: $VERSION"
+          echo "marketing_build_version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Get Branch Name (Manual Build)
         if: github.event_name != 'pull_request'
@@ -40,8 +38,6 @@ jobs:
           echo "branch=$(echo ${GITHUB_HEAD_REF})" > branchBuild.properties
 
       - name: Invoke Gradle for aar
-        env:
-          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
         run: |
           chmod +x gradlew 
           ./gradlew --console plain clean build assemble -x test
@@ -49,15 +45,12 @@ jobs:
       - name: Archive aar file
         uses: actions/upload-artifact@v3
         env:
-          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}-${{ env.BUILD_NUMBER }}'
+          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}'
           path: 'build/outputs/aar/*.aar'
 
       - name: Invoke Gradle for jar
-        env:
-          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
         run: |
           chmod +x gradlew 
           ./gradlew --console plain -b build-jar.gradle clean build -x test
@@ -65,8 +58,7 @@ jobs:
       - name: Archive jar file
         uses: actions/upload-artifact@v3
         env:
-          BUILD_NUMBER: ${{ steps.decide_build_number.outputs.calculated_build_number }}
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}-${{ env.BUILD_NUMBER }}'
+          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}'
           path: 'build/libs/*.jar'
