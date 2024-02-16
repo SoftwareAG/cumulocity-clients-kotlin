@@ -21,7 +21,7 @@ jobs:
       - name: Decide Build Number
         id: decide_build_number
         run: | 
-          VERSION=$(grep -oP "archiveVersion = '[^']+" build.gradle | sed "s/archiveVersion = '//")
+          VERSION=$(grep -oP "archiveVersion = '[^']+" build-jar.gradle | sed "s/archiveVersion = '//")
           echo "Found version: $VERSION"
           echo "marketing_build_version=$VERSION" >> $GITHUB_OUTPUT
 
