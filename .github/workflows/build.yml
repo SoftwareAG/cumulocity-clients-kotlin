@@ -10,13 +10,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: 'true'
       
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '20'
+          gradle-version: 8.3
+          cache: gradle-8.3
 
       - name: Decide Build Number
         id: decide_build_number
@@ -27,7 +27,6 @@ jobs:
 
       - name: Invoke Gradle for aar
         run: |
-          chmod +x gradlew 
           ./gradlew --console plain clean build assemble -x test
       
       - name: Archive aar file
@@ -40,7 +39,6 @@ jobs:
 
       - name: Invoke Gradle for jar
         run: |
-          chmod +x gradlew 
           ./gradlew --console plain -b build-jar.gradle clean build -x test
       
       - name: Archive jar file
