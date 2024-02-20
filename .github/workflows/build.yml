@@ -24,6 +24,16 @@ jobs:
           echo "Found version: $VERSION"
           echo "marketing_build_version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Write version to file
+        run: |
+          echo "${{ steps.decide_build_number.outputs.marketing_build_version }}" > version.txt
+
+      - name: Upload version
+        uses: actions/upload-artifact@v3
+        with:
+          name: version
+          path: version.txt
+
       - name: Invoke Gradle for aar
         run: |
           chmod +x gradlew 
@@ -34,7 +44,7 @@ jobs:
         env:
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}'
+          name: 'cumulocity-clients-kotlin-aar'
           path: 'build/outputs/aar/*.aar'
 
       - name: Invoke Gradle for jar
@@ -47,5 +57,5 @@ jobs:
         env:
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}'
+          name: 'cumulocity-clients-kotlin-jar'
           path: 'build/libs/*.jar'
