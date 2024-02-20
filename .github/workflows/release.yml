@@ -39,8 +39,14 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: cumulocity-clients-kotlin-jar
+          name: cumulocity-clients-kotlin-jar.zip
           path: artifacts
+
+      - name: show downloaded content
+        run: |
+          ls -lsa artifacts/
+          unzip artifacts/cumulocity-clients-kotlin-jar.zip
+          ls -lsa artifacts/
 
       - name: Upload release asset
         uses: actions/upload-release-asset@v1

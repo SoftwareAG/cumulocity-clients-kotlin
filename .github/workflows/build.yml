@@ -57,5 +57,5 @@ jobs:
         env:
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-clients-kotlin-jar'
+          name: 'cumulocity-clients-kotlin-jar.zip'
           path: 'build/libs/*.jar'
