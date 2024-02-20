@@ -36,17 +36,33 @@ jobs:
           draft: false
           prerelease: false
           
-      - name: Download artifact
+      - name: Download aar artifact
         uses: actions/download-artifact@v3
         with:
-          name: cumulocity-client-kotlin-jar
+          name: cumulocity-client-kotlin-aar
           path: artifacts
 
       - name: show downloaded content
         run: |
           ls -lsa artifacts/
 
-      - name: Upload release asset
+      - name: Upload aar to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_name: "cumulocity-clients-kotlin-release.aar"
+          asset_path: artifacts/cumulocity-clients-kotlin-release.aar
+          asset_content_type: application/zip
+
+      - name: Download jar artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cumulocity-client-kotlin-jar
+          path: artifacts
+
+      - name: Upload jar to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
