@@ -39,13 +39,11 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: cumulocity-clients-kotlin-jar.zip
+          name: cumulocity-client-kotlin-jar
           path: artifacts
 
       - name: show downloaded content
         run: |
-          ls -lsa artifacts/
-          unzip artifacts/cumulocity-clients-kotlin-jar.zip
           ls -lsa artifacts/
 
       - name: Upload release asset
@@ -54,6 +52,6 @@ jobs:
           MARKETING_VERSION: ${{ steps.set_build_number.outputs.marketing_build_version }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: "cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar"
-          asset_path: artifacts/cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar
+          asset_name: "cumulocity-client-kotlin-${{ env.marketing_build_version }}.jar"
+          asset_path: artifacts/*.jar
           asset_content_type: application/zip
