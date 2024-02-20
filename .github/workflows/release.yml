@@ -19,6 +19,7 @@ jobs:
           name: version
 
       - name: Set version as env variable
+        id: set_build_number
         run: |
           echo "marketing_build_version=$(cat version.txt)" >> $GITHUB_ENV
 
@@ -27,7 +28,7 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-          MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
+          MARKETING_VERSION: ${{ steps.set_build_number.outputs.marketing_build_version }}
         with:
           tag_name: v${{ env.MARKETING_VERSION }}
           release_name: Release ${{ env.MARKETING_VERSION }}
@@ -44,6 +45,8 @@ jobs:
 
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
+        env:
+          MARKETING_VERSION: ${{ steps.set_build_number.outputs.marketing_build_version }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_name: "cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}.jar"
