@@ -8,6 +8,7 @@ jobs:
     uses: ./.github/workflows/build.yml
 
   release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,9 +17,10 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          tag_name: TODOextractVersion
-          release_name: Release ${{ github.ref_name }}
+          tag_name: ${{ env.MARKETING_VERSION }}
+          release_name: Release ${{ env.MARKETING_VERSION }}
           body: |
             New release of the generated Kotlin client.
           draft: false
