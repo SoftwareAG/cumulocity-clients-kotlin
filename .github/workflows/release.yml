@@ -19,9 +19,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          tag_name: ${{ env.MARKETING_VERSION }}
+          tag_name: v${{ env.MARKETING_VERSION }}
           release_name: Release ${{ env.MARKETING_VERSION }}
           body: |
             New release of the generated Kotlin client.
           draft: false
           prerelease: false
+          
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v2
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_name: "cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}.aar"  # Use full file name
+          asset_path: artifacts/cumulocity-clients-kotlin-${{ env.MARKETING_VERSION }}.aar  # Adjust path
+          asset_content_type: application/zip  # Assuming AAR is a ZIP-based format
