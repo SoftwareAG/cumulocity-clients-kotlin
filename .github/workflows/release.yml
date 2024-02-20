@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: TODOextractVersion
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            New release of the generated Kotlin client.
+          draft: false
+          prerelease: false
