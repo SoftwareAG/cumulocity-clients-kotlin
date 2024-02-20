@@ -52,6 +52,6 @@ jobs:
           MARKETING_VERSION: ${{ steps.set_build_number.outputs.marketing_build_version }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: "cumulocity-client-kotlin-${{ env.marketing_build_version }}.jar"
+          asset_name: "cumulocitycorelibrary-${{ env.marketing_build_version }}.jar"
           asset_path: artifacts/*.jar
           asset_content_type: application/zip
