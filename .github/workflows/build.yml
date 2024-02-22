@@ -44,7 +44,7 @@ jobs:
         env:
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-client-kotlin-aar'
+          name: 'cumulocity-clients-kotlin-aar'
           path: 'build/outputs/aar/*.aar'
 
       - name: Invoke Gradle for jar
@@ -57,5 +57,5 @@ jobs:
         env:
           MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
-          name: 'cumulocity-client-kotlin-jar'
+          name: 'cumulocity-clients-kotlin-jar'
           path: 'build/libs/*.jar'

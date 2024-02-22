@@ -39,7 +39,7 @@ jobs:
       - name: Download aar artifact
         uses: actions/download-artifact@v3
         with:
-          name: cumulocity-client-kotlin-aar
+          name: cumulocity-clients-kotlin-aar
           path: artifacts
 
       - name: show downloaded content
@@ -59,7 +59,7 @@ jobs:
       - name: Download jar artifact
         uses: actions/download-artifact@v3
         with:
-          name: cumulocity-client-kotlin-jar
+          name: cumulocity-clients-kotlin-jar
           path: artifacts
 
       - name: Upload jar to release
