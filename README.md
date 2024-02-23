@@ -87,6 +87,109 @@ The customised `clientBuilder` can than be passed to any service instance using 
 CurrentUserApi.Factory.create("endpoint", clientBuilder)
 ```
 
+### How to use in a Cumulocity Microservice
+
+To use the «clientInfo.name» in a Cumulocity Microservice, you need to add the library and 3rd party dependencies to your `pom.xml` file
+
+```xml
+<dependency>
+    <groupId>com.cumulocity.???</groupId>
+    <artifactId>«clientInfo.name»</artifactId>
+    <version>«clientInfo.versionName»-«clientInfo.buildNumber»</version>
+</dependency>
+<dependency>
+    <groupId>com.squareup.retrofit2</groupId>
+    <artifactId>retrofit</artifactId>
+    <version>2.9.0</version>
+</dependency>
+<dependency>
+    <groupId>com.squareup.retrofit2</groupId>
+    <artifactId>converter-jackson</artifactId>
+    <version>2.9.0</version>
+</dependency>
+<dependency>
+    <groupId>com.squareup.retrofit2</groupId>
+    <artifactId>converter-gson</artifactId>
+    <version>2.9.0</version>
+</dependency>
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.10.1</version>
+</dependency>
+<dependency>
+    <groupId>com.squareup.retrofit2</groupId>
+    <artifactId>converter-scalars</artifactId>
+    <version>2.9.0</version>
+</dependency>
+```
+
+To allow an easy annotation based usage of the API classes, you can use this utility class to create the Spring beans for each API class:
+
+```kotlin 
+import com.cumulocity.client.api.ChildOperationsApi
+import com.cumulocity.client.api.ManagedObjectsApi
+import com.cumulocity.microservice.subscription.model.MicroserviceSubscriptionAddedEvent
+import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService
+import okhttp3.*
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Lazy
+import org.springframework.context.event.EventListener
+import org.springframework.stereotype.Service
+
+@Service
+class C8yApiInitializationUtil {
+
+    @Autowired
+    private lateinit var microserviceSubscriptionsService: MicroserviceSubscriptionsService
+
+    @Value("\${C8Y_BASEURL:#{'\${C8Y.baseURL}'}}")
+    private val baseUrl: String? = null
+
+    private val clientBuilders = HashMap<String, OkHttpClient.Builder>()
+
+    @EventListener
+    private fun onMicroserviceSubscriptionAddedEvent(event: MicroserviceSubscriptionAddedEvent) {
+        var clientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
+        val credentials = event.credentials
+        val tenantId = credentials.tenant
+
+        val authToken = Credentials.basic(tenantId + "/" + credentials.username, credentials.password)
+        val headerAuthorizationInterceptor = Interceptor { chain ->
+            var request: Request = chain.request()
+            val headers: Headers = request.headers.newBuilder().add("Authorization", authToken).build()
+            request = request.newBuilder().headers(headers).build()
+            chain.proceed(request)
+        }
+        clientBuilder.addInterceptor(headerAuthorizationInterceptor)
+        clientBuilders[tenantId] = clientBuilder
+    }
+
+    @Lazy
+    @Bean
+    private fun getChildOperationsApi(): ChildOperationsApi {
+        return ChildOperationsApi.Factory.create(baseUrl!!, clientBuilders[microserviceSubscriptionsService.tenant]!!)
+    }
+
+    @Lazy
+    @Bean
+    private fun getManagedObjectsApi(): ManagedObjectsApi {
+        return ManagedObjectsApi.Factory.create(baseUrl!!, clientBuilders[microserviceSubscriptionsService.tenant]!!)
+    }
+}
+```
+Obviously you can add more API beans to the util class. The `@Lazy` annotation is used to delay the creation of the beans until they are actually used. This is necessary because the `MicroserviceSubscriptionAddedEvent` is fired before the `MicroserviceSubscriptionsService` is initialized.
+
+To actually use the beans, you can simply autowire them in your service classes:
+```kotlin
+@Lazy
+@Autowired
+private val managedObjectsApi: ManagedObjectsApi? = null
+```
+The `@Lazy` annotation is again required to delay the creation of the bean until the microservice is completely initialized.
+
 ## Contribution
 
 If you've spotted something that doesn't work as you'd expect, or if you have a new feature you'd like to add, we're happy to accept contributions and bug reports.
