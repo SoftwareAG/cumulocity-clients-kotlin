@@ -44,9 +44,11 @@ jobs:
         languages: 'java-kotlin'
         queries: security-extended,security-and-quality
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
-
+    - name: Invoke Gradle
+      run: |
+        chmod +x gradlew 
+        ./gradlew --console plain clean build -x test
+        
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
