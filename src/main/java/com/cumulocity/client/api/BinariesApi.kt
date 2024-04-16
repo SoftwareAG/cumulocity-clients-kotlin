@@ -80,7 +80,7 @@ interface BinariesApi {
 	 * @param pageSize
 	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param text
-	 * Search for managed objects where any property value is equal to the given one. Only string values are supported.
+	 * Search for managed objects where a property value is equal to the given one.The following properties are examined: `id, type, name, owner, externalIds`.
 	 * @param type
 	 * The type of managed object to search for.
 	 * @param withTotalPages

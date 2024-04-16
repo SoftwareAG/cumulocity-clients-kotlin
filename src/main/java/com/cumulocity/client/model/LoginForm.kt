@@ -19,18 +19,18 @@ class LoginForm {
 	var grantType: GrantType? = null
 
 	/**
-	 * Used in cases of basic or OAI-Secure authentication.
+	 * Used in case of OAI-Secure authentication.
 	 */
 	var password: String? = null
 
 	/**
-	 * Current TFA code, sent by the user, if a TFA code is required to log in.
+	 * Current TFA code, sent by the user, if a TFA code is required to log in. Used in case of OAI-Secure authentication.
 	 */
 	@SerializedName(value = "tfa_code")
 	var tfaCode: String? = null
 
 	/**
-	 * Used in cases of basic or OAI-Secure authentication.
+	 * Used in case of OAI-Secure authentication.
 	 */
 	var username: String? = null
 

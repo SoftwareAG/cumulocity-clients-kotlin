@@ -107,7 +107,7 @@ interface NewDeviceRequestsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.newdevicerequest+json", "Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@POST("/devicecontrol/newDeviceRequests")
-	@ReadOnlyProperties("self", "status")
+	@ReadOnlyProperties("owner", "securityToken", "creationTime", "tenantId", "self", "status")
 	fun createNewDeviceRequest(
 		@Body body: NewDeviceRequest, 
 		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
@@ -164,7 +164,7 @@ interface NewDeviceRequestsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.newdevicerequest+json", "Accept:application/vnd.com.nsn.cumulocity.newdevicerequest+json, application/vnd.com.nsn.cumulocity.error+json"]) 
 	@PUT("/devicecontrol/newDeviceRequests/{requestId}")
-	@ReadOnlyProperties("self", "id")
+	@ReadOnlyProperties("owner", "creationTime", "groupId", "tenantId", "self", "id", "type")
 	fun updateNewDeviceRequest(
 		@Body body: NewDeviceRequest, 
 		@Path("requestId") requestId: String

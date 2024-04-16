@@ -41,7 +41,7 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 	/**
 	 * The context within which the subscription is to be processed.
 	 * 
-	 * > **ⓘ Info:** If the value is `mo`, then `source` must also be provided in the request body.
+	 * > **ⓘ Info:** If the value is `mo` (managed object), then `source` must also be provided in the request body.
 	 */
 	enum class Context(val value: String) {
 		@SerializedName(value = "mo")
@@ -82,8 +82,7 @@ data class NotificationSubscription(var context: Context?, var subscription: Str
 	class SubscriptionFilter {
 	
 		/**
-		 * For the `mo` (Managed object) context, notifications from the `alarms`, `alarmsWithChildren`, `events`, `eventsWithChildren`, `managedobjects` (Inventory), `measurements` and `operations` (Device control) APIs can be subscribed to.
-		 * The `alarmsWithChildren` and `eventsWithChildren` APIs subscribe to alarms and events respectively from the managed object identified by the `source.id` field, and all of its descendant managed objects.
+		 * For the `mo` (managed object) context, notifications from the `alarms`, `alarmsWithChildren`, `events`, `eventsWithChildren`, `managedobjects` (Inventory), `measurements` and `operations` (Device control) APIs can be subscribed to.The `alarmsWithChildren` and `eventsWithChildren` APIs subscribe to alarms and events respectively from the managed object identified by the `source.id` field, and all of its descendant managed objects.
 		 * 
 		 * For the `tenant` context, notifications from the `alarms`, `events` and `managedobjects` (Inventory) APIs can be subscribed to.
 		 * 

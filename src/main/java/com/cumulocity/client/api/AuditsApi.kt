@@ -68,9 +68,9 @@ interface AuditsApi {
 	 * @param currentPage
 	 * The current page of the paginated results.
 	 * @param dateFrom
-	 * Start date or date and time of the audit record.
+	 * Start date or date and time of the audit record (device time).
 	 * @param dateTo
-	 * End date or date and time of the audit record.
+	 * End date or date and time of the audit record (device time).
 	 * @param pageSize
 	 * Indicates how many entries of the collection shall be returned. The upper limit for one page is 2,000 objects.
 	 * @param source

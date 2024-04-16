@@ -31,6 +31,11 @@ class DeviceCredentials {
 	 */
 	var username: String? = null
 
+	/**
+	 * Security token which is required and verified against during device request acceptance.See [Security token policy](https://cumulocity.com/docs/device-management-application/registering-devices/#security-token-policy) for more details on configuration.See [Update specific new device request status](/#operation/putNewDeviceRequestResource) for details on submitting token upon device acceptance.
+	 */
+	var securityToken: String? = null
+
 	override fun toString(): String {
 		return Gson().toJson(this).toString()
 	}
