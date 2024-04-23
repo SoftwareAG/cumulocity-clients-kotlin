@@ -78,7 +78,7 @@ data class AuthConfig(var providerName: String?, var type: Type?) {
 	var self: String? = null
 
 	/**
-	 * The session configuration properties are only available for OAuth internal. See [Administration > Changing settings > OAuth internal](https://cumulocity.com/guides/10.11.0/users-guide/administration/#oauth-internal) in the *10.11.0 user guide* for more details.
+	 * The session configuration properties are only available for OAuth internal. See [Changing settings > OAuth internal](https://cumulocity.com/guides/users-guide/administration/#oauth-internal) for more details.
 	 */
 	var sessionConfiguration: OAuthSessionConfiguration? = null
 

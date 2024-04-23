@@ -16,6 +16,7 @@ import java.util.concurrent.CountDownLatch
 import okhttp3.ResponseBody
 import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.User
+import com.cumulocity.client.model.PasswordChange
 import com.cumulocity.client.model.SubscribedUser
 import com.cumulocity.client.model.UserCollection
 import com.cumulocity.client.model.UserTfaData

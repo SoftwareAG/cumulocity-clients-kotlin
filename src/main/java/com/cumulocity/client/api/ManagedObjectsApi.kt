@@ -92,7 +92,7 @@ interface ManagedObjectsApi {
 	 * @param skipChildrenNames
 	 * When set to `true`, the returned references of child devices won't contain their names.
 	 * @param text
-	 * Search for managed objects where a property value is equal to the given one.The following properties are examined: `id, type, name, owner, externalIds`.
+	 * Search for managed objects where any property value is equal to the given one. Only string values are supported.
 	 * @param type
 	 * The type of managed object to search for.
 	 * @param withChildren
@@ -107,10 +107,6 @@ interface ManagedObjectsApi {
 	 * When set to `true`, the returned result will contain in the statistics object the total number of elements. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
 	 * @param withTotalPages
 	 * When set to `true`, the returned result will contain in the statistics object the total number of pages. Only applicable on [range queries](https://en.wikipedia.org/wiki/Range_query_(database)).
-	 * @param withLatestValues
-	 * If set to true the platform returns managed objects with the fragment `c8y_LatestMeasurements, which contains the latest measurement values reported by the device to the platform.
-	 * 
-	 * **⚠️ Feature Preview:** The parameter is a part of the Latest Measurement feature which is still under public preview.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobjectcollection+json")
 	@GET("/inventory/managedObjects")
@@ -134,8 +130,7 @@ interface ManagedObjectsApi {
 		@Query("withGroups") withGroups: Boolean? = null, 
 		@Query("withParents") withParents: Boolean? = null, 
 		@Query("withTotalElements") withTotalElements: Boolean? = null, 
-		@Query("withTotalPages") withTotalPages: Boolean? = null, 
-		@Query("withLatestValues") withLatestValues: Boolean? = null
+		@Query("withTotalPages") withTotalPages: Boolean? = null
 	): Call<ManagedObjectCollection>
 	
 	/**
@@ -173,7 +168,7 @@ interface ManagedObjectsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@POST("/inventory/managedObjects")
-	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "c8y_LatestMeasurements", "self", "assetParents", "deviceParents", "id")
+	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun createManagedObject(
 		@Body body: ManagedObject, 
 		@Header("X-Cumulocity-Processing-Mode") xCumulocityProcessingMode: String? = null
@@ -207,10 +202,6 @@ interface ManagedObjectsApi {
 	 * When set to `true`, the returned result will contain the total number of children in the respective objects (`childAdditions`, `childAssets` and `childDevices`).
 	 * @param withParents
 	 * When set to `true`, the returned references of child parents will return the device's parents (if any). Otherwise, it will be an empty array.
-	 * @param withLatestValues
-	 * If set to true the platform returns managed objects with the fragment `c8y_LatestMeasurements, which contains the latest measurement values reported by the device to the platform.
-	 * 
-	 * **⚠️ Feature Preview:** The parameter is a part of the Latest Measurement feature which is still under public preview.
 	 */
 	@Headers("Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json")
 	@GET("/inventory/managedObjects/{id}")
@@ -219,8 +210,7 @@ interface ManagedObjectsApi {
 		@Query("skipChildrenNames") skipChildrenNames: Boolean? = null, 
 		@Query("withChildren") withChildren: Boolean? = null, 
 		@Query("withChildrenCount") withChildrenCount: Boolean? = null, 
-		@Query("withParents") withParents: Boolean? = null, 
-		@Query("withLatestValues") withLatestValues: Boolean? = null
+		@Query("withParents") withParents: Boolean? = null
 	): Call<ManagedObject>
 	
 	/**
@@ -253,7 +243,7 @@ interface ManagedObjectsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/vnd.com.nsn.cumulocity.error+json, application/vnd.com.nsn.cumulocity.managedobject+json"]) 
 	@PUT("/inventory/managedObjects/{id}")
-	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "c8y_LatestMeasurements", "self", "assetParents", "deviceParents", "id")
+	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun updateManagedObject(
 		@Body body: ManagedObject, 
 		@Path("id") id: String, 

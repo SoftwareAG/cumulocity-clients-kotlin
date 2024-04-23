@@ -201,7 +201,7 @@ interface ChildOperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAdditions")
-	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "c8y_LatestMeasurements", "self", "assetParents", "deviceParents", "id")
+	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun assignAsChildAddition(
 		@Body body: ManagedObject, 
 		@Path("id") id: String, 
@@ -457,7 +457,7 @@ interface ChildOperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childAssets")
-	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "c8y_LatestMeasurements", "self", "assetParents", "deviceParents", "id")
+	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun assignAsChildAsset(
 		@Body body: ManagedObject, 
 		@Path("id") id: String, 
@@ -713,7 +713,7 @@ interface ChildOperationsApi {
 	 */
 	@Headers(*["Content-Type:application/vnd.com.nsn.cumulocity.managedobject+json", "Accept:application/json"]) 
 	@POST("/inventory/managedObjects/{id}/childDevices")
-	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "c8y_LatestMeasurements", "self", "assetParents", "deviceParents", "id")
+	@ReadOnlyProperties("owner", "additionParents", "lastUpdated", "childDevices", "childAssets", "creationTime", "childAdditions", "self", "assetParents", "deviceParents", "id")
 	fun assignAsChildDevice(
 		@Body body: ManagedObject, 
 		@Path("id") id: String, 

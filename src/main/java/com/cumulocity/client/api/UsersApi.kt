@@ -20,6 +20,7 @@ import retrofit2.converter.gson.ReadOnlyProperties
 import okhttp3.ResponseBody
 import com.cumulocity.client.supplementary.SeparatedQueryParameter
 import com.cumulocity.client.model.User
+import com.cumulocity.client.model.PasswordChange
 import com.cumulocity.client.model.SubscribedUser
 import com.cumulocity.client.model.UserCollection
 import com.cumulocity.client.model.UserTfaData
@@ -183,8 +184,6 @@ interface UsersApi {
 	 * 
 	 * When the user is updated with changed permissions or groups, a corresponding audit record is created with type "User" and activity "User updated".
 	 * 
-	 * Note that you cannot update the password or email of another user, they can only be updated for the current user.
-	 * 
 	 * 
 	 * ##### Required roles
 	 * 
@@ -244,6 +243,44 @@ interface UsersApi {
 	@Headers("Accept:application/json")
 	@DELETE("/user/{tenantId}/users/{userId}")
 	fun deleteUser(
+		@Path("tenantId") tenantId: String, 
+		@Path("userId") userId: String
+	): Call<ResponseBody>
+	
+	/**
+	 * Update a specific user's password of a specific tenant
+	 * 
+	 * Update a specific user's password (by a given user ID) of a specific tenant (by a given tenant ID).
+	 * 
+	 * Changing the user's password creates a corresponding audit record of type "User" and activity "User updated", and specifying that the password has been changed.
+	 * 
+	 * > **⚠️ Important:** If the tenant uses OAI-Secure authentication, the target user will be logged out.
+	 * 
+	 * ##### Required roles
+	 * 
+	 *  ROLE_USER_MANAGEMENT_ADMIN to update root users in a user hierarchy *OR* users that are not in any hierarchy
+	 *  ROLE_USER_MANAGEMENT_ADMIN to update non-root users in a user hierarchy *AND* whose parents have access to assigned roles, groups, device permissions and applications
+	 *  ROLE_USER_MANAGEMENT_CREATE to update descendants of the current user in a user hierarchy *AND* whose parents have access to assigned roles, groups, device permissions and applications 
+	 * 
+	 * ##### Response Codes
+	 * 
+	 * The following table gives an overview of the possible response codes and their meanings:
+	 * 
+	 * * HTTP 200 A user was updated.
+	 * * HTTP 401 Authentication information is missing or invalid.
+	 * * HTTP 403 Not enough permissions/roles to perform this operation.
+	 * * HTTP 422 Unprocessable Entity – invalid payload.
+	 * 
+	 * @param body
+	 * @param tenantId
+	 * Unique identifier of a Cumulocity IoT tenant.
+	 * @param userId
+	 * Unique identifier of the a user.
+	 */
+	@Headers(*["Content-Type:application/json", "Accept:application/json"]) 
+	@PUT("/user/{tenantId}/users/{userId}/password")
+	fun updateUserPassword(
+		@Body body: PasswordChange, 
 		@Path("tenantId") tenantId: String, 
 		@Path("userId") userId: String
 	): Call<ResponseBody>

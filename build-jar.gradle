@@ -5,7 +5,7 @@ plugins {
 
 jar {
 	archiveBaseName = 'cumulocity-clients-kotlin'
-	archiveVersion =  '-268'
+	archiveVersion =  '10.18.0-269'
 }
 
 repositories {

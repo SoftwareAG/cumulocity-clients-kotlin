@@ -94,7 +94,7 @@ interface OptionsApi {
 	 * 
 	 * **access.control**
 	 * 
-	 * | Key |	Default value |	Predefined | Description ||--|--|--|--|| allow.origin | * | Yes | Comma separated list of domains allowed for execution of CORS. Wildcards are allowed (for example, `*.cumulocity.com`) |
+	 * | Key |	Default value |	Predefined | Description ||--|--|--|--|| allow.origin | * | Yes | Comma separated list of domains allowed for execution of CORS. Wildcards are allowed (for example, `*.cumuclocity.com`) |
 	 * 
 	 * **alarm.type.mapping**
 	 * 

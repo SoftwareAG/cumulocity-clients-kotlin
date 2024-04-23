@@ -162,7 +162,7 @@ interface SubscriptionsApi {
 	 * @param context
 	 * The context to which the subscription is associated.
 	 * 
-	 * **ⓘ Info:** If the value is `mo` (managed object), then `source` must also be provided in the query.
+	 * **ⓘ Info:** If the value is `mo`, then `source` must also be provided in the query.
 	 * @param source
 	 * The managed object ID to which the subscription is associated.
 	 */

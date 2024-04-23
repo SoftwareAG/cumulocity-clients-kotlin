@@ -36,7 +36,7 @@ import com.cumulocity.client.model.TenantTfaData
  * > **⚠️ Important:** For support user access, the tenant ID must be used and not the tenant domain.
  * See [Tenant > Current tenant](#operation/getCurrentTenantResource) for information on how to retrieve the tenant ID and domain of the current tenant via the API.
  * 
- * In the UI, the tenant ID is displayed in the user dropdown menu, see [Getting started > Get familiar with the UI > User options and settings](https://cumulocity.com/docs/get-familiar-with-the-ui/user-settings/) in the Cumulocity IoT user documentation.
+ * In the UI, the tenant ID is displayed in the user dropdown menu, see [Getting started > User options and settings](https://cumulocity.com/guides/users-guide/getting-started/#user-settings) in the User guide.
  * 
  * ### Access rights and permissions
  * 
@@ -46,7 +46,7 @@ import com.cumulocity.client.model.TenantTfaData
  * 
  * In the RBAC approach, managing access is the most complicated part because a misconfiguration can potentially give customers access to data that they must not see, like other customers' data. The inventory roles allow you to granularly define access for only certain parts of data, but they don't protect you from accidental misconfigurations. A limitation here is that customers won't be able to create their own roles.
  * 
- * For more details, see [RBAC versus multi-tenancy approach](https://cumulocity.com/docs/concepts/tenant-hierarchy/#comparison-of-various-use-cases).
+ * For more details, see [RBAC versus multi-tenancy approach](https://cumulocity.com/guides/concepts/tenant-hierarchy/#comparison).
  * 
  * > **ⓘ Info:** The Accept header should be provided in all POST/PUT requests, otherwise an empty response body will be returned.
  */

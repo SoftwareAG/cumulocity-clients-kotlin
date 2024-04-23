@@ -25,7 +25,7 @@ import com.cumulocity.client.model.LoginOptionCollection
 /**
  * API methods to retrieve the login options configured in the tenant.
  * 
- * More detailed information about the parameters and their meaning can be found in [Platform administration > Standard tenant administration > Changing settings](https://cumulocity.com/docs/standard-tenant/changing-settings/) in the Cumulocity IoT user documentation.
+ * More detailed information about the parameters and their meaning can be found in [Administration > Changing settings](https://cumulocity.com/guides/users-guide/administration/#changing-settings) in the *Users guide*.
  * 
  * > **ⓘ Info:** If OAuth external is the only login option shown in the response, the user will be automatically redirected to the SSO login screen.
  */
