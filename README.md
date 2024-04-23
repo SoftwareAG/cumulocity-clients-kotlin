@@ -1,21 +1,21 @@
-# CumulocityCoreLibrary
+# cumulocity-clients-kotlin
 
 ## Usage
 
 To link the module into your Android application, modify your `settings.gradle` and your `gradle` build file as described below.
 
-1. In `settings.gradle`, include the module `CumulocityCoreLibrary`. Optionally, you can reference the source code by linking the `projectDir` relative to your module's root directory.
+1. In `settings.gradle`, include the module `cumulocity-clients-kotlin`. Optionally, you can reference the source code by linking the `projectDir` relative to your module's root directory.
 
 ```groovy
-include ':CumulocityCoreLibrary'
-project(":CumulocityCoreLibrary").projectDir = new File(rootDir, "relative to your projects dir/CumulocityCoreLibrary")
+include ':cumulocity-clients-kotlin'
+project(":cumulocity-clients-kotlin").projectDir = new File(rootDir, "relative to your projects dir/cumulocity-clients-kotlin")
 ```
 
 2. Add the module dependency to your applications `build` file:
 
 ```groovy
 dependencies {
-    implementation project(':CumulocityCoreLibrary')
+    implementation project(':cumulocity-clients-kotlin')
 }
 ``` 
 
@@ -35,7 +35,7 @@ buildscript {
 
 ### Use your own domain model
 
-The CumulocityCoreLibrary allows custom data models. The following classes are designed to be extensible:
+The cumulocity-clients-kotlin allows custom data models. The following classes are designed to be extensible:
 
 - `Alarm`, `AuditRecord`, `CategoryOptions`, `CustomProperties`, `Event`, `ManagedObject`, `Measurement`, `Operation`
 

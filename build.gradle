@@ -26,11 +26,17 @@ android {
     defaultConfig {
         minSdkVersion 19
 		targetSdkVersion 33
-		versionCode 266
+		versionCode 268
 		versionName ""
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 	}
+
+    	libraryVariants.all { variant ->
+		variant.packageLibraryProvider.configure { task ->
+	    		task.archiveFileName.set("cumulocity-clients-kotlin-${variant.name}-${defaultConfig.versionName}-${defaultConfig.versionCode}.aar")
+		}
+    	}
 
 	buildTypes {
 		release {
