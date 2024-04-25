@@ -42,6 +42,12 @@ jobs:
           name: cumulocity-clients-kotlin-aar
           path: artifacts
 
+      - name: Download jar artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cumulocity-clients-kotlin-jar
+          path: artifacts
+
       - name: show downloaded content
         run: |
           ls -lsa artifacts/
@@ -53,14 +59,8 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_name: "cumulocity-clients-kotlin-release.aar"
-          asset_path: artifacts/cumulocity-clients-kotlin-release.aar
+          asset_path: artifacts/cumulocity-clients-kotlin-release-${{ env.marketing_build_version }}.aar
           asset_content_type: application/zip
-
-      - name: Download jar artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cumulocity-clients-kotlin-jar
-          path: artifacts
 
       - name: Upload jar to release
         uses: actions/upload-release-asset@v1
@@ -68,6 +68,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: "cumulocitycorelibrary-${{ env.marketing_build_version }}.jar"
-          asset_path: artifacts/cumulocitycorelibrary-${{ env.marketing_build_version }}.jar
+          asset_name: "cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar"
+          asset_path: artifacts/cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar
           asset_content_type: application/zip
