@@ -48,6 +48,14 @@ import com.cumulocity.client.model.DeviceStatisticsCollection
  * #### When I have a device with children are the requests counted always to the root device or separately for each child?
  * 
  * Separately for each child.
+ * 
+ * #### Why do device statistics show significantly smaller request numbers than the total number of created and updated request from usage statistics?
+ * 
+ * The important aspect here is the moment of recording values for the counters. For inbound data usage statistics we count every request that passed authorization, including invalid requests, as stated in usage statistics description.
+ * 
+ * For device statistics it is different. We count requests after data is successfully stored in the database (or transient), which means the request was valid and there was no problem with persistence.
+ * 
+ * In summary, if you observe that your usage statistics counters are significantly larger than your device statistics counters, there is a good chance that some devices or microservices in your tenant are constantly sending invalid requests. In such a situation, the client should check the state of theirs tenant.
  */
 interface DeviceStatisticsApi {
 
