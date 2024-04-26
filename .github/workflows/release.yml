@@ -8,18 +8,66 @@ jobs:
     uses: ./.github/workflows/build.yml
 
   release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Download version
+        uses: actions/download-artifact@v3
+        with:
+          name: version
+
+      - name: Set version as env variable
+        id: set_build_number
+        run: |
+          echo "marketing_build_version=$(cat version.txt)" >> $GITHUB_ENV
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: TODOextractVersion
-          release_name: Release ${{ github.ref_name }}
+          tag_name: v${{ env.marketing_build_version }}
+          release_name: Release ${{ env.marketing_build_version }}
           body: |
             New release of the generated Kotlin client.
           draft: false
           prerelease: false
+          
+      - name: Download aar artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cumulocity-clients-kotlin-aar
+          path: artifacts
+
+      - name: Download jar artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cumulocity-clients-kotlin-jar
+          path: artifacts
+
+      - name: show downloaded content
+        run: |
+          ls -lsa artifacts/
+
+      - name: Upload aar to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_name: "cumulocity-clients-kotlin-release.aar"
+          asset_path: artifacts/cumulocity-clients-kotlin-release-${{ env.marketing_build_version }}.aar
+          asset_content_type: application/zip
+
+      - name: Upload jar to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_name: "cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar"
+          asset_path: artifacts/cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar
+          asset_content_type: application/zip
