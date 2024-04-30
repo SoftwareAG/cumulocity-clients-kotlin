@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "${{ steps.decide_build_number.outputs.marketing_build_version }}" > version.txt
 
-      - name: Upload version
+      - name: Upload version (to be used in release.yml)
         uses: actions/upload-artifact@v3
         with:
           name: version
@@ -41,8 +41,6 @@ jobs:
       
       - name: Archive aar file
         uses: actions/upload-artifact@v3
-        env:
-          MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
           name: 'cumulocity-clients-kotlin-aar'
           path: 'build/outputs/aar/*.aar'
@@ -50,12 +48,16 @@ jobs:
       - name: Invoke Gradle for jar
         run: |
           chmod +x gradlew 
-          ./gradlew --console plain -b build-jar.gradle clean build -x test
+          ./gradlew --console plain -b build-jar.gradle clean build publish -x test
       
       - name: Archive jar file
         uses: actions/upload-artifact@v3
-        env:
-          MARKETING_VERSION: ${{ steps.decide_build_number.outputs.marketing_build_version }}
         with:
           name: 'cumulocity-clients-kotlin-jar'
           path: 'build/libs/*.jar'
+
+      - name: Archive maven repo files
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'cumulocity-clients-kotlin-maven'
+          path: 'build/mavenRepo/*.*'
