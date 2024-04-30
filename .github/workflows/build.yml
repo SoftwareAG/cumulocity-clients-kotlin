@@ -48,8 +48,13 @@ jobs:
       - name: Invoke Gradle for jar
         run: |
           chmod +x gradlew 
-          ./gradlew --console plain -b build-jar.gradle clean build publish -x test
-      
+          ./gradlew --console plain -b build-jar.gradle clean build publish -x test --debug
+
+      - name: show content
+        run: |
+          ls -lsa *
+          ls -lsa build/
+
       - name: Archive jar file
         uses: actions/upload-artifact@v3
         with:
