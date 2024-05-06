@@ -48,9 +48,11 @@ jobs:
           name: cumulocity-clients-kotlin-jar
           path: artifacts
 
-      - name: show downloaded content
-        run: |
-          ls -lsa artifacts/
+      - name: Download mavenRepo
+        uses: actions/download-artifact@v3
+        with:
+          name: cumulocity-clients-kotlin-maven
+          path: mavenRepo
 
       - name: Upload aar to release
         uses: actions/upload-release-asset@v1
@@ -71,3 +73,7 @@ jobs:
           asset_name: "cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar"
           asset_path: artifacts/cumulocity-clients-kotlin-${{ env.marketing_build_version }}.jar
           asset_content_type: application/zip
+
+      - name: TODO upload to maven using secrets
+        run: |
+          echo "TODO: upload to maven using secrets"
