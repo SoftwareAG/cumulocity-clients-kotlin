@@ -54,11 +54,6 @@ jobs:
           name: cumulocity-clients-kotlin-maven
           path: mavenRepo
 
-      - name: show downloaded content
-        run: |
-          ls -lsa artifacts/
-          ls -lsa mavenRepo/
-
       - name: Upload aar to release
         uses: actions/upload-release-asset@v1
         env:
