@@ -1,16 +1,34 @@
 plugins {
 	id 'java'
 	id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+	id 'maven-publish'
 }
 
 jar {
 	archiveBaseName = 'cumulocity-clients-kotlin'
-	archiveVersion =  '10.18.0-269'
+	archiveVersion =  '10.18.0-270'
 }
 
 repositories {
 	mavenCentral()
 }
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId = 'com.cumulocity'
+			artifactId = 'cumulocity-clients-kotlin'
+			version = '10.18.0-270'
+			from components.java
+		}
+	}
+	repositories {
+		maven {
+			url = layout.buildDirectory.dir('mavenRepo')
+		}
+	}
+}
+
 
 dependencies {
 	implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
